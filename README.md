@@ -1,7 +1,9 @@
 # GoMueller
 
-Go Muller is an Android application, which can record users’ exercise habits at RPI Mueller Center or any other athletic facilities.
+Go Mueller is an Android application, which can record users’ exercise habits at RPI's Mueller Center or any other athletic facilities.
 
-#### Team Member:
+#### Team Members:
 
-Sam, Yi, Yunang
+Samuel Yuan
+Yiyang Li  
+Yunang Chen
