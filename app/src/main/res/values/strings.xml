@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GoMueller</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="enter_data">Enter Exercise</string>
+    <string name="view_data">View Exercises</string>
+    <string name="welcome_message">Welcome to GoMueller!</string>
+
+</resources>
