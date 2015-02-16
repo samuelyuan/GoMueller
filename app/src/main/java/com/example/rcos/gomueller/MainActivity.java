@@ -1,5 +1,6 @@
 package com.example.rcos.gomueller;
 
+import android.content.Intent;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,8 +33,8 @@ public class MainActivity extends Activity {
     }
 
     public void onEnterButton(View view) {
-        String pressEnterMessage = "You pressed 'Enter'!";
-        Toast.makeText(this, pressEnterMessage, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, NewExerciseActivity.class);
+        startActivity(intent);
     }
 
     public void onViewButton(View view) {
