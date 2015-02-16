@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
     }
 
     public void onViewButton(View view) {
-        String pressViewMessage = "You pressed 'View'!";
-        Toast.makeText(this, pressViewMessage, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, TrackExerciseActivity.class);
+        startActivity(intent);
     }
 }

@@ -15,4 +15,7 @@
     <string name="number_of_sets">Number of sets</string>
     <string name="date">Date</string>
     <string name="ok">OK</string>
+    <string name="title_activity_track_exercise">TrackExerciseActivity</string>
+    <string name="click_item">Show click item here</string>
+    <string name="title_activity_exercise_detail">ExerciseDetailActivity</string>
 </resources>

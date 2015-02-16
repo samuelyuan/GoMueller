@@ -24,6 +24,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rcos.gomueller.MainActivity" />
         </activity>
+        <activity
+            android:name=".TrackExerciseActivity"
+            android:label="@string/title_activity_track_exercise" >
+        </activity>
+        <activity
+            android:name=".ExerciseDetailActivity"
+            android:label="@string/title_activity_exercise_detail"
+            android:parentActivityName=".TrackExerciseActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rcos.gomueller.TrackExerciseActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -1,32 +1,43 @@
 package com.example.rcos.gomueller;
 
+import android.app.ListActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
-public class NewExerciseActivity extends ActionBarActivity {
+import java.util.ArrayList;
 
-    EditText exercise_name;
-    EditText exercise_weight;
-    EditText exercise_number;
+
+public class ExerciseDetailActivity extends ListActivity {
+
+    private ArrayList<String> detailArray;
+    private ArrayAdapter<String> adapter;
+    private ListView detailListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_exercise);
+        setContentView(R.layout.activity_exercise_detail);
 
-        exercise_name = (EditText)findViewById(R.id.nameEditText);
-        exercise_weight = (EditText)findViewById(R.id.weightEditText);
-        exercise_number = (EditText)findViewById(R.id.numberEditText);
+        Bundle bundle = getIntent().getExtras();
+        String message = bundle.getString("message");
+
+        ExerciseCRUD crudDetail = new ExerciseCRUD(this);
+
+        detailArray = crudDetail.getExerciseDetail(message);
+        adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
+        setListAdapter(adapter);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_new_exercise, menu);
+        getMenuInflater().inflate(R.menu.menu_exercise_detail, menu);
         return true;
     }
 
@@ -44,20 +55,4 @@ public class NewExerciseActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void okButtonOnClick(View view) {
-        ExerciseCRUD crud = new ExerciseCRUD(this);
-        Exercise ex = new Exercise();
-
-
-        ex.name = exercise_name.getText().toString();
-        ex.weight = Integer.parseInt(exercise_weight.getText().toString());
-        ex.number = Integer.parseInt(exercise_number.getText().toString());
-
-        crud.insert(ex);
-
-        finish();
-
-    }
-
 }
