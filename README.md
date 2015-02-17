@@ -6,5 +6,6 @@ Go Mueller is an Android application, which can record users’ exercise habits 
 
 Samuel Yuan
 
-Yiyang Li  
-Yunang Chen
+Yiyang Li 
+ 
+Yunang Chen 
