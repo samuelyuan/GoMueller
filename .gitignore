@@ -2,16 +2,5 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
-.idea/
-gradle/
-build.gradle
-GoMueller.iml
-gradle.properties
-gradlew
-gradlew.bat
-settings.gradle
-app/app.iml
-app/proguard-rules.pro
-app/build.gradle
 .DS_Store
 /build
