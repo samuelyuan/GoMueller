@@ -33,13 +33,18 @@
         android:layout_height="wrap_content"
         android:text="@string/view_data"
         android:id="@+id/viewButton"
-        android:layout_marginTop="103dp"
         android:onClick="onViewButton"
         android:layout_below="@+id/enterButton"
-        android:layout_alignLeft="@+id/enterButton"
-        android:layout_alignStart="@+id/enterButton"
+        android:layout_marginTop="131dp"
         android:layout_alignRight="@+id/enterButton"
-        android:layout_alignEnd="@+id/enterButton" />
+        android:layout_alignEnd="@+id/enterButton"
+        android:layout_alignLeft="@+id/enterButton"
+        android:layout_alignStart="@+id/enterButton" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView" />
 
 
 </RelativeLayout>
