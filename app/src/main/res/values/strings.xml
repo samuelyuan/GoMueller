@@ -18,4 +18,12 @@
     <string name="title_activity_track_exercise">TrackExerciseActivity</string>
     <string name="click_item">Show click item here</string>
     <string name="title_activity_exercise_detail">ExerciseDetailActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="pref_units_label">Units</string>
+    <string name="pref_units_default">Metric</string>
+    <string name="pref_units_key">units</string>
+    <string name="pref_units_label_metric">Metric</string>
+    <string name="pref_units_label_imperial">Imperial</string>
+    <string name="pref_units_metric">metric</string>
+    <string name="pref_units_imperial">imperial</string>
 </resources>
