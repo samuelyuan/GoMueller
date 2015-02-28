@@ -8,7 +8,11 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import android.widget.Button;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.util.SparseBooleanArray;
 import java.util.ArrayList;
 
 
@@ -24,12 +28,39 @@ public class ExerciseDetailActivity extends ListActivity {
         setContentView(R.layout.activity_exercise_detail);
 
         Bundle bundle = getIntent().getExtras();
-        String message = bundle.getString("message");
+        final String message = bundle.getString("message");
 
-        ExerciseCRUD crudDetail = new ExerciseCRUD(this);
+        final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
 
         detailArray = crudDetail.getExerciseDetail(message);
         adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
+
+        Button btnDel = (Button) findViewById(R.id.btnDel);
+
+        //When delete button is pressed...
+        OnClickListener listenerDel = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Get the checked items
+                SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
+                int itemCount = getListView().getCount();
+
+                //Delete all the selected items
+                for(int i=itemCount-1; i >= 0; i--){
+                    if(checkedItemPositions.get(i))
+                    {
+                        crudDetail.delete(message, detailArray.get(i));
+                        adapter.remove(detailArray.get(i));
+                    }
+                }
+                checkedItemPositions.clear();
+                adapter.notifyDataSetChanged();
+            }
+        };
+
+        /** Setting the event listener for the delete button */
+        btnDel.setOnClickListener(listenerDel);
+
         setListAdapter(adapter);
     }
 
@@ -54,5 +85,16 @@ public class ExerciseDetailActivity extends ListActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onListItemClick(ListView list, View view, int position, long id) {
+        super.onListItemClick(list, view, position, id);
+
+        String selectedItem = (String) getListView().getItemAtPosition(position);
+
+        Toast.makeText(getApplicationContext(),
+                "Click ListItem Number " + position, Toast.LENGTH_LONG)
+                .show();
     }
 }
