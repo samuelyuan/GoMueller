@@ -1,6 +1,7 @@
 package com.example.rcos.gomueller;
 
 import android.app.ListActivity;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -93,8 +94,9 @@ public class ExerciseDetailActivity extends ListActivity {
 
         String selectedItem = (String) getListView().getItemAtPosition(position);
 
-        Toast.makeText(getApplicationContext(),
-                "Click ListItem Number " + position, Toast.LENGTH_LONG)
-                .show();
+        //highlight the selected item
+        view.setBackgroundColor(Color.YELLOW);
+
+        adapter.notifyDataSetChanged();
     }
 }
