@@ -15,11 +15,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.util.SparseBooleanArray;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class ExerciseDetailActivity extends ListActivity {
 
     private ArrayList<String> detailArray;
+    private boolean isItemSelected[] = new boolean[100];
     private ArrayAdapter<String> adapter;
     private ListView detailListView;
 
@@ -34,6 +36,7 @@ public class ExerciseDetailActivity extends ListActivity {
         final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
 
         detailArray = crudDetail.getExerciseDetail(message);
+
         adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
 
         Button btnDel = (Button) findViewById(R.id.btnDel);
@@ -94,9 +97,17 @@ public class ExerciseDetailActivity extends ListActivity {
 
         String selectedItem = (String) getListView().getItemAtPosition(position);
 
-        //highlight the selected item
-        view.setBackgroundColor(Color.YELLOW);
-
+        //toggle selected item on/off
+        isItemSelected[position] = !isItemSelected[position];
+        //Check whether the item was selected
+        if (isItemSelected[position]) {
+            //highlight the selected item
+            view.setBackgroundColor(Color.YELLOW);
+        }
+        else {
+            //set it to transparent
+            view.setBackgroundColor(0x00000000);
+        }
         adapter.notifyDataSetChanged();
     }
 }
