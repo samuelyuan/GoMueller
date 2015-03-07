@@ -12,26 +12,30 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".NewExerciseActivity"
             android:label="@string/title_activity_new_exercise"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rcos.gomueller.MainActivity" />
         </activity>
         <activity
             android:name=".TrackExerciseActivity"
-            android:label="@string/title_activity_track_exercise" >
+            android:label="@string/title_activity_track_exercise"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rcos.gomueller.MainActivity" />
         </activity>
         <activity
             android:name=".ExerciseDetailActivity"
             android:label="@string/title_activity_exercise_detail"
-            android:parentActivityName=".TrackExerciseActivity" >
+            android:parentActivityName=".TrackExerciseActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rcos.gomueller.TrackExerciseActivity" />
