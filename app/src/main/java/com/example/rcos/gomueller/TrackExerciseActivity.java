@@ -57,6 +57,9 @@ public class TrackExerciseActivity extends ListActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
+        } else if (id == R.id.add_exercise) {
+            startActivity(new Intent(this, NewExerciseActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

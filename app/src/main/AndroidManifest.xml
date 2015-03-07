@@ -16,21 +16,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewExerciseActivity"
-            android:label="@string/title_activity_new_exercise"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.rcos.gomueller.MainActivity" />
-        </activity>
-        <activity
             android:name=".TrackExerciseActivity"
             android:label="@string/title_activity_track_exercise"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rcos.gomueller.MainActivity" />
+        </activity>
+        <activity
+            android:name=".NewExerciseActivity"
+            android:label="@string/title_activity_exercise_detail"
+            android:parentActivityName=".TrackExerciseActivity"
+            android:theme="@style/Theme.AppCompat.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rcos.gomueller.TrackExerciseActivity" />
         </activity>
         <activity
             android:name=".ExerciseDetailActivity"

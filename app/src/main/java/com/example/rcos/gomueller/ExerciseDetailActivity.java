@@ -1,6 +1,7 @@
 package com.example.rcos.gomueller;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -85,6 +86,9 @@ public class ExerciseDetailActivity extends ListActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.add_exercise) {
+            startActivity(new Intent(this, NewExerciseActivity.class));
             return true;
         }
 
