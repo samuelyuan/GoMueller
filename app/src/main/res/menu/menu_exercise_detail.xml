@@ -1,9 +1,10 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- "Add Exercise" Button -->
     <item android:id="@+id/add_exercise"
         android:icon="@drawable/ic_action_name"
         android:title="@string/addExerciseStr"
-        android:showAsAction="always" />
+        app:showAsAction="always" />
     <!-- Settings -->
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
