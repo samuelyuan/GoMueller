@@ -52,7 +52,7 @@ public class NewExerciseActivity extends ActionBarActivity {
         Exercise ex = new Exercise();
 
 
-        ex.name = exercise_name.getText().toString();
+        ex.activityName = exercise_name.getText().toString();
         ex.weight = Integer.parseInt(exercise_weight.getText().toString());
         ex.number = Integer.parseInt(exercise_number.getText().toString());
 

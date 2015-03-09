@@ -14,10 +14,10 @@ public class Exercise {
     //properties help to keep data
     public int weight;
     public int number;
-    public String name;
+    public String activityName;
 
     public String getName() {
-        return name;
+        return activityName;
     }
 
 }

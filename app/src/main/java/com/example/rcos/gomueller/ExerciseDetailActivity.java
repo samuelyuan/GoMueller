@@ -2,21 +2,21 @@ package com.example.rcos.gomueller;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Button;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.util.SparseBooleanArray;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class ExerciseDetailActivity extends ListActivity {
@@ -34,6 +34,8 @@ public class ExerciseDetailActivity extends ListActivity {
         Bundle bundle = getIntent().getExtras();
         final String message = bundle.getString("message");
 
+
+        
         final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
 
         detailArray = crudDetail.getExerciseDetail(message);
@@ -86,6 +88,7 @@ public class ExerciseDetailActivity extends ListActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.add_exercise) {
             startActivity(new Intent(this, NewExerciseActivity.class));

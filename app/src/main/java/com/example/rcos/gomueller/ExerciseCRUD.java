@@ -18,7 +18,7 @@ public class ExerciseCRUD {
     public int insert(Exercise exercise) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Exercise.keyName, exercise.name);
+        values.put(Exercise.keyName, exercise.activityName);
         values.put(Exercise.keyWeight, exercise.weight);
         values.put(Exercise.keyNumber, exercise.number);
 

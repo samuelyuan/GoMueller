@@ -25,7 +25,18 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="60dp" />
-
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/number_of_sets"
+        android:id="@+id/numberTextView"
+        android:layout_below="@+id/nameTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="60dp" />
+    
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,25 +44,16 @@
         android:text="@string/weight"
         android:id="@+id/weightTextView"
         android:layout_marginTop="60dp"
-        android:layout_below="@+id/nameTextView"
+        android:layout_below="@+id/numberTextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/number_of_sets"
-        android:id="@+id/numberTextView"
-        android:layout_below="@+id/weightTextView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="60dp" />
+    
 
     <EditText
-        android:layout_width="100dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="text"
         android:ems="10"
         android:id="@+id/nameEditText"
         android:layout_alignTop="@+id/nameTextView"
@@ -64,18 +66,17 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/weightEditText"
-        android:layout_above="@+id/numberTextView"
-        android:layout_alignRight="@+id/nameEditText"
-        android:layout_alignEnd="@+id/nameEditText"
+        android:layout_alignTop="@+id/weightTextView"
+        android:layout_alignLeft="@+id/nameEditText"
         android:inputType="number"/>
+
 
     <EditText
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/numberEditText"
         android:layout_alignBottom="@+id/numberTextView"
-        android:layout_alignRight="@+id/weightEditText"
-        android:layout_alignEnd="@+id/weightEditText"
+        android:layout_alignLeft="@+id/weightEditText"
         android:inputType="number"/>
 
     <Button
@@ -84,7 +85,31 @@
         android:text="@string/ok"
         android:id="@+id/okButton"
         android:onClick="okButtonOnClick"
-        android:layout_below="@+id/numberEditText"
+        android:layout_below="@+id/weightEditText"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/durationUnit"
+        android:id="@+id/DurationUnit"
+        android:layout_alignBottom="@+id/numberEditText"
+        android:layout_alignRight="@+id/nameEditText"
+        android:layout_alignEnd="@+id/nameEditText"
+        android:layout_toRightOf="@+id/numberEditText"
+        android:layout_toEndOf="@+id/numberEditText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/weightUnit"
+        android:id="@+id/WeightUnit"
+        android:layout_alignRight="@+id/DurationUnit"
+        android:layout_alignEnd="@+id/DurationUnit"
+        android:layout_toRightOf="@+id/weightEditText"
+        android:layout_toEndOf="@+id/weightEditText"
+        android:layout_alignBottom="@+id/weightEditText" />
 
 </RelativeLayout>

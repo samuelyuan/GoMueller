@@ -2,19 +2,17 @@ package com.example.rcos.gomueller;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 //public class TrackExerciseActivity extends ActionBarActivity {
@@ -37,6 +35,13 @@ public class TrackExerciseActivity extends ListActivity {
         adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, exerciseArray);
 
         setListAdapter(adapter);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String username = prefs.getString(getString(R.string.pref_username_key), "");
+        if (!username.equals("")){
+            ((TextView)findViewById(R.id.track_headline)).setText(username +
+                    ", below are the exercises you have finished.");
+        }
     }
 
     @Override
