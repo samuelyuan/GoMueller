@@ -1,12 +1,16 @@
 package com.example.rcos.gomueller;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class NewExerciseActivity extends ActionBarActivity {
 
@@ -22,6 +26,16 @@ public class NewExerciseActivity extends ActionBarActivity {
         exercise_name = (EditText)findViewById(R.id.nameEditText);
         exercise_weight = (EditText)findViewById(R.id.weightEditText);
         exercise_number = (EditText)findViewById(R.id.numberEditText);
+
+        //Set the weight's units depending on user's preferences
+        TextView weightLabel = (TextView)findViewById(R.id.WeightUnit);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String defaultValue = getResources().getString(R.string.pref_units_default);
+        String whichSystem = prefs.getString(getString(R.string.pref_units_key), defaultValue);
+        if (whichSystem.equals("metric"))
+            weightLabel.setText("kgs");
+        else if (whichSystem.equals("imperial"))
+            weightLabel.setText("lbs");
     }
 
     @Override
