@@ -1,5 +1,6 @@
 package com.example.rcos.gomueller;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class NewExerciseActivity extends ActionBarActivity {
+public class NewExerciseActivity extends Activity {
 
     EditText exercise_name;
     EditText exercise_weight;
@@ -40,9 +41,9 @@ public class NewExerciseActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu items for use in the action bar
         getMenuInflater().inflate(R.menu.menu_new_exercise, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -64,7 +65,6 @@ public class NewExerciseActivity extends ActionBarActivity {
     public void okButtonOnClick(View view) {
         ExerciseCRUD crud = new ExerciseCRUD(this);
         Exercise ex = new Exercise();
-
 
         ex.activityName = exercise_name.getText().toString();
         ex.weight = Integer.parseInt(exercise_weight.getText().toString());
