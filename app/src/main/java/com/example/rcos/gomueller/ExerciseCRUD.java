@@ -59,7 +59,7 @@ public class ExerciseCRUD {
                 //form detail string
                 w8 = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
                 numSet = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
-                detail = "Weight: " + w8 + "      Set: " + numSet;
+                detail = "Weight: " + w8 + " kgs,      Duration: " + numSet + " mins";
 
                 //delete this entry
                 if (detail.equals(currentDetailStr))
@@ -119,7 +119,7 @@ public class ExerciseCRUD {
             do {
                w8 = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
                numSet = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
-               detail = "Weight: " + w8 + "      Set: " + numSet;
+                detail = "Weight: " + w8 + " kgs,      Duration: " + numSet + " mins";
                exerciseDetail.add(detail);
             } while (cursor.moveToNext());
 
