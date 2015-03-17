@@ -45,6 +45,20 @@ public class TrackExerciseActivity extends ListActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String username = prefs.getString(getString(R.string.pref_username_key), "");
+        if (!username.equals("")){
+            ((TextView)findViewById(R.id.track_headline)).setText(username +
+                    ", below are the exercises you have finished.");
+        } else {
+            ((TextView)findViewById(R.id.track_headline))
+                    .setText("Hello! Below are the exercises you have finished.");
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         getMenuInflater().inflate(R.menu.menu_track_exercise, menu);

@@ -43,7 +43,7 @@
         <activity
             android:name=".ExerciseDetailActivity"
             android:label="@string/title_activity_exercise_detail"
-            android:parentActivityName=".TrackExerciseActivity" >
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rcos.gomueller.TrackExerciseActivity" />
@@ -63,6 +63,14 @@
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rcos.gomueller.MainActivity" />
+        </activity>
+        <activity
+            android:name=".NewWeightActivity"
+            android:label="@string/title_activity_new_weight"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

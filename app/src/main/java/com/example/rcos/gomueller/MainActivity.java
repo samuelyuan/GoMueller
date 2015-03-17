@@ -54,4 +54,9 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, TrackExerciseActivity.class);
         startActivity(intent);
     }
+    
+    public void onEnterWeightButton(View view) {
+        Intent intent = new Intent(this, NewWeightActivity.class);
+        startActivity(intent);
+    }
 }

@@ -7,27 +7,17 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
-public class NewExerciseActivity extends Activity {
 
-    EditText exercise_name;
-    EditText exercise_weight;
-    EditText exercise_number;
+public class NewWeightActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_exercise);
+        setContentView(R.layout.activity_new_weight);
 
-        exercise_name = (EditText)findViewById(R.id.nameEditText);
-        exercise_weight = (EditText)findViewById(R.id.weightEditText);
-        exercise_number = (EditText)findViewById(R.id.numberEditText);
-
-        //Set the weight's units depending on user's preferences
-        TextView weightLabel = (TextView)findViewById(R.id.WeightUnit);
+        TextView weightLabel = (TextView)findViewById(R.id.AddWeightUnit);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String defaultValue = getResources().getString(R.string.pref_units_default);
         String whichSystem = prefs.getString(getString(R.string.pref_units_key), defaultValue);
@@ -40,7 +30,7 @@ public class NewExerciseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        TextView weightLabel = (TextView)findViewById(R.id.WeightUnit);
+        TextView weightLabel = (TextView)findViewById(R.id.AddWeightUnit);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String defaultValue = getResources().getString(R.string.pref_units_default);
         String whichSystem = prefs.getString(getString(R.string.pref_units_key), defaultValue);
@@ -52,7 +42,7 @@ public class NewExerciseActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_new_exercise, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -72,26 +62,4 @@ public class NewExerciseActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void okButtonOnClick(View view) {
-        ExerciseCRUD crud = new ExerciseCRUD(this);
-        Exercise ex = new Exercise();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String defaultValue = getResources().getString(R.string.pref_units_default);
-        String whichSystem = prefs.getString(getString(R.string.pref_units_key), defaultValue);
-        
-        ex.activityName = exercise_name.getText().toString();
-        ex.weight = Integer.parseInt(exercise_weight.getText().toString());
-        ex.number = Integer.parseInt(exercise_number.getText().toString());
-
-        if (whichSystem.equals("imperial"))
-            ex.weight = (int)((double)ex.weight * 0.453592);
-
-        crud.insert(ex);
-
-        finish();
-
-    }
-
 }
