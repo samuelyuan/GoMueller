@@ -28,6 +28,19 @@ public class ExerciseCRUD {
         return (int) exercise_id;
     }
 
+    public int insert(Weight weight) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Weight.keyWeight, weight.weight);
+        values.put(Weight.keyDate, weight.date);
+        
+        long weight_id = db.insert(Weight.TABLE, null, values);
+        
+        db.close();
+        return (int)weight_id;
+    }
+    
+    
     //Remove an entry from the database
     //(NOTE: this function might remove two strings with the same weight and number of sets, like two strings with weight: 150, numSets: 8)
     public void delete(String exerciseName, String currentDetailStr) {

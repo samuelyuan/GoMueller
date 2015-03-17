@@ -1,11 +1,12 @@
 package com.example.rcos.gomueller;
 
-public class Exercise {
+import android.provider.BaseColumns;
+
+public class Exercise implements BaseColumns {
     //labels table name
     public static final String TABLE = "Exercise";
 
     //labels table column names
-    public static final String keyId = "_id";
     public static final String keyName = "name";
     public static final String keyWeight = "weight";
     public static final String keyNumber = "number";

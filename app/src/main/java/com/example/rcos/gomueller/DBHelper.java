@@ -8,7 +8,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public String nameExercise;
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
 
     private static final String DATABASE_NAME = "crud.db";
 
@@ -18,19 +18,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        String CREATE_TABLE = "CREATE TABLE " + Exercise.TABLE + "("+Exercise.keyId
+        final String CREATE_WEIGHT_TABLE = "CREATE TABLE " + Weight.TABLE + "(" + Weight._ID +
+                " INTEGER PRIMARY KEY AUTOINCREMENT, " + Weight.keyWeight + " INTEGER, " +
+                Weight.keyDate + " TEXT);";
+        
+        final String CREATE_EXERCISE_TABLE = "CREATE TABLE " + Exercise.TABLE + "("+Exercise._ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Exercise.keyName + " TEXT, "
                + Exercise.keyWeight + " INTEGER, "
                 + Exercise.keyNumber + " INTEGER);";
 
-        db.execSQL(CREATE_TABLE);
+        db.execSQL(CREATE_EXERCISE_TABLE);
+        db.execSQL(CREATE_WEIGHT_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE IF EXISTS " + Exercise.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + Weight.TABLE);
         onCreate(db);
 
     }

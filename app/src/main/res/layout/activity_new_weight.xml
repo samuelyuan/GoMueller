@@ -70,6 +70,7 @@
         android:layout_height="wrap_content"
         android:text="@string/add"
         android:id="@+id/addWeightOkButton"
+        android:onClick="WeightOKButtonOnClick"
         android:layout_below="@+id/editDate"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp" />

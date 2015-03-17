@@ -7,15 +7,24 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
 public class NewWeightActivity extends Activity {
 
+    EditText weight_weight;
+    EditText weight_date;
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_weight);
+        
+        weight_weight = (EditText)findViewById(R.id.editWeight);
+        weight_date = (EditText)findViewById(R.id.editDate);
 
         TextView weightLabel = (TextView)findViewById(R.id.AddWeightUnit);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -61,5 +70,25 @@ public class NewWeightActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void WeightOKButtonOnClick(View view) {
+        ExerciseCRUD crud = new ExerciseCRUD(this);
+        Weight wt = new Weight();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String defaultValue = getResources().getString(R.string.pref_units_default);
+        String whichSystem = prefs.getString(getString(R.string.pref_units_key), defaultValue);
+
+        wt.weight = Integer.parseInt(weight_weight.getText().toString());
+        wt.date = weight_date.getText().toString();
+
+        if (whichSystem.equals("imperial"))
+            wt.weight = (int)((double)wt.weight * 0.453592);
+
+        crud.insert(wt);
+
+        finish();
+
     }
 }
