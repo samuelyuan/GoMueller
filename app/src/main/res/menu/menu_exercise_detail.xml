@@ -4,7 +4,7 @@
     <item android:id="@+id/add_exercise"
         android:icon="@drawable/ic_action_name"
         android:title="@string/addExerciseStr"
-        app:showAsAction="always" />
+        android:showAsAction="always" />
     <!-- Settings -->
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"

@@ -18,46 +18,14 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/enter_data"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="44dp"
-        android:id="@+id/enterButton"
-        android:onClick="onEnterButton"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/view_data"
         android:id="@+id/viewButton"
         android:onClick="onViewButton"
-        android:layout_marginTop="90dp"
-        android:layout_below="@+id/enterButton"
-        android:layout_alignLeft="@+id/enterButton"
-        android:layout_alignStart="@+id/enterButton"
-        android:layout_alignRight="@+id/enterButton"
-        android:layout_alignEnd="@+id/enterButton" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/enter_weight"
-        android:id="@+id/onEnterWeightButton"
-        android:onClick="onEnterWeightButton"
-        android:layout_below="@+id/enterButton"
-        android:layout_alignLeft="@+id/viewButton"
-        android:layout_alignStart="@+id/viewButton"
-        android:layout_marginTop="20dp"
-        android:layout_alignRight="@+id/viewButton"
-        android:layout_alignEnd="@+id/viewButton" />
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView" />
 
 
 </RelativeLayout>

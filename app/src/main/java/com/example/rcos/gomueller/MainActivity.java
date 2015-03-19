@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.Button;
 
@@ -17,8 +18,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        enterButton = (Button) findViewById(R.id.enterButton);
-        viewButton = (Button) findViewById(R.id.viewButton);
+        //enterButton = (Button) findViewById(R.id.enterButton);
+        //viewButton = (Button) findViewById(R.id.viewButton);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,6 +40,12 @@ public class MainActivity extends Activity {
             return true;
         } else if (id == R.id.action_about) {
             startActivity(new Intent(this, AboutActivity.class));
+            return true;
+        } else if (id == R.id.add_exercise) {
+            startActivity(new Intent(this, NewExerciseActivity.class));
+            return true;
+        } else if (id == R.id.add_weight) {
+            startActivity(new Intent(this, NewWeightActivity.class));
             return true;
         }
 

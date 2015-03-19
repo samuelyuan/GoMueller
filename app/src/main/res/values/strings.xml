@@ -5,7 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="enter_data">Enter Exercise</string>
-    <string name="view_data">View Exercises</string>
+    <string name="view_data">View More Detail</string>
     <string name="welcome_message">Welcome to GoMueller!</string>
     <string name="title_activity_new_exercise">Main Menu</string>
     <string name="action_settings">Settings</string>
@@ -52,4 +52,5 @@
     <string name="ask_weight">Please enter your weight at the specified date</string>
     <string name="add">Add</string>
     <string name="enter_weight">Enter Your Weight</string>
+    <string name="addWeightButton">Record Your Weight</string>
 </resources>
