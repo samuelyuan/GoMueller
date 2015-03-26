@@ -43,7 +43,7 @@
         <activity
             android:name=".ExerciseDetailActivity"
             android:label="@string/title_activity_exercise_detail"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".TrackExerciseActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rcos.gomueller.TrackExerciseActivity" />

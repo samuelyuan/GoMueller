@@ -83,7 +83,12 @@ public class NewExerciseActivity extends Activity {
         
         ex.activityName = exercise_name.getText().toString();
         ex.weight = Integer.parseInt(exercise_weight.getText().toString());
-        ex.number = Integer.parseInt(exercise_number.getText().toString());
+
+        //time spent can be optional for weightlifting
+        if (!exercise_number.getText().toString().equals(""))
+            ex.number = Integer.parseInt(exercise_number.getText().toString());
+        else
+            ex.number = 0;
 
         if (whichSystem.equals("imperial"))
             ex.weight = (int)((double)ex.weight * 0.453592);
