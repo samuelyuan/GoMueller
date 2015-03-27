@@ -2,17 +2,22 @@ package com.example.rcos.gomueller;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class ExerciseCRUD {
 
     private DBHelper dbHelper;
+    private Context currentContext;
 
     public ExerciseCRUD(Context context) {
         dbHelper = new DBHelper(context);
+        this.currentContext = context;
     }
 
     public int insert(Exercise exercise) {
@@ -49,22 +54,21 @@ public class ExerciseCRUD {
                 + " FROM " + Exercise.TABLE
                 + " WHERE " + Exercise.keyName + " = " + "\"" + exerciseName + "\"";
         Cursor cursor = db.rawQuery(selectQuery, null);
-        String w8;
-        String numSet;
+        String weightStr, timeSpent;
         String detail;
 
         //Go through each rows
         if (cursor.moveToFirst()) {
             do {
                 //form detail string
-                w8 = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
-                numSet = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
-                detail = "Weight: " + w8 + " kgs,      Duration: " + numSet + " mins";
+                weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
+                timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
+                detail = "Weight: " + weightStr + " kgs,      Duration: " + timeSpent + " mins";
 
                 //delete this entry
                 if (detail.equals(currentDetailStr))
                 {
-                    db.delete(Exercise.TABLE, Exercise.keyWeight + "=" + w8 + " and " + Exercise.keyNumber + "=" + numSet, null);
+                    db.delete(Exercise.TABLE, Exercise.keyWeight + "=" + weightStr + " and " + Exercise.keyNumber + "=" + timeSpent, null);
                 }
 
                 //delete the exercise if needed
@@ -110,19 +114,34 @@ public class ExerciseCRUD {
                 + " FROM " + Exercise.TABLE
                 + " WHERE " + Exercise.keyName + " = " + "\"" + item + "\"";
         ArrayList<String> exerciseDetail = new ArrayList<String>();
-        String w8;
-        String numSet;
+        String weightStr, timeSpent;
         String detail;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
+        //Set the weight's units depending on user's preferences
+        String whichLabel = "kgs";
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.currentContext);
+        String defaultValue = this.currentContext.getResources().getString(R.string.pref_units_default);
+        String whichSystem = prefs.getString(this.currentContext.getString(R.string.pref_units_key), defaultValue);
+        if (whichSystem.equals("metric"))
+            whichLabel = "kgs";
+        else if (whichSystem.equals("imperial"))
+            whichLabel = "lbs";
+
+        //Read every row in the database
         if (cursor.moveToFirst()) {
             do {
-               w8 = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
-               numSet = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
-                detail = "Weight: " + w8 + " kgs,      Duration: " + numSet + " mins";
-               exerciseDetail.add(detail);
-            } while (cursor.moveToNext());
+                weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
+                timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
 
+                //convert to the standard system since data is in the metric system
+                if (whichSystem.equals("imperial")) {
+                    weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * 2.204623));
+                }
+
+                detail = "Weight: " + weightStr + " " + whichLabel + ",      Duration: " + timeSpent + " mins";
+                exerciseDetail.add(detail);
+            } while (cursor.moveToNext());
         }
 
         cursor.close();
