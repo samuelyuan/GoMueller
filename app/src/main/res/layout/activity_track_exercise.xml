@@ -18,16 +18,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/click_item"
-        android:id="@+id/testTextView"
-        android:layout_alignBottom="@android:id/list"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Exercises Done"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Your Exercise History"
         android:id="@+id/track_headline"
         android:layout_alignParentTop="true"
         android:textAlignment="center"

@@ -82,7 +82,12 @@ public class NewExerciseActivity extends Activity {
         String whichSystem = prefs.getString(getString(R.string.pref_units_key), defaultValue);
         
         ex.activityName = exercise_name.getText().toString();
-        ex.weight = Integer.parseInt(exercise_weight.getText().toString());
+
+        //weight used can be optional for non-weightlifting exercises
+        if (!exercise_weight.getText().toString().equals(""))
+            ex.weight = Integer.parseInt(exercise_weight.getText().toString());
+        else
+            ex.weight = 0;
 
         //time spent can be optional for weightlifting
         if (!exercise_number.getText().toString().equals(""))

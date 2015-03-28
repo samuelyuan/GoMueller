@@ -40,7 +40,7 @@ public class TrackExerciseActivity extends ListActivity {
         String username = prefs.getString(getString(R.string.pref_username_key), "");
         if (!username.equals("")){
             ((TextView)findViewById(R.id.track_headline)).setText(username +
-                    ", below are the exercises you have finished.");
+                    "'s Exercise History.");
         }
     }
 
@@ -51,10 +51,10 @@ public class TrackExerciseActivity extends ListActivity {
         String username = prefs.getString(getString(R.string.pref_username_key), "");
         if (!username.equals("")){
             ((TextView)findViewById(R.id.track_headline)).setText(username +
-                    ", below are the exercises you have finished.");
+                    "'s Exercise History");
         } else {
             ((TextView)findViewById(R.id.track_headline))
-                    .setText("Hello! Below are the exercises you have finished.");
+                    .setText("Your Exercise History.");
         }
     }
 

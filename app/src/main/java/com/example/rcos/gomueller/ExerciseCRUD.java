@@ -55,7 +55,7 @@ public class ExerciseCRUD {
                 + " WHERE " + Exercise.keyName + " = " + "\"" + exerciseName + "\"";
         Cursor cursor = db.rawQuery(selectQuery, null);
         String weightStr, timeSpent;
-        String detail;
+        String detailStr;
 
         //Go through each rows
         if (cursor.moveToFirst()) {
@@ -63,10 +63,11 @@ public class ExerciseCRUD {
                 //form detail string
                 weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
                 timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
-                detail = "Weight: " + weightStr + " kgs,      Duration: " + timeSpent + " mins";
+
+                detailStr = getDetailStr(weightStr, "kgs", timeSpent);
 
                 //delete this entry
-                if (detail.equals(currentDetailStr))
+                if (detailStr.equals(currentDetailStr))
                 {
                     db.delete(Exercise.TABLE, Exercise.keyWeight + "=" + weightStr + " and " + Exercise.keyNumber + "=" + timeSpent, null);
                 }
@@ -115,7 +116,7 @@ public class ExerciseCRUD {
                 + " WHERE " + Exercise.keyName + " = " + "\"" + item + "\"";
         ArrayList<String> exerciseDetail = new ArrayList<String>();
         String weightStr, timeSpent;
-        String detail;
+        String detailStr;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         //Set the weight's units depending on user's preferences
@@ -139,8 +140,9 @@ public class ExerciseCRUD {
                     weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * 2.204623));
                 }
 
-                detail = "Weight: " + weightStr + " " + whichLabel + ",      Duration: " + timeSpent + " mins";
-                exerciseDetail.add(detail);
+                detailStr = getDetailStr(weightStr, whichLabel, timeSpent);
+
+                exerciseDetail.add(detailStr);
             } while (cursor.moveToNext());
         }
 
@@ -148,5 +150,23 @@ public class ExerciseCRUD {
         db.close();
 
         return  exerciseDetail;
+    }
+
+    public String getDetailStr(String weightStr, String whichLabel, String timeSpent)
+    {
+        String detailStr = "";
+
+        if (Integer.parseInt(weightStr) > 0)
+            detailStr += "Weight: " + weightStr + " " + whichLabel;
+
+        //only display time length if needed
+        if (Integer.parseInt(timeSpent) > 0) {
+            if (Integer.parseInt(weightStr) > 0)
+                detailStr += ",      Duration: " + timeSpent + " mins";
+            else
+                detailStr += "Duration: " + timeSpent + " mins";
+        }
+        
+        return detailStr;
     }
 }
