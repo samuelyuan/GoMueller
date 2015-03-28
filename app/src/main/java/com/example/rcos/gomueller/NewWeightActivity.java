@@ -89,6 +89,5 @@ public class NewWeightActivity extends Activity {
         crud.insert(wt);
 
         finish();
-
     }
 }

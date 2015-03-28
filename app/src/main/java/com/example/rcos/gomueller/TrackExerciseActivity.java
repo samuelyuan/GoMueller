@@ -92,6 +92,7 @@ public class TrackExerciseActivity extends ListActivity {
 
         Intent intent = new Intent(this, ExerciseDetailActivity.class);
         intent.putExtra("message", selectedItem);
+        intent.putExtra("type", "exercise");
         startActivity(intent);
     }
 }

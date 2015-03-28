@@ -152,6 +152,48 @@ public class ExerciseCRUD {
         return  exerciseDetail;
     }
 
+    public ArrayList<String> getWeightDetail(String item) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String selectQuery = "SELECT " + Weight.keyWeight + " , " + Weight.keyDate
+                + " FROM " + Weight.TABLE;
+        ArrayList<String> exerciseDetail = new ArrayList<String>();
+        String weightStr, dateMeasured;
+        String detailStr;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        //Set the weight's units depending on user's preferences
+        String whichLabel = "kgs";
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.currentContext);
+        String defaultValue = this.currentContext.getResources().getString(R.string.pref_units_default);
+        String whichSystem = prefs.getString(this.currentContext.getString(R.string.pref_units_key), defaultValue);
+        if (whichSystem.equals("metric"))
+            whichLabel = "kgs";
+        else if (whichSystem.equals("imperial"))
+            whichLabel = "lbs";
+
+        //Read every row in the database
+        if (cursor.moveToFirst()) {
+            do {
+                weightStr = cursor.getString(cursor.getColumnIndex(Weight.keyWeight));
+                dateMeasured = cursor.getString(cursor.getColumnIndex(Weight.keyDate));
+
+                //convert to the standard system since data is in the metric system
+                if (whichSystem.equals("imperial")) {
+                    weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * 2.204623));
+                }
+
+                detailStr = dateMeasured + ": Weight: " + weightStr + " " + whichLabel;
+
+                exerciseDetail.add(detailStr);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return  exerciseDetail;
+    }
+
     public String getDetailStr(String weightStr, String whichLabel, String timeSpent)
     {
         String detailStr = "";
@@ -166,7 +208,7 @@ public class ExerciseCRUD {
             else
                 detailStr += "Duration: " + timeSpent + " mins";
         }
-        
+
         return detailStr;
     }
 }

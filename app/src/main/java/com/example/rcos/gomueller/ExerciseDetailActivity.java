@@ -33,9 +33,14 @@ public class ExerciseDetailActivity extends ListActivity {
 
         Bundle bundle = getIntent().getExtras();
         final String message = bundle.getString("message");
+        final String dataType = getIntent().getStringExtra("type");
 
         final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
-        detailArray = crudDetail.getExerciseDetail(message);
+        if (dataType.equals("exercise"))
+            detailArray = crudDetail.getExerciseDetail(message);
+        else if (dataType.equals("weight"))
+            detailArray = crudDetail.getWeightDetail(message);
+
         adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
 
         Button btnDel = (Button) findViewById(R.id.btnDel);

@@ -13,6 +13,4 @@ public class Weight implements BaseColumns {
     
     public int weight;
     public String date;
-    
-    
 }

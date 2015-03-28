@@ -20,10 +20,22 @@
         android:layout_height="wrap_content"
         android:text="@string/view_data"
         android:id="@+id/viewButton"
-        android:onClick="onViewButton"
+        android:onClick="onViewExerciseButton"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check Weight History"
+        android:id="@+id/viewWeightButton"
+        android:onClick="onViewWeightButton"
+        android:layout_below="@+id/viewButton"
+        android:layout_alignLeft="@+id/viewButton"
+        android:layout_alignStart="@+id/viewButton"
         android:layout_alignRight="@+id/textView"
         android:layout_alignEnd="@+id/textView" />
 
