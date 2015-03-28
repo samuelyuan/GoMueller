@@ -26,6 +26,9 @@ public class NewExerciseActivity extends Activity {
         exercise_weight = (EditText)findViewById(R.id.weightEditText);
         exercise_number = (EditText)findViewById(R.id.numberEditText);
 
+        //autofill exercise name if possible
+        exercise_name.setText(getIntent().getStringExtra("exerciseName"));
+
         //Set the weight's units depending on user's preferences
         TextView weightLabel = (TextView)findViewById(R.id.WeightUnit);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

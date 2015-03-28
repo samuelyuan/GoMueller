@@ -39,6 +39,16 @@
                 android:value="com.example.rcos.gomueller.TrackExerciseActivity" />
         </activity>
 
+        <!-- Add weight -->
+        <activity
+            android:name=".NewWeightActivity"
+            android:label="@string/title_activity_new_weight"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rcos.gomueller.MainActivity" />
+        </activity>
+
         <!-- View detailed exercise history (weights used etc.) -->
         <activity
             android:name=".ExerciseDetailActivity"
@@ -68,14 +78,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rcos.gomueller.MainActivity" />
         </activity>
-        <activity
-            android:name=".NewWeightActivity"
-            android:label="@string/title_activity_new_weight"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.rcos.gomueller.MainActivity" />
-        </activity>
+
     </application>
 
 </manifest>

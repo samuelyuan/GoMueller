@@ -92,7 +92,16 @@ public class ExerciseDetailActivity extends ListActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.add_exercise) {
-            startActivity(new Intent(this, NewExerciseActivity.class));
+            if (getIntent().getStringExtra("type").equals("exercise"))
+            {
+                Intent addIntent = new Intent(this, NewExerciseActivity.class);
+                addIntent.putExtra("exerciseName", getIntent().getStringExtra("message"));
+                startActivity(addIntent);
+            }
+
+            return true;
+        } else if (id == R.id.add_weight) {
+            startActivity(new Intent(this, NewWeightActivity.class));
             return true;
         }
 

@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 public class NewWeightActivity extends Activity {
 
@@ -25,6 +29,11 @@ public class NewWeightActivity extends Activity {
         
         weight_weight = (EditText)findViewById(R.id.editWeight);
         weight_date = (EditText)findViewById(R.id.editDate);
+
+        //autofill the current date
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        String date = df.format(Calendar.getInstance().getTime());
+        weight_date.setText(date);
 
         TextView weightLabel = (TextView)findViewById(R.id.AddWeightUnit);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
