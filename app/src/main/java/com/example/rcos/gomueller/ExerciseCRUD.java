@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -44,8 +45,7 @@ public class ExerciseCRUD {
         db.close();
         return (int)weight_id;
     }
-    
-    
+
     //Remove an entry from the database
     //(NOTE: this function might remove two strings with the same weight and number of sets, like two strings with weight: 150, numSets: 8)
     public void delete(String exerciseName, String currentDetailStr) {
@@ -57,19 +57,20 @@ public class ExerciseCRUD {
         String weightStr, timeSpent;
         String detailStr;
 
+        String whichLabel = getWhichLabel();
+
         //Go through each rows
         if (cursor.moveToFirst()) {
             do {
-                //form detail string
-                weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
-                timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
+                detailStr = getDetailStr(cursor, whichLabel);
 
-                detailStr = getDetailStr(weightStr, "kgs", timeSpent);
-
-                //delete this entry
+                //delete this entry only
                 if (detailStr.equals(currentDetailStr))
                 {
+                    weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
+                    timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
                     db.delete(Exercise.TABLE, Exercise.keyWeight + "=" + weightStr + " and " + Exercise.keyNumber + "=" + timeSpent, null);
+                    return;
                 }
 
                 //delete the exercise if needed
@@ -120,28 +121,12 @@ public class ExerciseCRUD {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         //Set the weight's units depending on user's preferences
-        String whichLabel = "kgs";
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.currentContext);
-        String defaultValue = this.currentContext.getResources().getString(R.string.pref_units_default);
-        String whichSystem = prefs.getString(this.currentContext.getString(R.string.pref_units_key), defaultValue);
-        if (whichSystem.equals("metric"))
-            whichLabel = "kgs";
-        else if (whichSystem.equals("imperial"))
-            whichLabel = "lbs";
+        String whichLabel = getWhichLabel();
 
         //Read every row in the database
         if (cursor.moveToFirst()) {
             do {
-                weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
-                timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
-
-                //convert to the standard system since data is in the metric system
-                if (whichSystem.equals("imperial")) {
-                    weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * 2.204623));
-                }
-
-                detailStr = getDetailStr(weightStr, whichLabel, timeSpent);
-
+                detailStr = getDetailStr(cursor, whichLabel);
                 exerciseDetail.add(detailStr);
             } while (cursor.moveToNext());
         }
@@ -162,14 +147,7 @@ public class ExerciseCRUD {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         //Set the weight's units depending on user's preferences
-        String whichLabel = "kgs";
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.currentContext);
-        String defaultValue = this.currentContext.getResources().getString(R.string.pref_units_default);
-        String whichSystem = prefs.getString(this.currentContext.getString(R.string.pref_units_key), defaultValue);
-        if (whichSystem.equals("metric"))
-            whichLabel = "kgs";
-        else if (whichSystem.equals("imperial"))
-            whichLabel = "lbs";
+        String whichLabel = getWhichLabel();
 
         //Read every row in the database
         if (cursor.moveToFirst()) {
@@ -178,7 +156,7 @@ public class ExerciseCRUD {
                 dateMeasured = cursor.getString(cursor.getColumnIndex(Weight.keyDate));
 
                 //convert to the standard system since data is in the metric system
-                if (whichSystem.equals("imperial")) {
+                if (getWhichSystem().equals("imperial")) {
                     weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * 2.204623));
                 }
 
@@ -194,9 +172,17 @@ public class ExerciseCRUD {
         return  exerciseDetail;
     }
 
-    public String getDetailStr(String weightStr, String whichLabel, String timeSpent)
+    public String getDetailStr(Cursor cursor, String whichLabel)
     {
         String detailStr = "";
+
+        String weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
+        String timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
+
+        //convert to the standard system since data is in the metric system
+        if (getWhichSystem().equals("imperial")) {
+            weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * 2.204623));
+        }
 
         if (Integer.parseInt(weightStr) > 0)
             detailStr += "Weight: " + weightStr + " " + whichLabel;
@@ -210,5 +196,22 @@ public class ExerciseCRUD {
         }
 
         return detailStr;
+    }
+
+    public String getWhichLabel() {
+        String whichSystem = getWhichSystem();
+        if (whichSystem.equals("metric"))
+            return "kgs";
+        else if (whichSystem.equals("imperial"))
+            return "lbs";
+
+        return "";
+    }
+
+    public String getWhichSystem() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.currentContext);
+        String defaultValue = this.currentContext.getResources().getString(R.string.pref_units_default);
+        String whichSystem = prefs.getString(this.currentContext.getString(R.string.pref_units_key), defaultValue);
+        return whichSystem;
     }
 }

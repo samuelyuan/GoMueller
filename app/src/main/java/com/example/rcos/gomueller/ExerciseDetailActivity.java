@@ -72,6 +72,25 @@ public class ExerciseDetailActivity extends ListActivity {
         setListAdapter(adapter);
     }
 
+    //update the records if something was added recently
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Bundle bundle = getIntent().getExtras();
+        final String message = bundle.getString("message");
+        final String dataType = getIntent().getStringExtra("type");
+
+        final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
+        if (dataType.equals("exercise"))
+            detailArray = crudDetail.getExerciseDetail(message);
+        else if (dataType.equals("weight"))
+            detailArray = crudDetail.getWeightDetail(message);
+
+        adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
+        setListAdapter(adapter);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
