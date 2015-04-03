@@ -21,6 +21,7 @@ public class ExerciseCRUD {
         this.currentContext = context;
     }
 
+    //Add exercise
     public int insert(Exercise exercise) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -34,6 +35,7 @@ public class ExerciseCRUD {
         return (int) exercise_id;
     }
 
+    //Add weight
     public int insert(Weight weight) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -47,46 +49,47 @@ public class ExerciseCRUD {
     }
 
     //Remove an entry from the database
-    //(NOTE: this function might remove two strings with the same weight and number of sets, like two strings with weight: 150, numSets: 8)
-    public void delete(String exerciseName, String currentDetailStr) {
+    //(NOTE: this function might remove two strings with the same weight and number of sets, like two strings with weight: 150, duration: 8)
+    public void deleteExercise(String exerciseName, String currentDetailStr) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String selectQuery = "SELECT " + Exercise.keyWeight + " , " + Exercise.keyNumber
-                + " FROM " + Exercise.TABLE
-                + " WHERE " + Exercise.keyName + " = " + "\"" + exerciseName + "\"";
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        String weightStr, timeSpent;
-        String detailStr;
+        String weightStr = "0", timeSpent = "0";
 
-        String whichLabel = getWhichLabel();
-
-        //Go through each rows
-        if (cursor.moveToFirst()) {
-            do {
-                detailStr = getDetailStr(cursor, whichLabel);
-
-                //delete this entry only
-                if (detailStr.equals(currentDetailStr))
-                {
-                    weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
-                    timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
-                    db.delete(Exercise.TABLE, Exercise.keyWeight + "=" + weightStr + " and " + Exercise.keyNumber + "=" + timeSpent, null);
-                    return;
-                }
-
-                //delete the exercise if needed
-                if (cursor.getCount() == 0) {
-                    db.delete(Exercise.TABLE, Exercise.keyName + " = " + "\"" + exerciseName + "\"", null);
-                    break;
-                }
-
-            } while (cursor.moveToNext());
+        String[] splitString = currentDetailStr.split(" ");
+        for (int i = 0; i < splitString.length - 1; i++)
+        {
+            if (splitString[i].equals("Weight:"))
+                weightStr = String.valueOf(splitString[i+1]);
+            else if (splitString[i].equals("Duration:"))
+                timeSpent = String.valueOf(splitString[i+1]);
 
         }
 
-        cursor.close();
+        db.delete(Exercise.TABLE, Exercise.keyName + "='" + exerciseName + "'"
+                        + " and " + Exercise.keyWeight + "='" + weightStr + "'"
+                + " and " + Exercise.keyNumber + "='" + timeSpent + "'", null);
+
         db.close();
     }
 
+    public void deleteWeight(String currentDetailStr) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String weightStr = "0";
+
+        String[] splitString = currentDetailStr.split(" ");
+        String dateStr = splitString[0];
+        for (int i = 0; i < splitString.length - 1; i++)
+        {
+            if (splitString[i].equals("Weight:"))
+                weightStr = String.valueOf(splitString[i+1]);
+        }
+
+        db.delete(Weight.TABLE, Weight.keyDate + "='" + dateStr + "'"
+                + " and " + Weight.keyWeight + "='" + weightStr + "'", null);
+
+        db.close();
+    }
+
+    //For TrackExerciseActivity
     public ArrayList<String> getExerciseArray() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery = "SELECT " + Exercise.keyName + " FROM " + Exercise.TABLE;
@@ -110,13 +113,13 @@ public class ExerciseCRUD {
         return exerciseArrayList;
     }
 
+    //For ShowDetailActivity (showing exercises)
     public ArrayList<String> getExerciseDetail(String item) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery = "SELECT " + Exercise.keyWeight + " , " + Exercise.keyNumber
                 + " FROM " + Exercise.TABLE
                 + " WHERE " + Exercise.keyName + " = " + "\"" + item + "\"";
         ArrayList<String> exerciseDetail = new ArrayList<String>();
-        String weightStr, timeSpent;
         String detailStr;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -137,7 +140,8 @@ public class ExerciseCRUD {
         return  exerciseDetail;
     }
 
-    public ArrayList<String> getWeightDetail(String item) {
+    //For ShowDetailActivity (showing weight)
+    public ArrayList<String> getWeightDetail() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery = "SELECT " + Weight.keyWeight + " , " + Weight.keyDate
                 + " FROM " + Weight.TABLE;
@@ -152,16 +156,15 @@ public class ExerciseCRUD {
         //Read every row in the database
         if (cursor.moveToFirst()) {
             do {
-                weightStr = cursor.getString(cursor.getColumnIndex(Weight.keyWeight));
                 dateMeasured = cursor.getString(cursor.getColumnIndex(Weight.keyDate));
+                weightStr = cursor.getString(cursor.getColumnIndex(Weight.keyWeight));
 
                 //convert to the standard system since data is in the metric system
                 if (getWhichSystem().equals("imperial")) {
                     weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * 2.204623));
                 }
 
-                detailStr = dateMeasured + ": Weight: " + weightStr + " " + whichLabel;
-
+                detailStr = dateMeasured + " : Weight: " + weightStr + " " + whichLabel;
                 exerciseDetail.add(detailStr);
             } while (cursor.moveToNext());
         }

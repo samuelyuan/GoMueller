@@ -36,7 +36,7 @@
             android:parentActivityName=".TrackExerciseActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.rcos.gomueller.TrackExerciseActivity" />
+                android:value=".TrackExerciseActivity" />
         </activity>
 
         <!-- Add weight -->
@@ -56,7 +56,7 @@
             android:parentActivityName=".TrackExerciseActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.rcos.gomueller.TrackExerciseActivity" />
+                android:value=".TrackExerciseActivity" />
         </activity>
 
         <!-- Settings menu -->

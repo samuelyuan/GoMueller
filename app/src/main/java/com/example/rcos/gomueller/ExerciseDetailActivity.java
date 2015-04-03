@@ -32,14 +32,14 @@ public class ExerciseDetailActivity extends ListActivity {
         setContentView(R.layout.activity_exercise_detail);
 
         Bundle bundle = getIntent().getExtras();
-        final String message = bundle.getString("message");
+        final String exerciseName = bundle.getString("message");
         final String dataType = getIntent().getStringExtra("type");
 
         final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
         if (dataType.equals("exercise"))
-            detailArray = crudDetail.getExerciseDetail(message);
+            detailArray = crudDetail.getExerciseDetail(exerciseName);
         else if (dataType.equals("weight"))
-            detailArray = crudDetail.getWeightDetail(message);
+            detailArray = crudDetail.getWeightDetail();
 
         adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
 
@@ -55,9 +55,14 @@ public class ExerciseDetailActivity extends ListActivity {
 
                 //Delete all the selected items
                 for(int i=itemCount-1; i >= 0; i--){
+
                     if(checkedItemPositions.get(i))
                     {
-                        crudDetail.delete(message, detailArray.get(i));
+                        if (dataType.equals("exercise"))
+                            crudDetail.deleteExercise(exerciseName, detailArray.get(i));
+                        else if (dataType.equals("weight"))
+                            crudDetail.deleteWeight(detailArray.get(i));
+
                         adapter.remove(detailArray.get(i));
                     }
                 }
@@ -78,14 +83,14 @@ public class ExerciseDetailActivity extends ListActivity {
         super.onResume();
 
         Bundle bundle = getIntent().getExtras();
-        final String message = bundle.getString("message");
         final String dataType = getIntent().getStringExtra("type");
+        final String exerciseName = bundle.getString("message");
 
         final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
         if (dataType.equals("exercise"))
-            detailArray = crudDetail.getExerciseDetail(message);
+            detailArray = crudDetail.getExerciseDetail(exerciseName);
         else if (dataType.equals("weight"))
-            detailArray = crudDetail.getWeightDetail(message);
+            detailArray = crudDetail.getWeightDetail();
 
         adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
         setListAdapter(adapter);
