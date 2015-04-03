@@ -64,27 +64,40 @@ public class ExerciseCRUD {
 
         }
 
-        db.delete(Exercise.TABLE, Exercise.keyName + "='" + exerciseName + "'"
-                        + " and " + Exercise.keyWeight + "='" + weightStr + "'"
-                + " and " + Exercise.keyNumber + "='" + timeSpent + "'", null);
+        //convert data if necessary since the data is in the metric system
+        if (getWhichSystem().equals("imperial")) {
+            weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * 1.0/2.204623));
+        }
+
+        db.delete(Exercise.TABLE, Exercise.keyName + "=\"" + exerciseName + "\""
+                        + "and " + Exercise.keyWeight + "=" + weightStr +
+                        " and " + Exercise.keyNumber + "=" + timeSpent, null);
 
         db.close();
     }
 
     public void deleteWeight(String currentDetailStr) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String weightStr = "0";
 
+        //parse the string
+        String weightStr = "0";
         String[] splitString = currentDetailStr.split(" ");
         String dateStr = splitString[0];
         for (int i = 0; i < splitString.length - 1; i++)
         {
-            if (splitString[i].equals("Weight:"))
-                weightStr = String.valueOf(splitString[i+1]);
+            if (splitString[i].equals("Weight:")) {
+                weightStr = String.valueOf(splitString[i + 1]);
+                break;
+            }
+        }
+
+        //convert data if necessary since the data is in the metric system
+        if (getWhichSystem().equals("imperial")) {
+            weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * 1.0/2.204623));
         }
 
         db.delete(Weight.TABLE, Weight.keyDate + "='" + dateStr + "'"
-                + " and " + Weight.keyWeight + "='" + weightStr + "'", null);
+                + " and " + Weight.keyWeight + "=" + weightStr, null);
 
         db.close();
     }
