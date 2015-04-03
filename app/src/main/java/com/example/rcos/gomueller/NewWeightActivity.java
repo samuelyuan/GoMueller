@@ -36,14 +36,14 @@ public class NewWeightActivity extends Activity {
 
         //set the weight units (kgs or lbs)
         TextView weightLabel = (TextView)findViewById(R.id.AddWeightUnit);
-        weightLabel.setText(getWhichLabel());
+        weightLabel.setText(WeightUnit.getWhichLabel(this));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         TextView weightLabel = (TextView)findViewById(R.id.AddWeightUnit);
-        weightLabel.setText(getWhichLabel());
+        weightLabel.setText(WeightUnit.getWhichLabel(this));
     }
 
     @Override
@@ -76,28 +76,11 @@ public class NewWeightActivity extends Activity {
         wt.weight = Integer.parseInt(weight_weight.getText().toString());
         wt.date = weight_date.getText().toString();
 
-        if (getWhichSystem().equals("imperial"))
-            wt.weight = (int)((double)wt.weight * 0.453592);
+        if (WeightUnit.isImperial(this))
+            wt.weight = (int)((double)wt.weight * WeightUnit.POUND_TO_KILOGRAM);
 
         crud.insert(wt);
 
         finish();
-    }
-
-    public String getWhichLabel() {
-        String whichSystem = getWhichSystem();
-        if (whichSystem.equals("metric"))
-            return "kgs";
-        else if (whichSystem.equals("imperial"))
-            return "lbs";
-
-        return "";
-    }
-
-    public String getWhichSystem() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String defaultValue = this.getResources().getString(R.string.pref_units_default);
-        String whichSystem = prefs.getString(this.getString(R.string.pref_units_key), defaultValue);
-        return whichSystem;
     }
 }

@@ -65,8 +65,8 @@ public class ExerciseCRUD {
         }
 
         //convert data if necessary since the data is in the metric system
-        if (getWhichSystem().equals("imperial")) {
-            weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * 1.0/2.204623));
+        if (WeightUnit.isImperial(currentContext)) {
+            weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.POUND_TO_KILOGRAM));
         }
 
         db.delete(Exercise.TABLE, Exercise.keyName + "=\"" + exerciseName + "\""
@@ -92,8 +92,8 @@ public class ExerciseCRUD {
         }
 
         //convert data if necessary since the data is in the metric system
-        if (getWhichSystem().equals("imperial")) {
-            weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * 1.0/2.204623));
+        if (WeightUnit.isImperial(currentContext)) {
+            weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.POUND_TO_KILOGRAM));
         }
 
         db.delete(Weight.TABLE, Weight.keyDate + "='" + dateStr + "'"
@@ -137,7 +137,7 @@ public class ExerciseCRUD {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         //Set the weight's units depending on user's preferences
-        String whichLabel = getWhichLabel();
+        String whichLabel = WeightUnit.getWhichLabel(currentContext);
 
         //Read every row in the database
         if (cursor.moveToFirst()) {
@@ -164,7 +164,7 @@ public class ExerciseCRUD {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         //Set the weight's units depending on user's preferences
-        String whichLabel = getWhichLabel();
+        String whichLabel = WeightUnit.getWhichLabel(currentContext);
 
         //Read every row in the database
         if (cursor.moveToFirst()) {
@@ -173,8 +173,8 @@ public class ExerciseCRUD {
                 weightStr = cursor.getString(cursor.getColumnIndex(Weight.keyWeight));
 
                 //convert to the standard system since data is in the metric system
-                if (getWhichSystem().equals("imperial")) {
-                    weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * 2.204623));
+                if (WeightUnit.isImperial(currentContext)) {
+                    weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
                 }
 
                 detailStr = dateMeasured + " : Weight: " + weightStr + " " + whichLabel;
@@ -196,8 +196,8 @@ public class ExerciseCRUD {
         String timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
 
         //convert to the standard system since data is in the metric system
-        if (getWhichSystem().equals("imperial")) {
-            weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * 2.204623));
+        if (WeightUnit.isImperial(currentContext)) {
+            weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
         }
 
         if (Integer.parseInt(weightStr) > 0)
@@ -214,20 +214,5 @@ public class ExerciseCRUD {
         return detailStr;
     }
 
-    public String getWhichLabel() {
-        String whichSystem = getWhichSystem();
-        if (whichSystem.equals("metric"))
-            return "kgs";
-        else if (whichSystem.equals("imperial"))
-            return "lbs";
 
-        return "";
-    }
-
-    public String getWhichSystem() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.currentContext);
-        String defaultValue = this.currentContext.getResources().getString(R.string.pref_units_default);
-        String whichSystem = prefs.getString(this.currentContext.getString(R.string.pref_units_key), defaultValue);
-        return whichSystem;
-    }
 }

@@ -31,14 +31,14 @@ public class NewExerciseActivity extends Activity {
 
         //Set the weight's units depending on user's preferences
         TextView weightLabel = (TextView)findViewById(R.id.WeightUnit);
-        weightLabel.setText(getWhichLabel());
+        weightLabel.setText(WeightUnit.getWhichLabel(this));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         TextView weightLabel = (TextView)findViewById(R.id.WeightUnit);
-        weightLabel.setText(getWhichLabel());
+        weightLabel.setText(WeightUnit.getWhichLabel(this));
     }
 
     @Override
@@ -68,10 +68,6 @@ public class NewExerciseActivity extends Activity {
         ExerciseCRUD crud = new ExerciseCRUD(this);
         Exercise ex = new Exercise();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String defaultValue = getResources().getString(R.string.pref_units_default);
-        String whichSystem = prefs.getString(getString(R.string.pref_units_key), defaultValue);
-        
         ex.activityName = exercise_name.getText().toString();
 
         //weight used can be optional for non-weightlifting exercises
@@ -86,30 +82,12 @@ public class NewExerciseActivity extends Activity {
         else
             ex.number = 0;
 
-        if (whichSystem.equals("imperial"))
-            ex.weight = (int)((double)ex.weight * 0.453592);
+        if (WeightUnit.isImperial(this))
+            ex.weight = (int)((double)ex.weight * WeightUnit.POUND_TO_KILOGRAM);
 
         crud.insert(ex);
 
         finish();
 
     }
-
-    public String getWhichLabel() {
-        String whichSystem = getWhichSystem();
-        if (whichSystem.equals("metric"))
-            return "kgs";
-        else if (whichSystem.equals("imperial"))
-            return "lbs";
-
-        return "";
-    }
-
-    public String getWhichSystem() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String defaultValue = this.getResources().getString(R.string.pref_units_default);
-        String whichSystem = prefs.getString(this.getString(R.string.pref_units_key), defaultValue);
-        return whichSystem;
-    }
-
 }
