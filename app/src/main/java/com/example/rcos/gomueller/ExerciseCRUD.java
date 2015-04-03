@@ -174,7 +174,7 @@ public class ExerciseCRUD {
 
                 //convert to the standard system since data is in the metric system
                 if (WeightUnit.isImperial(currentContext)) {
-                    weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
+                    weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
                 }
 
                 detailStr = dateMeasured + " : Weight: " + weightStr + " " + whichLabel;
@@ -197,7 +197,7 @@ public class ExerciseCRUD {
 
         //convert to the standard system since data is in the metric system
         if (WeightUnit.isImperial(currentContext)) {
-            weightStr = String.valueOf((int) (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
+            weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
         }
 
         if (Integer.parseInt(weightStr) > 0)

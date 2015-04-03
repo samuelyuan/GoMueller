@@ -115,17 +115,19 @@ public class ExerciseDetailActivity extends ListActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
-        } else if (id == R.id.add_exercise) {
+        } else if (id == R.id.addMenu) {
             if (getIntent().getStringExtra("type").equals("exercise"))
             {
                 Intent addIntent = new Intent(this, NewExerciseActivity.class);
                 addIntent.putExtra("exerciseName", getIntent().getStringExtra("message"));
                 startActivity(addIntent);
             }
+            else if (getIntent().getStringExtra("type").equals("weight"))
+            {
+                Intent addIntent = new Intent(this, NewWeightActivity.class);
+                startActivity(addIntent);
+            }
 
-            return true;
-        } else if (id == R.id.add_weight) {
-            startActivity(new Intent(this, NewWeightActivity.class));
             return true;
         }
 

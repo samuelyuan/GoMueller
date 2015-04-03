@@ -77,7 +77,7 @@ public class NewWeightActivity extends Activity {
         wt.date = weight_date.getText().toString();
 
         if (WeightUnit.isImperial(this))
-            wt.weight = (int)((double)wt.weight * WeightUnit.POUND_TO_KILOGRAM);
+            wt.weight = (int)Math.round((double)wt.weight * WeightUnit.POUND_TO_KILOGRAM);
 
         crud.insert(wt);
 

@@ -83,7 +83,7 @@ public class NewExerciseActivity extends Activity {
             ex.number = 0;
 
         if (WeightUnit.isImperial(this))
-            ex.weight = (int)((double)ex.weight * WeightUnit.POUND_TO_KILOGRAM);
+            ex.weight = (int)Math.round((double)ex.weight * WeightUnit.POUND_TO_KILOGRAM);
 
         crud.insert(ex);
 
