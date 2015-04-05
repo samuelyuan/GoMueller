@@ -13,6 +13,7 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,22 +33,34 @@ public class GraphWeightActivity extends Activity {
         ArrayList<String> detailArray = crudDetail.getWeightDetail();
         DataPoint[] dataPoints = new DataPoint[detailArray.size()];
 
-        //Test data (will replace soon)
-        // generate Dates
-        Calendar calendar = Calendar.getInstance();
-        Date d1 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d2 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d3 = calendar.getTime();
+        //fetch data
+        for (int i = 0; i < detailArray.size(); i++)
+        {
+            //parse the string
+            String weightStr = "0";
+            String[] splitString = detailArray.get(i).split(" ");
+            String dateStr = splitString[0];
+            for (int j = 0; j < splitString.length - 1; j++)
+            {
+                if (splitString[j].equals("Weight:")) {
+                    weightStr = String.valueOf(splitString[j + 1]);
+                    break;
+                }
+            }
+
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            try {
+                Date date = formatter.parse(dateStr);
+                dataPoints[i] = new DataPoint(date, Integer.parseInt(weightStr));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(d1, 1),
-                new DataPoint(d2, 5),
-                new DataPoint(d3, 3)
-        });
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
 
         graph.addSeries(series);
 
@@ -56,8 +69,8 @@ public class GraphWeightActivity extends Activity {
         graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
         // set manual x bounds to have nice steps
-        graph.getViewport().setMinX(d1.getTime());
-        graph.getViewport().setMaxX(d3.getTime());
+        graph.getViewport().setMinX(dataPoints[0].getX());
+        graph.getViewport().setMaxX(dataPoints[dataPoints.length - 1].getX());
         graph.getViewport().setXAxisBoundsManual(true);
 
     }
