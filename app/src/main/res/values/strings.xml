@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- Main menu -->
     <string name="app_name">GoMueller</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="enter_data">Enter Exercise</string>
     <string name="view_data">View Exercise Detail</string>
-    <string name="viewWeightHistory">View Your Weight</string>
+    <string name="viewWeightHistory">Check Weight History</string>
     <string name="welcome_message">Welcome to GoMueller!</string>
     <string name="title_activity_new_exercise">Main Menu</string>
     <string name="action_settings">Settings</string>
@@ -22,7 +23,19 @@
     <string name="weightUnit">lbs</string>
     <string name="ok">OK</string>
 
-    <!-- Track and detail exercise menu -->
+    <!-- Add weight -->
+    <string name="title_activity_new_weight">Main Menu</string>
+    <string name="ask_weight">Please enter your weight at the specified date</string>
+    <string name="add">Add</string>
+    <string name="enter_weight">Enter Your Weight</string>
+    <string name="addWeightButton">Record Your Weight</string>
+
+    <!-- View Weight Graph -->
+    <string name="title_activity_graph">Your Weight History</string>
+    <string name="title_activity_graph_weight">Main Menu</string>
+    <string name="modifyWeightHistory">Edit Weight History</string>
+
+    <!-- View exercise/weight history menu -->
     <string name="exerciseListHeader">Your Exercise History</string>
     <string name="title_activity_track_exercise">Main Menu</string>
     <string name="click_item">Show click item here</string>
@@ -48,13 +61,6 @@
     <string name="About">GoMueller is an open source application developed by RCOS.</string>
     <string name="app_version">Version: 0.0.1</string>
     <string name="menu_about">About</string>
-
-    <!-- Enter your weight -->
-    <string name="title_activity_new_weight">Main Menu</string>
-    <string name="ask_weight">Please enter your weight at the specified date</string>
-    <string name="add">Add</string>
-    <string name="enter_weight">Enter Your Weight</string>
-    <string name="addWeightButton">Record Your Weight</string>
 
 
 </resources>

@@ -57,8 +57,7 @@ public class MainActivity extends Activity {
     }
 
     public void onViewWeightButton(View view) {
-        Intent intent = new Intent(this, ExerciseDetailActivity.class);
-        intent.putExtra("type", "weight");
+        Intent intent = new Intent(this, GraphWeightActivity.class);
         startActivity(intent);
     }
 }
