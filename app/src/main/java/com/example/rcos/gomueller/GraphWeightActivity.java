@@ -28,6 +28,18 @@ public class GraphWeightActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_weight);
 
+        drawGraph();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        drawGraph();
+    }
+
+    public void drawGraph()
+    {
         //Draw graph
         final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
         ArrayList<String> detailArray = crudDetail.getWeightDetail();
@@ -55,7 +67,6 @@ public class GraphWeightActivity extends Activity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
         }
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
@@ -72,7 +83,6 @@ public class GraphWeightActivity extends Activity {
         graph.getViewport().setMinX(dataPoints[0].getX());
         graph.getViewport().setMaxX(dataPoints[dataPoints.length - 1].getX());
         graph.getViewport().setXAxisBoundsManual(true);
-
     }
 
 

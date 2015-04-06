@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ExerciseCRUD {
 
@@ -158,7 +159,7 @@ public class ExerciseCRUD {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery = "SELECT " + Weight.keyWeight + " , " + Weight.keyDate
                 + " FROM " + Weight.TABLE;
-        ArrayList<String> exerciseDetail = new ArrayList<String>();
+        ArrayList<String> weightHistory = new ArrayList<String>();
         String weightStr, dateMeasured;
         String detailStr;
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -178,14 +179,16 @@ public class ExerciseCRUD {
                 }
 
                 detailStr = dateMeasured + " : Weight: " + weightStr + " " + whichLabel;
-                exerciseDetail.add(detailStr);
+                weightHistory.add(detailStr);
             } while (cursor.moveToNext());
         }
+
+        Collections.sort(weightHistory);
 
         cursor.close();
         db.close();
 
-        return  exerciseDetail;
+        return weightHistory;
     }
 
     public String getDetailStr(Cursor cursor, String whichLabel)
@@ -213,6 +216,4 @@ public class ExerciseCRUD {
 
         return detailStr;
     }
-
-
 }
