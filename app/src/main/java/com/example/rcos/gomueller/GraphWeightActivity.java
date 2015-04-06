@@ -31,12 +31,12 @@ public class GraphWeightActivity extends Activity {
         drawGraph();
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
 
         drawGraph();
-    }
+    }*/
 
     public void drawGraph()
     {

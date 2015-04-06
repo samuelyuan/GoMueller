@@ -64,6 +64,10 @@ public class ExerciseDetailActivity extends ListActivity {
                             crudDetail.deleteWeight(detailArray.get(i));
 
                         adapter.remove(detailArray.get(i));
+
+                        //deselect the selected item
+                        isItemSelected[i] = !isItemSelected[i];
+                        getListView().getChildAt(i).setBackgroundColor(0x00000000);
                     }
                 }
                 checkedItemPositions.clear();
