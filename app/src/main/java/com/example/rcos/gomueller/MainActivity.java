@@ -1,16 +1,28 @@
 package com.example.rcos.gomueller;
 
-import android.app.Activity;
+
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
-public class MainActivity extends Activity {
+import java.util.List;
+
+public class MainActivity extends ActionBarActivity {
 
     private Button viewWeightButton, viewButton;
+    private String[] mDrawerTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,11 +31,50 @@ public class MainActivity extends Activity {
 
         viewWeightButton = (Button) findViewById(R.id.viewWeightButton);
         //viewButton = (Button) findViewById(R.id.viewButton);
+
+        mDrawerTitles = getResources().getStringArray(R.array.drawer_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item,
+                mDrawerTitles));
+
+
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                R.string.drawer_open,
+                R.string.drawer_close
+        ) {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
+            }
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -48,7 +99,23 @@ public class MainActivity extends Activity {
             return true;
         }
 
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     public void onViewExerciseButton(View view) {
@@ -60,4 +127,5 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, GraphWeightActivity.class);
         startActivity(intent);
     }
+
 }

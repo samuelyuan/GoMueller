@@ -1,43 +1,60 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id = "@+id/main_layout">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/welcome_message"
-        android:id="@+id/textView"
-        tools:context=".MainActivity"
-        android:layout_marginTop="113dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
+    <RelativeLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_data"
-        android:id="@+id/viewButton"
-        android:onClick="onViewExerciseButton"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/viewWeightButton"
-        android:onClick="onViewWeightButton"
-        android:layout_below="@+id/viewButton"
-        android:layout_alignLeft="@+id/viewButton"
-        android:layout_alignStart="@+id/viewButton"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView"
-        android:text="View Weight History" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/welcome_message"
+            android:id="@+id/textView"
+            tools:context=".MainActivity"
+            android:layout_marginTop="113dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/view_data"
+            android:id="@+id/viewButton"
+            android:onClick="onViewExerciseButton"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignStart="@+id/textView"
+            android:layout_alignRight="@+id/textView"
+            android:layout_alignEnd="@+id/textView" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/viewWeightButton"
+            android:onClick="onViewWeightButton"
+            android:layout_below="@+id/viewButton"
+            android:layout_alignLeft="@+id/viewButton"
+            android:layout_alignStart="@+id/viewButton"
+            android:layout_alignRight="@+id/textView"
+            android:layout_alignEnd="@+id/textView"
+            android:text="View Weight History" />
+
+    </RelativeLayout>
+
+    <ListView android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#111"/>
 
 
-</RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>
