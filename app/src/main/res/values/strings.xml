@@ -9,7 +9,7 @@
     <string name="view_data">View Exercise Detail</string>
     <string name="viewWeightHistory">Check Weight History</string>
     <string name="welcome_message">Welcome to GoMueller!</string>
-    <string name="title_activity_new_exercise">Main Menu</string>
+    <string name="title_activity_new_exercise">New Exercise</string>
     <string name="action_settings">Settings</string>
 
     <!-- Add exercise menu -->
@@ -24,7 +24,7 @@
     <string name="ok">OK</string>
 
     <!-- Add weight -->
-    <string name="title_activity_new_weight">Main Menu</string>
+    <string name="title_activity_new_weight">New Weight</string>
     <string name="ask_weight">Please enter your weight at the specified date</string>
     <string name="add">Add</string>
     <string name="enter_weight">Enter Your Weight</string>
@@ -32,14 +32,14 @@
 
     <!-- View Weight Graph -->
     <string name="title_activity_graph">Your Weight History</string>
-    <string name="title_activity_graph_weight">Main Menu</string>
+    <string name="title_activity_graph_weight">Weight Record</string>
     <string name="modifyWeightHistory">Edit Weight History</string>
 
     <!-- View exercise/weight history menu -->
     <string name="exerciseListHeader">Your Exercise History</string>
-    <string name="title_activity_track_exercise">Main Menu</string>
+    <string name="title_activity_track_exercise">Exercise Record</string>
     <string name="click_item">Show click item here</string>
-    <string name="title_activity_exercise_detail">Exercise List</string>
+    <string name="title_activity_exercise_detail">Exercise Detail</string>
     <string name="txtEmpty">List is empty</string>
     <string name="lblBtnDel">Delete Selected Items</string>
     <string name="addExerciseStr">Add Exercise</string>
