@@ -40,9 +40,8 @@
         android:ems="10"
         android:id="@+id/editWeight"
         android:layout_alignBottom="@+id/weightTextView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="70dp" />
+        android:layout_alignLeft="@+id/editDate"
+        android:layout_alignStart="@+id/editDate" />
 
     <EditText
         android:layout_width="match_parent"
@@ -50,9 +49,18 @@
         android:inputType="date"
         android:ems="10"
         android:id="@+id/editDate"
+        android:layout_alignBaseline="@+id/dateTextView"
         android:layout_alignBottom="@+id/dateTextView"
-        android:layout_alignLeft="@+id/editWeight"
-        android:layout_marginRight="30dp" />
+        android:layout_toRightOf="@+id/weightTextView"
+        android:layout_toLeftOf="@+id/btnCalendar"
+        android:layout_toStartOf="@+id/btnCalendar" />
+
+    <Button android:layout_height="wrap_content"
+        android:layout_weight="0" android:id="@+id/btnCalendar" android:text="Calendar"
+        android:layout_width="100dp"
+        android:layout_above="@+id/addWeightOkButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"></Button>
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,9 +69,8 @@
         android:text="@string/weightUnit"
         android:id="@+id/AddWeightUnit"
         android:layout_alignBottom="@+id/editWeight"
-        android:layout_alignRight="@+id/askWeightTextView"
-        android:layout_alignEnd="@+id/askWeightTextView"
-        android:layout_marginRight="30dp" />
+        android:layout_toRightOf="@+id/editWeight"
+        android:layout_toEndOf="@+id/editWeight" />
 
     <Button
         android:layout_width="wrap_content"

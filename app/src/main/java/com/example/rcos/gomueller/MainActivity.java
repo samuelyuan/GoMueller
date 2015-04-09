@@ -39,8 +39,6 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item,
                 mDrawerTitles));
 
-
-
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawerLayout,
