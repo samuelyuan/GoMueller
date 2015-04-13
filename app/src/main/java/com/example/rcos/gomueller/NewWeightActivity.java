@@ -117,16 +117,16 @@ public class NewWeightActivity extends Activity implements
 
         if (weight_weight.getText().toString().equals("")) {
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Enter Weight");
+            alertDialog.setTitle("Weight is Empty");
             alertDialog.setMessage("You forgot to enter your weight. Please input it and then press Add");
             alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     // here you can add functions
-                    return;
+                    //return;
                 }
             });
             alertDialog.show();
-
+            return;
         }
         wt.weight = Integer.parseInt(weight_weight.getText().toString());
         wt.date = weight_date.getText().toString();
@@ -139,6 +139,3 @@ public class NewWeightActivity extends Activity implements
         finish();
     }
 }
-
-
-

@@ -1,6 +1,8 @@
 package com.example.rcos.gomueller;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -68,6 +70,19 @@ public class NewExerciseActivity extends Activity {
         ExerciseCRUD crud = new ExerciseCRUD(this);
         Exercise ex = new Exercise();
 
+        //error checking input
+        if (exercise_name.getText().toString().equals("")) {
+            displayErrorPrompt("Exercise Name is Empty!",
+                    "You forgot to enter the exercise name. Please input it and try again.");
+            return;
+        }
+
+        if (exercise_weight.getText().toString().equals("") && exercise_number.getText().toString().equals("")) {
+            displayErrorPrompt("Exercise Fields are Empty!",
+                    "You need to at least enter the weight used or duration.");
+            return;
+        }
+
         ex.activityName = exercise_name.getText().toString();
 
         //weight used can be optional for non-weightlifting exercises
@@ -88,6 +103,20 @@ public class NewExerciseActivity extends Activity {
         crud.insert(ex);
 
         finish();
+    }
 
+    public void displayErrorPrompt(String title, String message)
+    {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // here you can add functions
+                //return;
+            }
+        });
+        alertDialog.show();
+        return;
     }
 }

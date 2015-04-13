@@ -17,21 +17,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/weight"
         android:id="@+id/weightTextView"
+        android:layout_marginTop="130dp"
         android:layout_below="@+id/askWeightTextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="75dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/date"
-        android:id="@+id/dateTextView"
-        android:layout_below="@+id/weightTextView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="75dp" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp" />
 
     <EditText
         android:layout_width="100dp"
@@ -39,9 +30,9 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editWeight"
-        android:layout_alignBottom="@+id/weightTextView"
-        android:layout_alignLeft="@+id/editDate"
-        android:layout_alignStart="@+id/editDate" />
+        android:layout_alignTop="@+id/weightTextView"
+        android:layout_toLeftOf="@+id/AddWeightUnit"
+        android:layout_toStartOf="@+id/AddWeightUnit" />
 
     <EditText
         android:layout_width="match_parent"
@@ -49,16 +40,15 @@
         android:inputType="date"
         android:ems="10"
         android:id="@+id/editDate"
-        android:layout_alignBaseline="@+id/dateTextView"
-        android:layout_alignBottom="@+id/dateTextView"
-        android:layout_toRightOf="@+id/weightTextView"
-        android:layout_toLeftOf="@+id/btnCalendar"
-        android:layout_toStartOf="@+id/btnCalendar" />
+        android:layout_below="@+id/askWeightTextView"
+        android:layout_marginTop="51dp"
+        android:layout_toLeftOf="@+id/AddWeightUnit"
+        android:layout_toStartOf="@+id/AddWeightUnit" />
 
     <Button android:layout_height="wrap_content"
         android:layout_weight="0" android:id="@+id/btnCalendar" android:text="Calendar"
         android:layout_width="100dp"
-        android:layout_above="@+id/addWeightOkButton"
+        android:layout_alignBottom="@+id/editDate"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"></Button>
 
@@ -68,9 +58,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/weightUnit"
         android:id="@+id/AddWeightUnit"
-        android:layout_alignBottom="@+id/editWeight"
-        android:layout_toRightOf="@+id/editWeight"
-        android:layout_toEndOf="@+id/editWeight" />
+        android:layout_above="@+id/addWeightOkButton"
+        android:layout_alignLeft="@+id/btnCalendar"
+        android:layout_alignStart="@+id/btnCalendar"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -78,8 +70,8 @@
         android:text="@string/add"
         android:id="@+id/addWeightOkButton"
         android:onClick="WeightOKButtonOnClick"
-        android:layout_below="@+id/editDate"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="114dp"
+        android:layout_below="@+id/editWeight"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

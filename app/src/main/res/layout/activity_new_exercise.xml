@@ -57,10 +57,8 @@
         android:ems="10"
         android:id="@+id/nameEditText"
         android:layout_alignTop="@+id/nameTextView"
-        android:layout_alignRight="@+id/askRecordTextView"
-        android:layout_alignEnd="@+id/askRecordTextView"
-        android:layout_marginRight="30dp"
-        android:layout_marginEnd="30dp" />
+        android:layout_alignLeft="@+id/okButton"
+        android:layout_alignStart="@+id/okButton" />
 
     <EditText
         android:layout_width="100dp"

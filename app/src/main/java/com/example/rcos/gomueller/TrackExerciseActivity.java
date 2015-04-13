@@ -28,25 +28,23 @@ public class TrackExerciseActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_exercise);
 
-        ExerciseCRUD crud = new ExerciseCRUD(this);
-
-        exerciseArray = crud.getExerciseArray();
-
-        adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, exerciseArray);
-
-        setListAdapter(adapter);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = prefs.getString(getString(R.string.pref_username_key), "");
-        if (!username.equals("")){
-            ((TextView)findViewById(R.id.track_headline)).setText(username +
-                    "'s Exercise History.");
-        }
+        loadData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        loadData();
+    }
+
+    public void loadData()
+    {
+        ExerciseCRUD crud = new ExerciseCRUD(this);
+        exerciseArray = crud.getExerciseArray();
+        adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, exerciseArray);
+        setListAdapter(adapter);
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String username = prefs.getString(getString(R.string.pref_username_key), "");
         if (!username.equals("")){
