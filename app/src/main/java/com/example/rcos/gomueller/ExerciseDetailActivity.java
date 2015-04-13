@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ public class ExerciseDetailActivity extends ListActivity {
     private boolean isItemSelected[] = new boolean[100];
     private ArrayAdapter<String> adapter;
     private ListView detailListView;
+    private ActionMode mActionMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,42 +44,6 @@ public class ExerciseDetailActivity extends ListActivity {
             detailArray = crudDetail.getWeightDetail();
 
         adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
-
-        Button btnDel = (Button) findViewById(R.id.btnDel);
-
-        //When delete button is pressed...
-        OnClickListener listenerDel = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Get the checked items
-                SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
-                int itemCount = getListView().getCount();
-
-                //Delete all the selected items
-                for(int i=itemCount-1; i >= 0; i--){
-
-                    if(checkedItemPositions.get(i))
-                    {
-                        if (dataType.equals("exercise"))
-                            crudDetail.deleteExercise(exerciseName, detailArray.get(i));
-                        else if (dataType.equals("weight"))
-                            crudDetail.deleteWeight(detailArray.get(i));
-
-                        adapter.remove(detailArray.get(i));
-
-                        //deselect the selected item
-                        isItemSelected[i] = !isItemSelected[i];
-                        getListView().getChildAt(i).setBackgroundColor(0x00000000);
-                    }
-                }
-                checkedItemPositions.clear();
-                adapter.notifyDataSetChanged();
-            }
-        };
-
-        /** Setting the event listener for the delete button */
-        btnDel.setOnClickListener(listenerDel);
-
         setListAdapter(adapter);
     }
 
@@ -99,7 +65,6 @@ public class ExerciseDetailActivity extends ListActivity {
         adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
         setListAdapter(adapter);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,11 +115,100 @@ public class ExerciseDetailActivity extends ListActivity {
         if (isItemSelected[position]) {
             //highlight the selected item
             view.setBackgroundColor(Color.YELLOW);
+
         }
         else {
             //set it to transparent
             view.setBackgroundColor(0x00000000);
         }
+
+
+        boolean atLeastOneSelected = false;
+        for (int i = 0; i < isItemSelected.length; i++)
+        {
+            if (isItemSelected[i])
+                atLeastOneSelected = true;
+        }
+
+        if (atLeastOneSelected)
+            mActionMode = ExerciseDetailActivity.this.startActionMode(new ActionBarCallBack());
+        else if (mActionMode != null) //none selected
+            mActionMode.finish();
+
         adapter.notifyDataSetChanged();
     }
+
+    class ActionBarCallBack implements ActionMode.Callback {
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            int id = item.getItemId();
+
+            //delete items from list and from database
+            if (id == R.id.deleteMenu) {
+                Bundle bundle = getIntent().getExtras();
+                final String exerciseName = bundle.getString("message");
+                final String dataType = getIntent().getStringExtra("type");
+
+                final ExerciseCRUD crudDetail = new ExerciseCRUD(ExerciseDetailActivity.this);
+
+                //Get the checked items
+                SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
+                int itemCount = getListView().getCount();
+
+                //Delete all the selected items
+                for(int i=itemCount-1; i >= 0; i--) {
+                    if(checkedItemPositions.get(i))  {
+                        if (dataType.equals("exercise"))
+                            crudDetail.deleteExercise(exerciseName, detailArray.get(i));
+                        else if (dataType.equals("weight"))
+                            crudDetail.deleteWeight(detailArray.get(i));
+
+                        adapter.remove(detailArray.get(i));
+
+                        //deselect the selected item
+                        isItemSelected[i] = !isItemSelected[i];
+                        getListView().getChildAt(i).setBackgroundColor(0x00000000);
+                    }
+                }
+                checkedItemPositions.clear();
+                adapter.notifyDataSetChanged();
+
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // TODO Auto-generated method stub
+            mode.getMenuInflater().inflate(R.menu.menu_delete_item, menu);
+            return true;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            //List the number of items selected
+
+            //Get the checked items
+            SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
+            int itemCount = getListView().getCount();
+            int numSelected = 0;
+            for(int i = itemCount - 1; i >= 0; i--) {
+                if (checkedItemPositions.get(i)) {
+                    numSelected++;
+                }
+            }
+            mode.setTitle(numSelected + " Selected");
+            return false;
+        }
+    }
+
+
 }
