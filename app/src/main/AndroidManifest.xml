@@ -35,8 +35,7 @@
         <activity
             android:name=".NewExerciseActivity"
             android:label="@string/title_activity_new_exercise"
-            android:parentActivityName=".TrackExerciseActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+            android:parentActivityName=".TrackExerciseActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".TrackExerciseActivity" />
