@@ -9,10 +9,13 @@
         <item>@string/pref_units_metric</item>
         <item>@string/pref_units_imperial</item>
     </string-array>
+
     <string-array name="drawer_array">
+        <item>@string/home</item>
         <item>@string/view_data</item>
         <item>@string/viewWeightHistory</item>
     </string-array>
 
 
+    <string name="home">Home</string>
 </resources>

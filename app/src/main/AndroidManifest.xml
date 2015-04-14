@@ -35,7 +35,8 @@
         <activity
             android:name=".NewExerciseActivity"
             android:label="@string/title_activity_new_exercise"
-            android:parentActivityName=".TrackExerciseActivity" >
+            android:parentActivityName=".TrackExerciseActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".TrackExerciseActivity" />
@@ -55,7 +56,8 @@
         <activity
             android:name=".GraphWeightActivity"
             android:label="@string/title_activity_graph_weight"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rcos.gomueller.MainActivity" />

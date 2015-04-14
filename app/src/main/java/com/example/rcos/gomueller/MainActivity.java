@@ -10,11 +10,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
+
+import static android.support.v4.app.ActivityCompat.startActivity;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -38,6 +42,7 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item,
                 mDrawerTitles));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -80,6 +85,8 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -104,6 +111,8 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -126,4 +135,26 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+
+
+    public class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+
+
+        private void selectItem(int position) {
+            mDrawerList.setItemChecked(position, true);
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+            if(position == 0) {
+                Toast.makeText(getApplicationContext(), R.string.home, Toast.LENGTH_SHORT).show();
+            } else if (position == 1) {
+                startActivity(new Intent(getApplicationContext(), TrackExerciseActivity.class));
+            } else if (position == 2) {
+                startActivity(new Intent(getApplicationContext(), GraphWeightActivity.class));
+            }
+        }
+    }
 }
