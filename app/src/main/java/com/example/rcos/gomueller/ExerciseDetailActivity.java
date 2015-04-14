@@ -115,13 +115,11 @@ public class ExerciseDetailActivity extends ListActivity {
         if (isItemSelected[position]) {
             //highlight the selected item
             view.setBackgroundColor(Color.YELLOW);
-
         }
         else {
             //set it to transparent
             view.setBackgroundColor(0x00000000);
         }
-
 
         boolean atLeastOneSelected = false;
         for (int i = 0; i < isItemSelected.length; i++)
@@ -146,42 +144,48 @@ public class ExerciseDetailActivity extends ListActivity {
 
             //delete items from list and from database
             if (id == R.id.deleteMenu) {
-                Bundle bundle = getIntent().getExtras();
-                final String exerciseName = bundle.getString("message");
-                final String dataType = getIntent().getStringExtra("type");
-
-                final ExerciseCRUD crudDetail = new ExerciseCRUD(ExerciseDetailActivity.this);
-
-                //Get the checked items
-                SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
-                int itemCount = getListView().getCount();
-
-                //Delete all the selected items
-                for(int i=itemCount-1; i >= 0; i--) {
-                    if(checkedItemPositions.get(i))  {
-                        if (dataType.equals("exercise"))
-                            crudDetail.deleteExercise(exerciseName, detailArray.get(i));
-                        else if (dataType.equals("weight"))
-                            crudDetail.deleteWeight(detailArray.get(i));
-
-                        adapter.remove(detailArray.get(i));
-
-                        //deselect the selected item
-                        isItemSelected[i] = !isItemSelected[i];
-                        getListView().getChildAt(i).setBackgroundColor(0x00000000);
-                    }
-                }
-                checkedItemPositions.clear();
-                adapter.notifyDataSetChanged();
-
+                deleteItem();
                 return true;
             }
+
             return false;
+        }
+
+        public void deleteItem()
+        {
+            Bundle bundle = getIntent().getExtras();
+            final String exerciseName = bundle.getString("message");
+            final String dataType = getIntent().getStringExtra("type");
+
+            final ExerciseCRUD crudDetail = new ExerciseCRUD(ExerciseDetailActivity.this);
+
+            //Get the checked items
+            SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
+            int itemCount = getListView().getCount();
+
+            //Delete all the selected items
+            for(int i = itemCount - 1; i >= 0; i--) {
+                if(checkedItemPositions.get(i))  {
+                    View selectedItem = getListView().getChildAt(i);
+
+                    if (dataType.equals("exercise"))
+                        crudDetail.deleteExercise(exerciseName, detailArray.get(i));
+                    else if (dataType.equals("weight"))
+                        crudDetail.deleteWeight(detailArray.get(i));
+
+                    adapter.remove(detailArray.get(i));
+
+                    //deselect the selected item
+                    isItemSelected[i] = !isItemSelected[i];
+                    selectedItem.setBackgroundColor(0x00000000);
+                }
+            }
+            checkedItemPositions.clear();
+            adapter.notifyDataSetChanged();
         }
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            // TODO Auto-generated method stub
             mode.getMenuInflater().inflate(R.menu.menu_delete_item, menu);
             return true;
         }
