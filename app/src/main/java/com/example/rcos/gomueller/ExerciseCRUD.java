@@ -181,12 +181,14 @@ public class ExerciseCRUD {
                 }
 
 
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                 Date testDate = null;
                 try {
                     testDate = sdf.parse(dateMeasured);
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
                 dateMeasured = formatter.format(testDate);
 
                 detailStr = dateMeasured + " : Weight: " + weightStr + " " + whichLabel;
