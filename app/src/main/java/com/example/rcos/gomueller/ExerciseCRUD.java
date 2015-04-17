@@ -9,8 +9,10 @@ import android.preference.PreferenceManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 public class ExerciseCRUD {
 
@@ -177,6 +179,15 @@ public class ExerciseCRUD {
                 if (WeightUnit.isImperial(currentContext)) {
                     weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
                 }
+
+
+                Date testDate = null;
+                try {
+                    testDate = sdf.parse(dateMeasured);
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+                dateMeasured = formatter.format(testDate);
 
                 detailStr = dateMeasured + " : Weight: " + weightStr + " " + whichLabel;
                 weightHistory.add(detailStr);

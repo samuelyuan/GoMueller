@@ -106,9 +106,13 @@ public class GraphWeightActivity extends ActionBarActivity {
                 }
             }
 
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
             try {
-                Date date = formatter.parse(dateStr);
+                Date tempDate = formatter.parse(dateStr);
+                formatter = new SimpleDateFormat("MM/dd/yyyy");
+                String newFormat = formatter.format(tempDate);
+
+                Date date = formatter.parse(newFormat);
                 dataPoints[i] = new DataPoint(date, Integer.parseInt(weightStr));
             } catch (ParseException e) {
                 e.printStackTrace();
