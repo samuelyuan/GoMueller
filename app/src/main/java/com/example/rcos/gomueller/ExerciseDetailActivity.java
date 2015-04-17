@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 
@@ -151,8 +152,7 @@ public class ExerciseDetailActivity extends ListActivity {
             return false;
         }
 
-        public void deleteItem()
-        {
+        public void deleteItem()  {
             Bundle bundle = getIntent().getExtras();
             final String exerciseName = bundle.getString("message");
             final String dataType = getIntent().getStringExtra("type");

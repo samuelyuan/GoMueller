@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,7 +86,17 @@ public class ExerciseCRUD {
         //parse the string
         String weightStr = "0";
         String[] splitString = currentDetailStr.split(" ");
+
         String dateStr = splitString[0];
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            Date tempDate = formatter.parse(dateStr);
+            formatter = new SimpleDateFormat("MM/dd/yyyy");
+            dateStr = formatter.format(tempDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         for (int i = 0; i < splitString.length - 1; i++)
         {
             if (splitString[i].equals("Weight:")) {
