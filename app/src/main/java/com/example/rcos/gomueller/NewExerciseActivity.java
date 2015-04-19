@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Contacts;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +41,12 @@ public class NewExerciseActivity extends Activity {
         exercise_date.setText(date);
 
         //autofill exercise name if possible
-        exercise_name.setText(getIntent().getStringExtra("exerciseName"));
+        String exerciseNameAutofill = getIntent().getStringExtra("exerciseName");
+        if (!exerciseNameAutofill.equals("")) {
+            exercise_name.setText(exerciseNameAutofill);
+            exercise_name.setFocusable(false);
+            exercise_name.setEnabled(false);
+        }
 
         //Set the weight's units depending on user's preferences
         TextView weightLabel = (TextView)findViewById(R.id.WeightUnit);
