@@ -32,6 +32,7 @@ public class ExerciseCRUD {
         values.put(Exercise.keyName, exercise.activityName);
         values.put(Exercise.keyWeight, exercise.weight);
         values.put(Exercise.keyNumber, exercise.number);
+        values.put(Exercise.keyDate, exercise.date);
 
         long exercise_id = db.insert(Exercise.TABLE, null, values);
 
@@ -143,7 +144,7 @@ public class ExerciseCRUD {
     //For ShowDetailActivity (showing exercises)
     public ArrayList<String> getExerciseDetail(String item) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String selectQuery = "SELECT " + Exercise.keyWeight + " , " + Exercise.keyNumber
+        String selectQuery = "SELECT " + Exercise.keyWeight + " , " + Exercise.keyNumber + " , " + Exercise.keyDate
                 + " FROM " + Exercise.TABLE
                 + " WHERE " + Exercise.keyName + " = " + "\"" + item + "\"";
         ArrayList<String> exerciseDetail = new ArrayList<String>();
@@ -221,6 +222,7 @@ public class ExerciseCRUD {
 
         String weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
         String timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
+        String date = cursor.getString(cursor.getColumnIndex(Exercise.keyDate));
 
         //convert to the standard system since data is in the metric system
         if (WeightUnit.isImperial(currentContext)) {
@@ -237,6 +239,8 @@ public class ExerciseCRUD {
             else
                 detailStr += "Duration: " + timeSpent + " mins";
         }
+
+        detailStr += "  " + date;
 
         return detailStr;
     }

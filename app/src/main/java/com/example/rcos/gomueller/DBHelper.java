@@ -8,7 +8,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public String nameExercise;
 
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     private static final String DATABASE_NAME = "crud.db";
 
@@ -24,8 +24,9 @@ public class DBHelper extends SQLiteOpenHelper {
         
         final String CREATE_EXERCISE_TABLE = "CREATE TABLE " + Exercise.TABLE + "("+Exercise._ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Exercise.keyName + " TEXT, "
-               + Exercise.keyWeight + " INTEGER, "
-                + Exercise.keyNumber + " INTEGER);";
+                + Exercise.keyWeight + " INTEGER, "
+                + Exercise.keyNumber + " INTEGER, "
+                + Exercise.keyDate + " TEXT);";
 
         db.execSQL(CREATE_EXERCISE_TABLE);
         db.execSQL(CREATE_WEIGHT_TABLE);

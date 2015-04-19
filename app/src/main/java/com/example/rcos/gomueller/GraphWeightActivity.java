@@ -130,9 +130,11 @@ public class GraphWeightActivity extends ActionBarActivity {
         graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
         // set manual x bounds to have nice steps
-        graph.getViewport().setMinX(dataPoints[0].getX());
-        graph.getViewport().setMaxX(dataPoints[dataPoints.length - 1].getX());
-        graph.getViewport().setXAxisBoundsManual(true);
+        if (dataPoints.length > 0) {
+            graph.getViewport().setMinX(dataPoints[0].getX());
+            graph.getViewport().setMaxX(dataPoints[dataPoints.length - 1].getX());
+            graph.getViewport().setXAxisBoundsManual(true);
+        }
     }
 
 

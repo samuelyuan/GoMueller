@@ -13,8 +13,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class NewExerciseActivity extends Activity {
 
+    EditText exercise_date;
     EditText exercise_name;
     EditText exercise_weight;
     EditText exercise_number;
@@ -24,9 +29,15 @@ public class NewExerciseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_exercise);
 
+        exercise_date = (EditText)findViewById(R.id.dateEditText);
         exercise_name = (EditText)findViewById(R.id.nameEditText);
         exercise_weight = (EditText)findViewById(R.id.weightEditText);
         exercise_number = (EditText)findViewById(R.id.numberEditText);
+
+        //autofill date
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        String date = df.format(Calendar.getInstance().getTime());
+        exercise_date.setText(date);
 
         //autofill exercise name if possible
         exercise_name.setText(getIntent().getStringExtra("exerciseName"));
@@ -99,6 +110,9 @@ public class NewExerciseActivity extends Activity {
 
         if (WeightUnit.isImperial(this))
             ex.weight = (int)Math.round((double)ex.weight * WeightUnit.POUND_TO_KILOGRAM);
+
+        //set date
+        ex.date = exercise_date.getText().toString();
 
         crud.insert(ex);
 

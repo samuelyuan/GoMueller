@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * Created by yuans on 4/3/2015.
- */
 public class WeightUnit
 {
     public static final double KILOGRAM_TO_POUND = 2.204623;

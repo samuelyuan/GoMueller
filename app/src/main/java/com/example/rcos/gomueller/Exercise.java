@@ -10,12 +10,13 @@ public class Exercise implements BaseColumns {
     public static final String keyName = "name";
     public static final String keyWeight = "weight";
     public static final String keyNumber = "number";
-
+    public static final String keyDate = "date";
 
     //properties help to keep data
     public int weight;
     public int number;
     public String activityName;
+    public String date;
 
     public String getName() {
         return activityName;

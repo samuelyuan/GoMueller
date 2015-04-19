@@ -109,4 +109,12 @@
         android:layout_toEndOf="@+id/weightEditText"
         android:layout_alignBottom="@+id/weightEditText" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/dateEditText"
+        android:layout_above="@+id/nameEditText" />
+
 </RelativeLayout>
