@@ -14,7 +14,7 @@
 
     <!-- Add exercise menu -->
     <string name="ask_record">Please enter relevant exercise information</string>
-    <string name="name">Activity Type</string>
+    <string name="name">Name</string>
     <string name="weight">Weight</string>
     <string name="number_of_sets">Duration</string>
     <string name="date">Date</string>

@@ -29,7 +29,7 @@ public class NewExerciseActivity extends Activity implements
 
     EditText exercise_name;
     EditText exercise_weight;
-    EditText exercise_number;
+    EditText exercise_weight_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class NewExerciseActivity extends Activity implements
         btnCalendar.setOnClickListener(this);
 
         exercise_name = (EditText)findViewById(R.id.nameEditText);
+        exercise_weight_name = (EditText)findViewById(R.id.editWeightNameText);
         exercise_weight = (EditText)findViewById(R.id.weightEditText);
-        exercise_number = (EditText)findViewById(R.id.numberEditText);
 
         //autofill date
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -50,8 +50,10 @@ public class NewExerciseActivity extends Activity implements
         exercise_date.setText(date);
 
         //autofill exercise name if possible.
-        //
         // also, disable editing
+        exercise_weight_name.setFocusable(false);
+        exercise_weight_name.setEnabled(false);
+
         String exerciseNameAutofill = getIntent().getStringExtra("exerciseName");
         if (exerciseNameAutofill != null && !exerciseNameAutofill.equals("")) {
             exercise_name.setText(exerciseNameAutofill);
@@ -105,9 +107,9 @@ public class NewExerciseActivity extends Activity implements
             return;
         }
 
-        if (exercise_weight.getText().toString().equals("") && exercise_number.getText().toString().equals("")) {
+        if (exercise_weight.getText().toString().equals("")) {
             displayErrorPrompt("Exercise Fields are Empty!",
-                    "You need to at least enter the weight used or duration.");
+                    "You need to enter something.");
             return;
         }
 
@@ -118,12 +120,6 @@ public class NewExerciseActivity extends Activity implements
             ex.weight = Integer.parseInt(exercise_weight.getText().toString());
         else
             ex.weight = 0;
-
-        //time spent can be optional for weightlifting
-        if (!exercise_number.getText().toString().equals(""))
-            ex.number = Integer.parseInt(exercise_number.getText().toString());
-        else
-            ex.number = 0;
 
         if (WeightUnit.isImperial(this))
             ex.weight = (int)Math.round((double)ex.weight * WeightUnit.POUND_TO_KILOGRAM);
