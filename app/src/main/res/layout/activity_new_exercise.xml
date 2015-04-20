@@ -24,7 +24,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="60dp" />
-    
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="60dp" />
-    
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -116,5 +116,13 @@
         android:ems="10"
         android:id="@+id/dateEditText"
         android:layout_above="@+id/nameEditText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calendar"
+        android:id="@+id/btnCalendar"
+        android:layout_alignBottom="@+id/dateEditText"
+        android:layout_alignEnd="@+id/DurationUnit" />
 
 </RelativeLayout>
