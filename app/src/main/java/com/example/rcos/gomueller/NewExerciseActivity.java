@@ -2,6 +2,7 @@ package com.example.rcos.gomueller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,8 @@ import android.provider.Contacts;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,9 +21,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class NewExerciseActivity extends Activity {
+public class NewExerciseActivity extends Activity implements
+        View.OnClickListener {
 
     EditText exercise_date;
+    Button btnCalendar;
+
     EditText exercise_name;
     EditText exercise_weight;
     EditText exercise_number;
@@ -31,6 +37,9 @@ public class NewExerciseActivity extends Activity {
         setContentView(R.layout.activity_new_exercise);
 
         exercise_date = (EditText)findViewById(R.id.dateEditText);
+        btnCalendar = (Button) findViewById(R.id.btnCalendar);
+        btnCalendar.setOnClickListener(this);
+
         exercise_name = (EditText)findViewById(R.id.nameEditText);
         exercise_weight = (EditText)findViewById(R.id.weightEditText);
         exercise_number = (EditText)findViewById(R.id.numberEditText);
@@ -40,9 +49,11 @@ public class NewExerciseActivity extends Activity {
         String date = df.format(Calendar.getInstance().getTime());
         exercise_date.setText(date);
 
-        //autofill exercise name if possible
+        //autofill exercise name if possible.
+        //
+        // also, disable editing
         String exerciseNameAutofill = getIntent().getStringExtra("exerciseName");
-        if (!exerciseNameAutofill.equals("")) {
+        if (exerciseNameAutofill != null && !exerciseNameAutofill.equals("")) {
             exercise_name.setText(exerciseNameAutofill);
             exercise_name.setFocusable(false);
             exercise_name.setEnabled(false);
@@ -138,5 +149,32 @@ public class NewExerciseActivity extends Activity {
         });
         alertDialog.show();
         return;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btnCalendar)
+        {
+            // Process to get Current Date
+            final Calendar c = Calendar.getInstance();
+            // Variable for storing current date and time
+            int year, month, day;
+            year = c.get(Calendar.YEAR);
+            month = c.get(Calendar.MONTH);
+            day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Launch Date Picker Dialog
+            DatePickerDialog dpd = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener()
+                    {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+                        {
+                            // Display Selected date in textbox
+                            exercise_date.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
+                        }
+                    }, year, month, day);
+            dpd.show();
+        }
     }
 }
