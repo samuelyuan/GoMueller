@@ -25,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/viewWeightButton"
-            android:onClick="onViewWeightButton"
-            android:text="Modify Weight History"
+            android:onClick="onEditDataButton"
+            android:text="Modify Data"
             android:layout_below="@+id/graph"
             android:layout_centerHorizontal="true" />
 
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Weight Graph"
+            android:text="Graph"
             android:id="@+id/textView2"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />

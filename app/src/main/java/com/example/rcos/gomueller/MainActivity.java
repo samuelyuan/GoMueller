@@ -135,14 +135,11 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-
-
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
-
 
         private void selectItem(int position) {
             mDrawerList.setItemChecked(position, true);

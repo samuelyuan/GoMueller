@@ -1,18 +1,17 @@
 package com.example.rcos.gomueller;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,16 +20,13 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
-
-public class GraphWeightActivity extends ActionBarActivity {
-
+public class GraphExerciseActivity extends ActionBarActivity
+{
     private String[] mDrawerTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -88,7 +84,8 @@ public class GraphWeightActivity extends ActionBarActivity {
     {
         //Draw graph
         final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
-        ArrayList<String> detailArray = crudDetail.getWeightDetail();
+        String exerciseName = getIntent().getExtras().getString("message");
+        ArrayList<String> detailArray = crudDetail.getExerciseDetail(exerciseName);
         DataPoint[] dataPoints = new DataPoint[detailArray.size()];
 
         //fetch data
@@ -130,7 +127,7 @@ public class GraphWeightActivity extends ActionBarActivity {
         graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
         // set manual x bounds to have nice steps
-        if (dataPoints.length > 0) {
+        if (dataPoints.length > 2) {
             graph.getViewport().setMinX(dataPoints[0].getX());
             graph.getViewport().setMaxX(dataPoints[dataPoints.length - 1].getX());
             graph.getViewport().setXAxisBoundsManual(true);
@@ -159,7 +156,7 @@ public class GraphWeightActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.addMenu) {
-            Intent addIntent = new Intent(this, NewWeightActivity.class);
+            Intent addIntent = new Intent(this, NewExerciseActivity.class);
             startActivity(addIntent);
 
             return true;
@@ -174,7 +171,8 @@ public class GraphWeightActivity extends ActionBarActivity {
 
     public void onEditDataButton(View view) {
         Intent intent = new Intent(this, ExerciseDetailActivity.class);
-        intent.putExtra("type", "weight");
+        intent.putExtra("type", "exercise");
+        intent.putExtra("message", getIntent().getExtras().getString("message"));
         startActivity(intent);
     }
 
@@ -196,7 +194,6 @@ public class GraphWeightActivity extends ActionBarActivity {
             selectItem(position);
         }
 
-
         private void selectItem(int position) {
             mDrawerList.setItemChecked(position, true);
             mDrawerLayout.closeDrawer(mDrawerList);
@@ -204,9 +201,9 @@ public class GraphWeightActivity extends ActionBarActivity {
             if(position == 0) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             } else if (position == 1) {
-                startActivity(new Intent(getApplicationContext(), TrackExerciseActivity.class));
+                Toast.makeText(getApplicationContext(), "View Exercise History", Toast.LENGTH_SHORT).show();
             } else if (position == 2) {
-                Toast.makeText(getApplicationContext(), R.string.viewWeightHistory, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), GraphWeightActivity.class));
             }
         }
     }

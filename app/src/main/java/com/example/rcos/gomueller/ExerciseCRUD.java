@@ -135,6 +135,7 @@ public class ExerciseCRUD {
             } while (cursor.moveToNext());
         }
 
+
         cursor.close();
         db.close();
 
@@ -144,7 +145,7 @@ public class ExerciseCRUD {
     //For ShowDetailActivity (showing exercises)
     public ArrayList<String> getExerciseDetail(String item) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String selectQuery = "SELECT " + Exercise.keyWeight + " , " + Exercise.keyNumber + " , " + Exercise.keyDate
+        String selectQuery = "SELECT " + Exercise.keyWeight  + " , " + Exercise.keyDate
                 + " FROM " + Exercise.TABLE
                 + " WHERE " + Exercise.keyName + " = " + "\"" + item + "\"";
         ArrayList<String> exerciseDetail = new ArrayList<String>();
@@ -161,6 +162,8 @@ public class ExerciseCRUD {
                 exerciseDetail.add(detailStr);
             } while (cursor.moveToNext());
         }
+
+        Collections.sort(exerciseDetail);
 
         cursor.close();
         db.close();
@@ -192,16 +195,7 @@ public class ExerciseCRUD {
                     weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
                 }
 
-
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                Date testDate = null;
-                try {
-                    testDate = sdf.parse(dateMeasured);
-                }catch(Exception ex){
-                    ex.printStackTrace();
-                }
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-                dateMeasured = formatter.format(testDate);
+                dateMeasured = UnitDate.convertFormatFromDisplayToSorted(dateMeasured);
 
                 detailStr = dateMeasured + " : Weight: " + weightStr + " " + whichLabel;
                 weightHistory.add(detailStr);
@@ -221,7 +215,6 @@ public class ExerciseCRUD {
         String detailStr = "";
 
         String weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
-        String timeSpent = cursor.getString(cursor.getColumnIndex(Exercise.keyNumber));
         String date = cursor.getString(cursor.getColumnIndex(Exercise.keyDate));
 
         //convert to the standard system since data is in the metric system
@@ -229,18 +222,12 @@ public class ExerciseCRUD {
             weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
         }
 
+        //convert date from MM/dd/yyyy to yyyy/MM/dd
+        //this makes sorting dates easier
+        detailStr = UnitDate.convertFormatFromDisplayToSorted(date);
+
         if (Integer.parseInt(weightStr) > 0)
-            detailStr += "Weight: " + weightStr + " " + whichLabel;
-
-        //only display time length if needed
-        if (Integer.parseInt(timeSpent) > 0) {
-            if (Integer.parseInt(weightStr) > 0)
-                detailStr += ",      Duration: " + timeSpent + " mins";
-            else
-                detailStr += "Duration: " + timeSpent + " mins";
-        }
-
-        detailStr += "  " + date;
+            detailStr += " Weight: " + weightStr + " " + whichLabel;
 
         return detailStr;
     }

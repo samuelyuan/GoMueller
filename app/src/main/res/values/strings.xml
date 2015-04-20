@@ -38,7 +38,7 @@
     <string name="exerciseListHeader">Your Exercise History</string>
     <string name="title_activity_track_exercise">Exercise Record</string>
     <string name="click_item">Show click item here</string>
-    <string name="title_activity_exercise_detail">Exercise Detail</string>
+    <string name="title_activity_exercise_detail">Detail</string>
     <string name="txtEmpty">List is empty</string>
     <string name="lblBtnDel">Delete Selected Items</string>
     <string name="addExerciseStr">Add Exercise</string>

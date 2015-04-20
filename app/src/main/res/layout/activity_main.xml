@@ -45,7 +45,6 @@
             android:layout_alignEnd="@+id/textView"
             android:text="View Weight History" />
 
-
     </RelativeLayout>
 
     <ListView android:id="@+id/left_drawer"
