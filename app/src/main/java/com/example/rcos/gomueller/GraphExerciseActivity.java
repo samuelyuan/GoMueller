@@ -157,8 +157,8 @@ public class GraphExerciseActivity extends ActionBarActivity
             return true;
         } else if (id == R.id.addMenu) {
             Intent addIntent = new Intent(this, NewExerciseActivity.class);
+            addIntent.putExtra("exerciseName", getIntent().getExtras().getString("message"));
             startActivity(addIntent);
-
             return true;
         }
         return super.onOptionsItemSelected(item);

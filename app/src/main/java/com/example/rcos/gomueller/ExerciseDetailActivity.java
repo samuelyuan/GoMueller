@@ -18,12 +18,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class ExerciseDetailActivity extends ListActivity {
 
-    private ArrayList<String> detailArray;
+    private ArrayList<String> detailArray, displayArray;
     private boolean isItemSelected[] = new boolean[100];
     private ArrayAdapter<String> adapter;
     private ListView detailListView;
@@ -44,7 +46,9 @@ public class ExerciseDetailActivity extends ListActivity {
         else if (dataType.equals("weight"))
             detailArray = crudDetail.getWeightDetail();
 
-        adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
+        displayArray = formatForDisplay(detailArray);
+
+        adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, displayArray);
         setListAdapter(adapter);
     }
 
@@ -63,8 +67,44 @@ public class ExerciseDetailActivity extends ListActivity {
         else if (dataType.equals("weight"))
             detailArray = crudDetail.getWeightDetail();
 
-        adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, detailArray);
+        displayArray = formatForDisplay(detailArray);
+
+        adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, displayArray);
         setListAdapter(adapter);
+    }
+
+    public ArrayList<String> formatForDisplay(ArrayList<String> detailArray)
+    {
+        ArrayList<String> displayArray = new ArrayList<String>();
+        for (int i = 0; i < detailArray.size(); i++)
+        {
+            String dataItem = detailArray.get(i);
+            String[] splitString = dataItem.split(" ");
+            String dateStr = splitString[0], weightStr = "";
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            try {
+                Date tempDate = formatter.parse(dateStr);
+                formatter = new SimpleDateFormat("MM/dd/yy");
+                dateStr = formatter.format(tempDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            for (int j = 0; j < splitString.length - 1; j++)
+            {
+                if (splitString[j].equals("Weight:")) {
+                    weightStr = String.valueOf(splitString[j + 1]);
+                    break;
+                }
+            }
+
+            String itemToAdd = weightStr + " " + WeightUnit.getWhichLabel(this) + "\n";
+            itemToAdd += dateStr;
+
+            displayArray.add(itemToAdd);
+        }
+
+        return displayArray;
     }
 
     @Override
@@ -173,7 +213,7 @@ public class ExerciseDetailActivity extends ListActivity {
                     else if (dataType.equals("weight"))
                         crudDetail.deleteWeight(detailArray.get(i));
 
-                    adapter.remove(detailArray.get(i));
+                    adapter.remove(displayArray.get(i));
 
                     //deselect the selected item
                     isItemSelected[i] = !isItemSelected[i];

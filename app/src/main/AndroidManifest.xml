@@ -77,10 +77,10 @@
         <activity
             android:name=".ExerciseDetailActivity"
             android:label="@string/title_activity_exercise_detail"
-            android:parentActivityName=".TrackExerciseActivity" >
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".TrackExerciseActivity" />
+                android:value=".MainActivity" />
         </activity>
 
         <!-- Settings menu -->
