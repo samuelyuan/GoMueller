@@ -5,10 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Contacts;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +26,7 @@ public class NewExerciseActivity extends Activity implements
 
     EditText exercise_name;
     EditText exercise_weight;
-    EditText exercise_weight_name;
+    EditText exercise_attribute_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +38,7 @@ public class NewExerciseActivity extends Activity implements
         btnCalendar.setOnClickListener(this);
 
         exercise_name = (EditText)findViewById(R.id.nameEditText);
-        exercise_weight_name = (EditText)findViewById(R.id.editWeightNameText);
+        exercise_attribute_name = (EditText)findViewById(R.id.editWeightNameText);
         exercise_weight = (EditText)findViewById(R.id.weightEditText);
 
         //autofill date
@@ -49,10 +46,14 @@ public class NewExerciseActivity extends Activity implements
         String date = df.format(Calendar.getInstance().getTime());
         exercise_date.setText(date);
 
-        //autofill exercise name if possible.
+        //autofill if possible.
         // also, disable editing
-        exercise_weight_name.setFocusable(false);
-        exercise_weight_name.setEnabled(false);
+        String attributeNameAutofill = getIntent().getStringExtra("attributeName");
+        if (attributeNameAutofill != null && !attributeNameAutofill.equals("")) {
+            exercise_attribute_name.setText(attributeNameAutofill);
+            exercise_attribute_name.setFocusable(false);
+            exercise_attribute_name.setEnabled(false);
+        }
 
         String exerciseNameAutofill = getIntent().getStringExtra("exerciseName");
         if (exerciseNameAutofill != null && !exerciseNameAutofill.equals("")) {
@@ -107,6 +108,12 @@ public class NewExerciseActivity extends Activity implements
             return;
         }
 
+        if (exercise_attribute_name.getText().toString().equals("")) {
+            displayErrorPrompt("Attribute Name is Empty!",
+                    "You forgot to enter the attribute name. Please input something, i.e. Weight, and try again.");
+            return;
+        }
+
         if (exercise_weight.getText().toString().equals("")) {
             displayErrorPrompt("Exercise Fields are Empty!",
                     "You need to enter something.");
@@ -114,6 +121,7 @@ public class NewExerciseActivity extends Activity implements
         }
 
         ex.activityName = exercise_name.getText().toString();
+        ex.attributeName = exercise_attribute_name.getText().toString();
 
         //weight used can be optional for non-weightlifting exercises
         if (!exercise_weight.getText().toString().equals(""))

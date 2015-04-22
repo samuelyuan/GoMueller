@@ -30,8 +30,8 @@ public class ExerciseCRUD {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Exercise.keyName, exercise.activityName);
+        values.put(Exercise.keyAttributeName, exercise.attributeName);
         values.put(Exercise.keyWeight, exercise.weight);
-        values.put(Exercise.keyNumber, exercise.number);
         values.put(Exercise.keyDate, exercise.date);
 
         long exercise_id = db.insert(Exercise.TABLE, null, values);
@@ -64,9 +64,6 @@ public class ExerciseCRUD {
         {
             if (splitString[i].equals("Weight:"))
                 weightStr = String.valueOf(splitString[i+1]);
-            else if (splitString[i].equals("Duration:"))
-                timeSpent = String.valueOf(splitString[i+1]);
-
         }
 
         //convert data if necessary since the data is in the metric system
@@ -75,8 +72,7 @@ public class ExerciseCRUD {
         }
 
         db.delete(Exercise.TABLE, Exercise.keyName + "=\"" + exerciseName + "\""
-                        + "and " + Exercise.keyWeight + "=" + weightStr +
-                        " and " + Exercise.keyNumber + "=" + timeSpent, null);
+                        + "and " + Exercise.keyWeight + "=" + weightStr, null);
 
         db.close();
     }
@@ -115,6 +111,25 @@ public class ExerciseCRUD {
                 + " and " + Weight.keyWeight + "=" + weightStr, null);
 
         db.close();
+    }
+
+    public String getAttributeName(String exerciseName)
+    {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String selectQuery = "SELECT " + Exercise.keyAttributeName
+                + " FROM " + Exercise.TABLE
+                + " WHERE " + Exercise.keyName + " = " + "\"" + exerciseName + "\"";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        String attributeName = "";
+
+        //Read every row in the database
+        if (cursor.moveToFirst()) {
+            do {
+                attributeName = cursor.getString(cursor.getColumnIndex(Exercise.keyAttributeName));
+            } while (cursor.moveToNext());
+        }
+
+        return attributeName;
     }
 
     //For TrackExerciseActivity

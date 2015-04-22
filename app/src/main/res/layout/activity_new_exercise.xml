@@ -44,7 +44,6 @@
         android:layout_alignStart="@+id/nameEditText"
         android:layout_marginTop="30dp" />
 
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,10 +87,9 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/editWeightNameText"
-        android:inputType="number"
+        android:inputType="text"
         android:layout_alignTop="@+id/weightEditText"
         android:layout_alignParentStart="true"
-        android:hint="Weight"
         android:layout_toStartOf="@+id/okButton" />
 
 </RelativeLayout>

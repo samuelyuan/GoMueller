@@ -36,20 +36,7 @@ public class ExerciseDetailActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_detail);
 
-        Bundle bundle = getIntent().getExtras();
-        final String exerciseName = bundle.getString("message");
-        final String dataType = getIntent().getStringExtra("type");
-
-        final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
-        if (dataType.equals("exercise"))
-            detailArray = crudDetail.getExerciseDetail(exerciseName);
-        else if (dataType.equals("weight"))
-            detailArray = crudDetail.getWeightDetail();
-
-        displayArray = formatForDisplay(detailArray);
-
-        adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, displayArray);
-        setListAdapter(adapter);
+        displayData();
     }
 
     //update the records if something was added recently
@@ -57,15 +44,22 @@ public class ExerciseDetailActivity extends ListActivity {
     protected void onResume() {
         super.onResume();
 
+        displayData();
+    }
+
+    public void displayData()
+    {
         Bundle bundle = getIntent().getExtras();
         final String dataType = getIntent().getStringExtra("type");
         final String exerciseName = bundle.getString("message");
 
         final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
-        if (dataType.equals("exercise"))
+        if (dataType.equals("exercise")) {
             detailArray = crudDetail.getExerciseDetail(exerciseName);
-        else if (dataType.equals("weight"))
+        }
+        else if (dataType.equals("weight")) {
             detailArray = crudDetail.getWeightDetail();
+        }
 
         displayArray = formatForDisplay(detailArray);
 
@@ -76,9 +70,8 @@ public class ExerciseDetailActivity extends ListActivity {
     public ArrayList<String> formatForDisplay(ArrayList<String> detailArray)
     {
         ArrayList<String> displayArray = new ArrayList<String>();
-        for (int i = 0; i < detailArray.size(); i++)
+        for (String dataItem : detailArray)
         {
-            String dataItem = detailArray.get(i);
             String[] splitString = dataItem.split(" ");
             String dateStr = splitString[0], weightStr = "";
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
@@ -129,7 +122,11 @@ public class ExerciseDetailActivity extends ListActivity {
             if (getIntent().getStringExtra("type").equals("exercise"))
             {
                 Intent addIntent = new Intent(this, NewExerciseActivity.class);
-                addIntent.putExtra("exerciseName", getIntent().getStringExtra("message"));
+                String exerciseName = getIntent().getStringExtra("message");
+                final ExerciseCRUD crudDetail = new ExerciseCRUD(ExerciseDetailActivity.this);
+
+                addIntent.putExtra("exerciseName", exerciseName);
+                addIntent.putExtra("attributeName", crudDetail.getAttributeName(exerciseName));
                 startActivity(addIntent);
             }
             else if (getIntent().getStringExtra("type").equals("weight"))
@@ -204,14 +201,18 @@ public class ExerciseDetailActivity extends ListActivity {
             int itemCount = getListView().getCount();
 
             //Delete all the selected items
-            for(int i = itemCount - 1; i >= 0; i--) {
-                if(checkedItemPositions.get(i))  {
+            for(int i = itemCount - 1; i >= 0; i--)
+            {
+                if(checkedItemPositions.get(i))
+                {
                     View selectedItem = getListView().getChildAt(i);
 
-                    if (dataType.equals("exercise"))
+                    if (dataType.equals("exercise")) {
                         crudDetail.deleteExercise(exerciseName, detailArray.get(i));
-                    else if (dataType.equals("weight"))
+                    }
+                    else if (dataType.equals("weight")) {
                         crudDetail.deleteWeight(detailArray.get(i));
+                    }
 
                     adapter.remove(displayArray.get(i));
 
@@ -253,6 +254,4 @@ public class ExerciseDetailActivity extends ListActivity {
             return false;
         }
     }
-
-
 }
