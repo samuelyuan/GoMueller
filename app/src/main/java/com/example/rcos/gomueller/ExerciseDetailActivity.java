@@ -93,7 +93,7 @@ public class ExerciseDetailActivity extends ListActivity {
                 }
             }
 
-            noteStr = dataItem.substring(dataItem.indexOf("Notes:") + ("Notes").length());
+            noteStr = dataItem.substring(dataItem.indexOf("Notes: ") + ("Notes: ").length());
 
             String itemToAdd = weightStr + " " + WeightUnit.getWhichLabel(this) + "        (" + noteStr + ")" + "\n";
             itemToAdd += dateStr;
@@ -227,6 +227,9 @@ public class ExerciseDetailActivity extends ListActivity {
             }
             checkedItemPositions.clear();
             adapter.notifyDataSetChanged();
+
+            //don't show action bar after deleting
+            mActionMode.finish();
         }
 
         @Override
