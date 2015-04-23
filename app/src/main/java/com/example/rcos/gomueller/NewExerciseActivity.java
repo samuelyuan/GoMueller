@@ -25,8 +25,10 @@ public class NewExerciseActivity extends Activity implements
     Button btnCalendar;
 
     EditText exercise_name;
-    EditText exercise_weight;
     EditText exercise_attribute_name;
+    EditText exercise_weight;
+
+    EditText exercise_notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class NewExerciseActivity extends Activity implements
         exercise_name = (EditText)findViewById(R.id.nameEditText);
         exercise_attribute_name = (EditText)findViewById(R.id.editWeightNameText);
         exercise_weight = (EditText)findViewById(R.id.weightEditText);
+
+        exercise_notes = (EditText)findViewById(R.id.textOptionalNotes);
 
         //autofill date
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -134,6 +138,9 @@ public class NewExerciseActivity extends Activity implements
 
         //set date
         ex.date = exercise_date.getText().toString();
+
+        //set notes
+        ex.notes = exercise_notes.getText().toString();
 
         crud.insert(ex);
 

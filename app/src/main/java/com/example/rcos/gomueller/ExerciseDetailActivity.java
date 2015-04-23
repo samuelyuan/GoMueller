@@ -73,7 +73,8 @@ public class ExerciseDetailActivity extends ListActivity {
         for (String dataItem : detailArray)
         {
             String[] splitString = dataItem.split(" ");
-            String dateStr = splitString[0], weightStr = "";
+            String dateStr = splitString[0];
+            String weightStr = "", noteStr = "";
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
             try {
                 Date tempDate = formatter.parse(dateStr);
@@ -87,11 +88,14 @@ public class ExerciseDetailActivity extends ListActivity {
             {
                 if (splitString[j].equals("Weight:")) {
                     weightStr = String.valueOf(splitString[j + 1]);
-                    break;
+                } else if (splitString[j].equals("Notes:")) {
+
                 }
             }
 
-            String itemToAdd = weightStr + " " + WeightUnit.getWhichLabel(this) + "\n";
+            noteStr = dataItem.substring(dataItem.indexOf("Notes:") + ("Notes").length());
+
+            String itemToAdd = weightStr + " " + WeightUnit.getWhichLabel(this) + "        (" + noteStr + ")" + "\n";
             itemToAdd += dateStr;
 
             displayArray.add(itemToAdd);

@@ -20,6 +20,7 @@
     <string name="date">Date</string>
     <string name="durationUnit">mins</string>
     <string name="weightUnit">lbs</string>
+    <string name="hintNotes">Write some notes (optional)</string>
     <string name="ok">OK</string>
 
     <!-- Add weight -->
@@ -63,6 +64,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="openingHours">Sunday: 9:00 am-12:00 am \nMonday - Thursday: 7:00 am-12:00 am \nFriday: 7:00 am-9:00 pm \nSaturday: 9:00 am-7:00 pm</string>
+
 
 
 </resources>

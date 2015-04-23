@@ -5,6 +5,25 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.rcos.gomueller.NewExerciseActivity">
 
+    <!-- date selection -->
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/dateEditText"
+        android:layout_above="@+id/nameEditText"
+        android:layout_toStartOf="@+id/nameEditText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calendar"
+        android:id="@+id/btnCalendar"
+        android:layout_alignBottom="@+id/dateEditText"
+        android:layout_alignEnd="@+id/nameEditText" />
+
+    <!-- fill in exercise name -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,7 +44,6 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="60dp" />
 
-
     <EditText
         android:layout_width="140dp"
         android:layout_height="wrap_content"
@@ -35,6 +53,16 @@
         android:layout_alignTop="@+id/nameTextView"
         android:layout_alignParentEnd="true" />
 
+    <!-- fill in attribute -->
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editWeightNameText"
+        android:inputType="text"
+        android:layout_alignTop="@+id/weightEditText"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/okButton" />
+
     <EditText
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -43,16 +71,6 @@
         android:layout_below="@+id/nameEditText"
         android:layout_alignStart="@+id/nameEditText"
         android:layout_marginTop="30dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:id="@+id/okButton"
-        android:onClick="okButtonOnClick"
-        android:layout_below="@+id/weightEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -66,30 +84,30 @@
         android:layout_alignRight="@+id/nameEditText"
         android:layout_alignEnd="@+id/nameEditText" />
 
+    <!-- add notes (optional) -->
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/dateEditText"
-        android:layout_above="@+id/nameEditText"
-        android:layout_toStartOf="@+id/nameEditText" />
+        android:hint="@string/hintNotes"
+        android:id="@+id/textOptionalNotes"
+        android:inputType="text"
+        android:background="#ffffffff"
+        android:autoText="true"
+        android:layout_below="@+id/weightEditText"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="62dp">
+        <requestFocus></requestFocus>
+    </EditText>
 
+    <!-- OK button -->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Calendar"
-        android:id="@+id/btnCalendar"
-        android:layout_alignBottom="@+id/dateEditText"
-        android:layout_alignEnd="@+id/nameEditText" />
-
-    <EditText
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/editWeightNameText"
-        android:inputType="text"
-        android:layout_alignTop="@+id/weightEditText"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/okButton" />
+        android:text="@string/add"
+        android:id="@+id/okButton"
+        android:onClick="okButtonOnClick"
+        android:layout_marginTop="102dp"
+        android:layout_below="@+id/weightEditText"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

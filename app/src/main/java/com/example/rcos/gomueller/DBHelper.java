@@ -3,12 +3,13 @@ package com.example.rcos.gomueller;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.view.inputmethod.ExtractedTextRequest;
 
 public class DBHelper extends SQLiteOpenHelper {
 
     public String nameExercise;
 
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     private static final String DATABASE_NAME = "crud.db";
 
@@ -26,7 +27,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Exercise.keyName + " TEXT, "
                 + Exercise.keyWeight + " INTEGER, "
                 + Exercise.keyAttributeName + " TEXT, "
-                + Exercise.keyDate + " TEXT);";
+                + Exercise.keyDate + " TEXT, "
+                + Exercise.keyNotes + " TEXT );";
 
         db.execSQL(CREATE_EXERCISE_TABLE);
         db.execSQL(CREATE_WEIGHT_TABLE);
