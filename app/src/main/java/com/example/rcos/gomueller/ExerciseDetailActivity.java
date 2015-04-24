@@ -88,12 +88,12 @@ public class ExerciseDetailActivity extends ListActivity {
             {
                 if (splitString[j].equals("Weight:")) {
                     weightStr = String.valueOf(splitString[j + 1]);
-                } else if (splitString[j].equals("Notes:")) {
-
                 }
             }
 
-            noteStr = dataItem.substring(dataItem.indexOf("Notes: ") + ("Notes: ").length());
+            //only display notes for exercises
+            if (getIntent().getStringExtra("type").equals("exercise"))
+                noteStr = dataItem.substring(dataItem.indexOf("Notes: ") + ("Notes: ").length());
 
             String itemToAdd = weightStr + " " + WeightUnit.getWhichLabel(this) + "        (" + noteStr + ")" + "\n";
             itemToAdd += dateStr;
