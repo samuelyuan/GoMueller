@@ -41,6 +41,36 @@ public class ExerciseCRUD {
         return (int) exercise_id;
     }
 
+    //Edit exercise
+    public void edit(Exercise exercise, Exercise oldExercise) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String selectQuery = "SELECT * "
+                + " FROM " + Exercise.TABLE
+                + " WHERE " + Exercise.keyName + "=\"" + oldExercise.activityName + "\""
+                + "and " + Exercise.keyWeight + "=" + oldExercise.weight;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        //Read every row in the database
+        if (cursor.moveToFirst()) {
+            do {
+                long rowid = cursor.getLong(cursor.getColumnIndex("_id"));
+                ContentValues values = new ContentValues();
+                values.put(Exercise.keyWeight, exercise.weight);
+                values.put(Exercise.keyDate, exercise.date);
+                values.put(Exercise.keyNotes, exercise.notes);
+
+                db.update(Exercise.TABLE, values, "_id = " + rowid, null);
+
+                break;
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        return;
+    }
+
     //Add weight
     public int insert(Weight weight) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();

@@ -2,20 +2,15 @@ package com.example.rcos.gomueller;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,6 +68,7 @@ public class ExerciseDetailActivity extends ListActivity {
         for (String dataItem : detailArray)
         {
             String[] splitString = dataItem.split(" ");
+
             String dateStr = splitString[0];
             String weightStr = "", noteStr = "";
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
@@ -184,13 +180,65 @@ public class ExerciseDetailActivity extends ListActivity {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             int id = item.getItemId();
 
+            if (id == R.id.editMenu) {
+                editItem();
+                return true;
+            }
             //delete items from list and from database
-            if (id == R.id.deleteMenu) {
+            else if (id == R.id.deleteMenu) {
                 deleteItem();
                 return true;
             }
 
             return false;
+        }
+
+        public void editItem()
+        {
+            //if this isn't an exercise, then stop
+            if (!getIntent().getStringExtra("type").equals("exercise"))
+                return;
+
+            Bundle bundle = getIntent().getExtras();
+            final String exerciseName = bundle.getString("message");
+            SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
+            int itemCount = getListView().getCount();
+            int indexEdit = 0;
+            for (int i = 0; i < itemCount; i++) {
+                if (checkedItemPositions.get(i)) {
+                    indexEdit = i;
+                    break;
+                }
+            }
+
+            //first send to a new activity, such as EditExerciseActivity
+            //then modify data there before calling crudDetail.edit(...)
+            Intent addIntent = new Intent(getBaseContext(), EditExerciseActivity.class);
+            final ExerciseCRUD crudDetail = new ExerciseCRUD(ExerciseDetailActivity.this);
+            String currentDetailStr = detailArray.get(indexEdit);
+            String weightStr = "";
+            String noteStr = currentDetailStr.substring(currentDetailStr.indexOf("Notes: ") + ("Notes: ").length());
+
+            String[] splitString = currentDetailStr.split(" ");
+            for (int i = 0; i < splitString.length - 1; i++)
+            {
+                if (splitString[i].equals("Weight:"))
+                    weightStr = String.valueOf(splitString[i+1]);
+            }
+
+            //convert data if necessary since the data is in the metric system
+            if (WeightUnit.isImperial(getBaseContext())) {
+                weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.POUND_TO_KILOGRAM));
+            }
+
+            addIntent.putExtra("exerciseName", exerciseName);
+            addIntent.putExtra("attributeName", crudDetail.getAttributeName(exerciseName));
+            addIntent.putExtra("attributeValue", weightStr);
+            addIntent.putExtra("notesValue", noteStr);
+
+            startActivity(addIntent);
+
+            //crudDetail.edit(exerciseName, detailArray.get(indexEdit));
         }
 
         public void deleteItem()  {
@@ -234,7 +282,7 @@ public class ExerciseDetailActivity extends ListActivity {
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.menu_delete_item, menu);
+            mode.getMenuInflater().inflate(R.menu.menu_modify_item, menu);
             return true;
         }
 

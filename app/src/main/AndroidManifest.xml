@@ -4,7 +4,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_edit_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
@@ -77,6 +77,16 @@
         <activity
             android:name=".ExerciseDetailActivity"
             android:label="@string/title_activity_exercise_detail"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <!-- View detailed exercise history (weights used etc.) -->
+        <activity
+            android:name=".EditExerciseActivity"
+            android:label="Edit Exercise Activity"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
