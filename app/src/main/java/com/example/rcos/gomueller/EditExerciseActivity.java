@@ -39,37 +39,29 @@ public class EditExerciseActivity extends Activity implements
         exercise_date = (EditText)findViewById(R.id.dateEditText);
         btnCalendar = (Button) findViewById(R.id.btnCalendar);
         btnCalendar.setOnClickListener(this);
-
         exercise_name = (EditText)findViewById(R.id.nameEditText);
         exercise_attribute_name = (EditText)findViewById(R.id.editWeightNameText);
         exercise_weight = (EditText)findViewById(R.id.weightEditText);
-
         exercise_notes = (EditText)findViewById(R.id.textOptionalNotes);
+        Button okButton = (Button) findViewById(R.id.okButton);
+        okButton.setText("Edit");
 
-        //autofill date
+        //Autofill
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         String date = df.format(Calendar.getInstance().getTime());
         exercise_date.setText(date);
 
-        //autofill
         exercise_weight.setText(getIntent().getStringExtra("attributeValue"));
         exercise_notes.setText(getIntent().getStringExtra("notesValue"));
 
-        //autofill if possible.
-        // also, disable editing
-        String attributeNameAutofill = getIntent().getStringExtra("attributeName");
-        if (attributeNameAutofill != null && !attributeNameAutofill.equals("")) {
-            exercise_attribute_name.setText(attributeNameAutofill);
-            exercise_attribute_name.setFocusable(false);
-            exercise_attribute_name.setEnabled(false);
-        }
+        //disable editing
+        exercise_attribute_name.setText(getIntent().getStringExtra("attributeName"));
+        exercise_attribute_name.setFocusable(false);
+        exercise_attribute_name.setEnabled(false);
 
-        String exerciseNameAutofill = getIntent().getStringExtra("exerciseName");
-        if (exerciseNameAutofill != null && !exerciseNameAutofill.equals("")) {
-            exercise_name.setText(exerciseNameAutofill);
-            exercise_name.setFocusable(false);
-            exercise_name.setEnabled(false);
-        }
+        exercise_name.setText(getIntent().getStringExtra("exerciseName"));
+        exercise_name.setFocusable(false);
+        exercise_name.setEnabled(false);
 
         //Set the weight's units depending on user's preferences
         TextView weightLabel = (TextView)findViewById(R.id.WeightUnit);
@@ -81,6 +73,12 @@ public class EditExerciseActivity extends Activity implements
         oldExercise.weight = Integer.parseInt(exercise_weight.getText().toString());
         oldExercise.notes = exercise_notes.getText().toString();
         oldExercise.date = exercise_date.getText().toString();
+
+        int weightConverted = oldExercise.weight;
+        if (WeightUnit.isImperial(this))
+            weightConverted = (int)Math.round((double)weightConverted * WeightUnit.KILOGRAM_TO_POUND);
+
+        exercise_weight.setText(String.valueOf(weightConverted));
     }
 
     @Override
@@ -115,46 +113,25 @@ public class EditExerciseActivity extends Activity implements
 
     public void okButtonOnClick(View view) {
         ExerciseCRUD crud = new ExerciseCRUD(this);
-        Exercise ex = new Exercise();
+        Exercise updatedExercise = new Exercise();
 
         //error checking input
-        if (exercise_name.getText().toString().equals("")) {
-            displayErrorPrompt("Exercise Name is Empty!",
-                    "You forgot to enter the exercise name. Please input it and try again.");
-            return;
-        }
-
-        if (exercise_attribute_name.getText().toString().equals("")) {
-            displayErrorPrompt("Attribute Name is Empty!",
-                    "You forgot to enter the attribute name. Please input something, i.e. Weight, and try again.");
-            return;
-        }
-
         if (exercise_weight.getText().toString().equals("")) {
             displayErrorPrompt("Exercise Fields are Empty!",
                     "You need to enter something.");
             return;
         }
 
-        ex.activityName = exercise_name.getText().toString();
-        ex.attributeName = exercise_attribute_name.getText().toString();
-
-        //weight used can be optional for non-weightlifting exercises
-        if (!exercise_weight.getText().toString().equals(""))
-            ex.weight = Integer.parseInt(exercise_weight.getText().toString());
-        else
-            ex.weight = 0;
+        updatedExercise.activityName = exercise_name.getText().toString();
+        updatedExercise.attributeName = exercise_attribute_name.getText().toString();
+        updatedExercise.weight = Integer.parseInt(exercise_weight.getText().toString());
+        updatedExercise.date = exercise_date.getText().toString();
+        updatedExercise.notes = exercise_notes.getText().toString();
 
         if (WeightUnit.isImperial(this))
-            ex.weight = (int)Math.round((double)ex.weight * WeightUnit.POUND_TO_KILOGRAM);
+            updatedExercise.weight = (int)Math.round((double)updatedExercise.weight * WeightUnit.POUND_TO_KILOGRAM);
 
-        //set date
-        ex.date = exercise_date.getText().toString();
-
-        //set notes
-        ex.notes = exercise_notes.getText().toString();
-
-        crud.edit(ex, oldExercise);
+        crud.edit(updatedExercise, oldExercise);
 
         finish();
     }

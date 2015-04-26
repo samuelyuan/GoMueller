@@ -189,6 +189,10 @@ public class ExerciseDetailActivity extends ListActivity {
                 deleteItem();
                 return true;
             }
+            else if (id == R.id.action_settings) {
+                startActivity(new Intent(getBaseContext(), SettingsActivity.class));
+                return true;
+            }
 
             return false;
         }
@@ -211,8 +215,7 @@ public class ExerciseDetailActivity extends ListActivity {
                 }
             }
 
-            //first send to a new activity, such as EditExerciseActivity
-            //then modify data there before calling crudDetail.edit(...)
+            //Prepare data for modification
             Intent addIntent = new Intent(getBaseContext(), EditExerciseActivity.class);
             final ExerciseCRUD crudDetail = new ExerciseCRUD(ExerciseDetailActivity.this);
             String currentDetailStr = detailArray.get(indexEdit);
@@ -236,9 +239,16 @@ public class ExerciseDetailActivity extends ListActivity {
             addIntent.putExtra("attributeValue", weightStr);
             addIntent.putExtra("notesValue", noteStr);
 
-            startActivity(addIntent);
+            //deselect the selected item
+            isItemSelected[indexEdit] = !isItemSelected[indexEdit];
+            getListView().getChildAt(indexEdit).setBackgroundColor(0x00000000);
+            checkedItemPositions.clear();
 
-            //crudDetail.edit(exerciseName, detailArray.get(indexEdit));
+            //hide action bar
+            mActionMode.finish();
+
+            //switch to the edit activity
+            startActivity(addIntent);
         }
 
         public void deleteItem()  {
