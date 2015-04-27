@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class UnitDate
 {
-    private static SimpleDateFormat displayFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private static SimpleDateFormat displayFormat = new SimpleDateFormat("MM/dd/yy");
     private static SimpleDateFormat sortedFormat = new SimpleDateFormat("yyyy/MM/dd");
 
     public static String convertFormatFromSortedToDisplay(String date)

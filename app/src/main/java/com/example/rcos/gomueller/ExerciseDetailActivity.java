@@ -71,14 +71,8 @@ public class ExerciseDetailActivity extends ListActivity {
 
             String dateStr = splitString[0];
             String weightStr = "", noteStr = "";
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-            try {
-                Date tempDate = formatter.parse(dateStr);
-                formatter = new SimpleDateFormat("MM/dd/yy");
-                dateStr = formatter.format(tempDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
+            dateStr = UnitDate.convertFormatFromSortedToDisplay(dateStr);
 
             for (int j = 0; j < splitString.length - 1; j++)
             {
@@ -220,9 +214,16 @@ public class ExerciseDetailActivity extends ListActivity {
             final ExerciseCRUD crudDetail = new ExerciseCRUD(ExerciseDetailActivity.this);
             String currentDetailStr = detailArray.get(indexEdit);
             String weightStr = "";
+            String dateStr = "";
             String noteStr = currentDetailStr.substring(currentDetailStr.indexOf("Notes: ") + ("Notes: ").length());
 
             String[] splitString = currentDetailStr.split(" ");
+
+            //convert date
+            dateStr = splitString[0];
+            dateStr = UnitDate.convertFormatFromSortedToDisplay(dateStr);
+
+            //get weight data
             for (int i = 0; i < splitString.length - 1; i++)
             {
                 if (splitString[i].equals("Weight:"))
@@ -237,6 +238,7 @@ public class ExerciseDetailActivity extends ListActivity {
             addIntent.putExtra("exerciseName", exerciseName);
             addIntent.putExtra("attributeName", crudDetail.getAttributeName(exerciseName));
             addIntent.putExtra("attributeValue", weightStr);
+            addIntent.putExtra("exerciseDate", dateStr);
             addIntent.putExtra("notesValue", noteStr);
 
             //deselect the selected item

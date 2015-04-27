@@ -47,10 +47,7 @@ public class EditExerciseActivity extends Activity implements
         okButton.setText("Edit");
 
         //Autofill
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        String date = df.format(Calendar.getInstance().getTime());
-        exercise_date.setText(date);
-
+        exercise_date.setText(getIntent().getStringExtra("exerciseDate"));
         exercise_weight.setText(getIntent().getStringExtra("attributeValue"));
         exercise_notes.setText(getIntent().getStringExtra("notesValue"));
 
