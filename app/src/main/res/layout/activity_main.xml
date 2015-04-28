@@ -45,6 +45,13 @@
             android:layout_alignEnd="@+id/textView"
             android:text="View Weight History" />
 
+        <SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 
     <ListView android:id="@+id/left_drawer"
