@@ -44,7 +44,7 @@ public class NewWeightActivity extends Activity implements
         weight_date = (EditText)findViewById(R.id.editDate);
 
         //autofill the current date
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("MM/dd/yy");
         String date = df.format(Calendar.getInstance().getTime());
         weight_date.setText(date);
 

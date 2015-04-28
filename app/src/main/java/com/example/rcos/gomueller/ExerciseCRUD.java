@@ -88,14 +88,7 @@ public class ExerciseCRUD {
     //(NOTE: this function might remove two strings with the same weight and number of sets, like two strings with weight: 150, duration: 8)
     public void deleteExercise(String exerciseName, String currentDetailStr) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String weightStr = "0", timeSpent = "0";
-
-        String[] splitString = currentDetailStr.split(" ");
-        for (int i = 0; i < splitString.length - 1; i++)
-        {
-            if (splitString[i].equals("Weight:"))
-                weightStr = String.valueOf(splitString[i+1]);
-        }
+        String weightStr = getAttributeValue(currentDetailStr);
 
         //convert data if necessary since the data is in the metric system
         if (WeightUnit.isImperial(currentContext)) {
@@ -112,28 +105,13 @@ public class ExerciseCRUD {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         //parse the string
-        String weightStr = "0";
+        String weightStr = getAttributeValue(currentDetailStr);
         String[] splitString = currentDetailStr.split(" ");
-
         String dateStr = splitString[0];
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        try {
-            Date tempDate = formatter.parse(dateStr);
-            formatter = new SimpleDateFormat("MM/dd/yyyy");
-            dateStr = formatter.format(tempDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        dateStr = UnitDate.convertFormatFromSortedToDisplay(dateStr);
 
-        for (int i = 0; i < splitString.length - 1; i++)
-        {
-            if (splitString[i].equals("Weight:")) {
-                weightStr = String.valueOf(splitString[i + 1]);
-                break;
-            }
-        }
-
-        //convert data if necessary since the data is in the metric system
+        //the data in string might be in standard system
+        // database uses metric, so convert
         if (WeightUnit.isImperial(currentContext)) {
             weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.POUND_TO_KILOGRAM));
         }
@@ -163,6 +141,18 @@ public class ExerciseCRUD {
         return attributeName;
     }
 
+    public String getAttributeValue(String currentDetailStr)
+    {
+        String[] splitString = currentDetailStr.split(" ");
+        for (int i = 0; i < splitString.length - 1; i++)
+        {
+            if (splitString[i].equals("Weight:"))
+                return String.valueOf(splitString[i + 1]);
+        }
+
+        return "";
+    }
+
     //For TrackExerciseActivity
     public ArrayList<String> getExerciseArray() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -180,7 +170,6 @@ public class ExerciseCRUD {
                 }
             } while (cursor.moveToNext());
         }
-
 
         cursor.close();
         db.close();

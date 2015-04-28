@@ -46,7 +46,7 @@ public class NewExerciseActivity extends Activity implements
         exercise_notes = (EditText)findViewById(R.id.textOptionalNotes);
 
         //autofill date
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("MM/dd/yy");
         String date = df.format(Calendar.getInstance().getTime());
         exercise_date.setText(date);
 
