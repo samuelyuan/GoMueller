@@ -114,8 +114,8 @@ public class EditExerciseActivity extends Activity implements
 
         //error checking input
         if (exercise_weight.getText().toString().equals("")) {
-            displayErrorPrompt("Exercise Fields are Empty!",
-                    "You need to enter something.");
+            displayErrorPrompt("Attribute Value is Empty!",
+                    "You need to enter a number.");
             return;
         }
 

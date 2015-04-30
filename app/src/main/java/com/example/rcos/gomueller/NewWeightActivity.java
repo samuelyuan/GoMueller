@@ -26,7 +26,6 @@ import java.util.Calendar;
 public class NewWeightActivity extends Activity implements
         View.OnClickListener
 {
-
     Button btnCalendar;
 
     EditText weight_weight;
@@ -111,21 +110,28 @@ public class NewWeightActivity extends Activity implements
         }
     }
 
+    public void displayErrorPrompt(String title, String message)
+    {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // here you can add functions
+                //return;
+            }
+        });
+        alertDialog.show();
+        return;
+    }
+
     public void WeightOKButtonOnClick(View view) {
         ExerciseCRUD crud = new ExerciseCRUD(this);
         Weight wt = new Weight();
 
         if (weight_weight.getText().toString().equals("")) {
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Weight is Empty");
-            alertDialog.setMessage("You forgot to enter your weight. Please input it and then press Add");
-            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    // here you can add functions
-                    //return;
-                }
-            });
-            alertDialog.show();
+            displayErrorPrompt("Weight is Empty",
+                    "You forgot to enter your weight. Please input it and then press Add");
             return;
         }
         wt.weight = Integer.parseInt(weight_weight.getText().toString());

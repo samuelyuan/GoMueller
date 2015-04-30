@@ -23,11 +23,9 @@ public class NewExerciseActivity extends Activity implements
 
     EditText exercise_date;
     Button btnCalendar;
-
     EditText exercise_name;
     EditText exercise_attribute_name;
     EditText exercise_weight;
-
     EditText exercise_notes;
 
     @Override
@@ -38,11 +36,9 @@ public class NewExerciseActivity extends Activity implements
         exercise_date = (EditText)findViewById(R.id.dateEditText);
         btnCalendar = (Button) findViewById(R.id.btnCalendar);
         btnCalendar.setOnClickListener(this);
-
         exercise_name = (EditText)findViewById(R.id.nameEditText);
         exercise_attribute_name = (EditText)findViewById(R.id.editWeightNameText);
         exercise_weight = (EditText)findViewById(R.id.weightEditText);
-
         exercise_notes = (EditText)findViewById(R.id.textOptionalNotes);
 
         //autofill date
