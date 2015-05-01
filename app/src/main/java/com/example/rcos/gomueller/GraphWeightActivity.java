@@ -31,17 +31,14 @@ import java.util.Date;
 
 public class GraphWeightActivity extends ActionBarActivity {
 
-    private String[] mDrawerTitles;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private NavigationDrawer navigationDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_weight);
 
-        initNavigationDrawer();
+        navigationDrawer = new NavigationDrawer(this);
 
         drawGraph();
     }
@@ -52,42 +49,6 @@ public class GraphWeightActivity extends ActionBarActivity {
 
         drawGraph();
     }*/
-
-    public void initNavigationDrawer()
-    {
-        mDrawerTitles = getResources().getStringArray(R.array.drawer_array);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item,
-                mDrawerTitles));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                R.string.drawer_open,
-                R.string.drawer_close
-        ) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu();
-            }
-        };
-
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
 
     public String getAttributeValue(String currentDetailStr)
     {
@@ -162,7 +123,7 @@ public class GraphWeightActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if (navigationDrawer.onOptionsItemSelected(item)) {
             return true;
         }
         //noinspection SimplifiableIfStatement
@@ -191,33 +152,12 @@ public class GraphWeightActivity extends ActionBarActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        navigationDrawer.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-
-
-        private void selectItem(int position) {
-            mDrawerList.setItemChecked(position, true);
-            mDrawerLayout.closeDrawer(mDrawerList);
-
-            if(position == 0) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            } else if (position == 1) {
-                startActivity(new Intent(getApplicationContext(), TrackExerciseActivity.class));
-            } else if (position == 2) {
-                Toast.makeText(getApplicationContext(), R.string.viewWeightHistory, Toast.LENGTH_SHORT).show();
-            }
-        }
+        navigationDrawer.onConfigurationChanged(newConfig);
     }
 }
