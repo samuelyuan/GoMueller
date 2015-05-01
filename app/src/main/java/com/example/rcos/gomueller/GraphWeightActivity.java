@@ -41,6 +41,20 @@ public class GraphWeightActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_weight);
 
+        initNavigationDrawer();
+
+        drawGraph();
+    }
+
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+
+        drawGraph();
+    }*/
+
+    public void initNavigationDrawer()
+    {
         mDrawerTitles = getResources().getStringArray(R.array.drawer_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -73,16 +87,19 @@ public class GraphWeightActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        drawGraph();
     }
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
+    public String getAttributeValue(String currentDetailStr)
+    {
+        String[] splitString = currentDetailStr.split(" ");
+        for (int i = 0; i < splitString.length - 1; i++)
+        {
+            if (splitString[i].equals("Weight:"))
+                return String.valueOf(splitString[i + 1]);
+        }
 
-        drawGraph();
-    }*/
+        return "";
+    }
 
     public void drawGraph()
     {
@@ -95,16 +112,9 @@ public class GraphWeightActivity extends ActionBarActivity {
         for (int i = 0; i < detailArray.size(); i++)
         {
             //parse the string
-            String weightStr = "0";
             String[] splitString = detailArray.get(i).split(" ");
             String dateStr = splitString[0];
-            for (int j = 0; j < splitString.length - 1; j++)
-            {
-                if (splitString[j].equals("Weight:")) {
-                    weightStr = String.valueOf(splitString[j + 1]);
-                    break;
-                }
-            }
+            String weightStr = getAttributeValue(detailArray.get(i));
 
             //convert date from yyyy/MM/dd to MM/dd/yyyy
             //then parse that date

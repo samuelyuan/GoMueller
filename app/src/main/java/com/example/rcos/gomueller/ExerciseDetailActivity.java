@@ -62,6 +62,18 @@ public class ExerciseDetailActivity extends ListActivity {
         setListAdapter(adapter);
     }
 
+    public String getAttributeValue(String currentDetailStr)
+    {
+        String[] splitString = currentDetailStr.split(" ");
+        for (int i = 0; i < splitString.length - 1; i++)
+        {
+            if (splitString[i].equals("Weight:"))
+                return String.valueOf(splitString[i + 1]);
+        }
+
+        return "";
+    }
+
     public ArrayList<String> formatForDisplay(ArrayList<String> detailArray)
     {
         ArrayList<String> displayArray = new ArrayList<String>();
@@ -69,17 +81,10 @@ public class ExerciseDetailActivity extends ListActivity {
         {
             String[] splitString = dataItem.split(" ");
 
+            String weightStr = getAttributeValue(dataItem);
+            String noteStr = "";
             String dateStr = splitString[0];
-            String weightStr = "", noteStr = "";
-
             dateStr = UnitDate.convertFormatFromSortedToDisplay(dateStr);
-
-            for (int j = 0; j < splitString.length - 1; j++)
-            {
-                if (splitString[j].equals("Weight:")) {
-                    weightStr = String.valueOf(splitString[j + 1]);
-                }
-            }
 
             //only display notes for exercises
             if (getIntent().getStringExtra("type").equals("exercise"))

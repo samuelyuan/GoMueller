@@ -27,17 +27,31 @@ public class TrackExerciseActivity extends ListActivity {
     private ArrayAdapter<String> adapter ;
     private ArrayList<String> exerciseArray;
 
-
     private String[] mDrawerTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     //exerciseArrayList
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_exercise);
 
+        initNavigationDrawer();
+
+        loadData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        loadData();
+    }
+
+    public void initNavigationDrawer()
+    {
         mDrawerTitles = getResources().getStringArray(R.array.drawer_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -70,15 +84,6 @@ public class TrackExerciseActivity extends ListActivity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-
-        loadData();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        loadData();
     }
 
     public void loadData()

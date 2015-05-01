@@ -80,6 +80,18 @@ public class GraphExerciseActivity extends ActionBarActivity
         drawGraph();
     }*/
 
+    public String getAttributeValue(String currentDetailStr)
+    {
+        String[] splitString = currentDetailStr.split(" ");
+        for (int i = 0; i < splitString.length - 1; i++)
+        {
+            if (splitString[i].equals("Weight:"))
+                return String.valueOf(splitString[i + 1]);
+        }
+
+        return "";
+    }
+
     public void drawGraph()
     {
         //Draw graph
@@ -92,22 +104,15 @@ public class GraphExerciseActivity extends ActionBarActivity
         for (int i = 0; i < detailArray.size(); i++)
         {
             //parse the string
-            String weightStr = "0";
             String[] splitString = detailArray.get(i).split(" ");
             String dateStr = splitString[0];
-            for (int j = 0; j < splitString.length - 1; j++)
-            {
-                if (splitString[j].equals("Weight:")) {
-                    weightStr = String.valueOf(splitString[j + 1]);
-                    break;
-                }
-            }
+            String weightStr = getAttributeValue(detailArray.get(i));
 
             //convert date from yyyy/MM/dd to MM/dd/yyyy
             //then parse that date
             //this is for displaying data on graph
             String newFormat = UnitDate.convertFormatFromSortedToDisplay(dateStr);
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy");
             try {
                 Date date = formatter.parse(newFormat);
                 dataPoints[i] = new DataPoint(date, Integer.parseInt(weightStr));
@@ -133,7 +138,6 @@ public class GraphExerciseActivity extends ActionBarActivity
             graph.getViewport().setXAxisBoundsManual(true);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

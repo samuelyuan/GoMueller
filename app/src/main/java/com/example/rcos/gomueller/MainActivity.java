@@ -22,7 +22,6 @@ import static android.support.v4.app.ActivityCompat.startActivity;
 
 public class MainActivity extends ActionBarActivity {
 
-    private Button viewWeightButton, viewButton;
     private String[] mDrawerTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -33,9 +32,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewWeightButton = (Button) findViewById(R.id.viewWeightButton);
-        //viewButton = (Button) findViewById(R.id.viewButton);
+        initNavigationDrawer();
+    }
 
+    public void initNavigationDrawer()
+    {
         mDrawerTitles = getResources().getStringArray(R.array.drawer_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -69,6 +70,7 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
