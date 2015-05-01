@@ -1,4 +1,4 @@
-package com.example.rcos.gomueller;
+package com.example.rcos.gomueller.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +13,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.rcos.gomueller.R;
+import com.example.rcos.gomueller.WeightUnit;
+import com.example.rcos.gomueller.database.ExerciseCRUD;
+import com.example.rcos.gomueller.model.Exercise;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

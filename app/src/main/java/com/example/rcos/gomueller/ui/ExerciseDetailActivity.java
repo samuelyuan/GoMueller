@@ -1,4 +1,4 @@
-package com.example.rcos.gomueller;
+package com.example.rcos.gomueller.ui;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -12,10 +12,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.example.rcos.gomueller.R;
+import com.example.rcos.gomueller.UnitDate;
+import com.example.rcos.gomueller.WeightUnit;
+import com.example.rcos.gomueller.database.ExerciseCRUD;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class ExerciseDetailActivity extends ListActivity {

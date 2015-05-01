@@ -1,24 +1,16 @@
-package com.example.rcos.gomueller;
+package com.example.rcos.gomueller.ui;
 
 
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.List;
-
-import static android.support.v4.app.ActivityCompat.startActivity;
+import com.example.rcos.gomueller.NavigationDrawer;
+import com.example.rcos.gomueller.R;
 
 public class MainActivity extends ActionBarActivity {
 

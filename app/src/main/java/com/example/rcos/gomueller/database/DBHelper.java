@@ -1,9 +1,11 @@
-package com.example.rcos.gomueller;
+package com.example.rcos.gomueller.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.view.inputmethod.ExtractedTextRequest;
+
+import com.example.rcos.gomueller.model.Exercise;
+import com.example.rcos.gomueller.model.Weight;
 
 public class DBHelper extends SQLiteOpenHelper {
 

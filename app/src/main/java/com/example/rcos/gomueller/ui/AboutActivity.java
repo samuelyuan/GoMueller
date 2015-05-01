@@ -1,9 +1,11 @@
-package com.example.rcos.gomueller;
+package com.example.rcos.gomueller.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.rcos.gomueller.R;
 
 
 public class AboutActivity extends Activity {

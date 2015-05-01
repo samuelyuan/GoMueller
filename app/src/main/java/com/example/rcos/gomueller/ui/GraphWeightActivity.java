@@ -1,31 +1,25 @@
-package com.example.rcos.gomueller;
+package com.example.rcos.gomueller.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
+import com.example.rcos.gomueller.NavigationDrawer;
+import com.example.rcos.gomueller.R;
+import com.example.rcos.gomueller.UnitDate;
+import com.example.rcos.gomueller.database.ExerciseCRUD;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 

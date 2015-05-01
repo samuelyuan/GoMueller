@@ -1,4 +1,4 @@
-package com.example.rcos.gomueller;
+package com.example.rcos.gomueller.ui;
 
 
 import android.content.Intent;
@@ -9,6 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.rcos.gomueller.NavigationDrawer;
+import com.example.rcos.gomueller.R;
+import com.example.rcos.gomueller.UnitDate;
+import com.example.rcos.gomueller.database.ExerciseCRUD;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;

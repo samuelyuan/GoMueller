@@ -1,4 +1,4 @@
-package com.example.rcos.gomueller;
+package com.example.rcos.gomueller.ui;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -6,16 +6,16 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.rcos.gomueller.NavigationDrawer;
+import com.example.rcos.gomueller.R;
+import com.example.rcos.gomueller.database.ExerciseCRUD;
 
 import java.util.ArrayList;
 

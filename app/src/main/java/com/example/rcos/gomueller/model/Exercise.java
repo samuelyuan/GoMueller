@@ -1,4 +1,4 @@
-package com.example.rcos.gomueller;
+package com.example.rcos.gomueller.model;
 
 import android.provider.BaseColumns;
 

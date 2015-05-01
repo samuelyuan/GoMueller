@@ -13,6 +13,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.rcos.gomueller.ui.GraphWeightActivity;
+import com.example.rcos.gomueller.ui.MainActivity;
+import com.example.rcos.gomueller.ui.TrackExerciseActivity;
+
 public class NavigationDrawer
 {
     private Activity activity;

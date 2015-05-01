@@ -1,19 +1,17 @@
-package com.example.rcos.gomueller;
+package com.example.rcos.gomueller.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.preference.PreferenceManager;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.example.rcos.gomueller.UnitDate;
+import com.example.rcos.gomueller.WeightUnit;
+import com.example.rcos.gomueller.model.Exercise;
+import com.example.rcos.gomueller.model.Weight;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class ExerciseCRUD {
 
