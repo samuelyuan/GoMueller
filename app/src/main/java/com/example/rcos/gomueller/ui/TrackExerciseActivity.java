@@ -118,7 +118,7 @@ public class TrackExerciseActivity extends ListActivity {
 
         String selectedItem = (String) getListView().getItemAtPosition(position);
 
-        Intent intent = new Intent(this, GraphExerciseActivity.class);
+        Intent intent = new Intent(this, GraphActivity.class);
         intent.putExtra("message", selectedItem);
         intent.putExtra("type", "exercise");
         startActivity(intent);

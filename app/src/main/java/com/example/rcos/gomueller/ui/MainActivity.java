@@ -84,7 +84,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onViewWeightButton(View view) {
-        Intent intent = new Intent(this, GraphWeightActivity.class);
+        Intent intent = new Intent(this, GraphActivity.class);
+        intent.putExtra("type", "weight");
         startActivity(intent);
     }
 }

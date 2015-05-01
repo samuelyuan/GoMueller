@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.rcos.gomueller.ui.GraphWeightActivity;
+import com.example.rcos.gomueller.ui.GraphActivity;
 import com.example.rcos.gomueller.ui.MainActivity;
 import com.example.rcos.gomueller.ui.TrackExerciseActivity;
 
@@ -108,7 +108,9 @@ public class NavigationDrawer
             } else if (position == 1) {
                 activity.startActivity(new Intent(activity.getApplicationContext(), TrackExerciseActivity.class));
             } else if (position == 2) {
-                activity.startActivity(new Intent(activity.getApplicationContext(), GraphWeightActivity.class));
+                Intent intent = new Intent(activity.getApplicationContext(), GraphActivity.class);
+                intent.putExtra("type", "weight");
+                activity.startActivity(intent);
             }
         }
     }

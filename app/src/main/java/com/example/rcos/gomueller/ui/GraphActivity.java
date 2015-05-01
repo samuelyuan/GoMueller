@@ -1,9 +1,10 @@
 package com.example.rcos.gomueller.ui;
 
+
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,9 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-
-public class GraphWeightActivity extends ActionBarActivity {
-
+public class GraphActivity extends ActionBarActivity
+{
     private NavigationDrawer navigationDrawer;
 
     @Override
@@ -37,12 +37,12 @@ public class GraphWeightActivity extends ActionBarActivity {
         drawGraph();
     }
 
-    /*@Override
+    @Override
     protected void onResume() {
         super.onResume();
 
         drawGraph();
-    }*/
+    }
 
     public String getAttributeValue(String currentDetailStr)
     {
@@ -56,11 +56,8 @@ public class GraphWeightActivity extends ActionBarActivity {
         return "";
     }
 
-    public void drawGraph()
+    public DataPoint[] getGraphData(ArrayList<String> detailArray)
     {
-        //Draw graph
-        final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
-        ArrayList<String> detailArray = crudDetail.getWeightDetail();
         DataPoint[] dataPoints = new DataPoint[detailArray.size()];
 
         //fetch data
@@ -75,7 +72,7 @@ public class GraphWeightActivity extends ActionBarActivity {
             //then parse that date
             //this is for displaying data on graph
             String newFormat = UnitDate.convertFormatFromSortedToDisplay(dateStr);
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy");
             try {
                 Date date = formatter.parse(newFormat);
                 dataPoints[i] = new DataPoint(date, Integer.parseInt(weightStr));
@@ -84,10 +81,27 @@ public class GraphWeightActivity extends ActionBarActivity {
             }
         }
 
+        return dataPoints;
+    }
+
+    public void drawGraph()
+    {
+        //Draw graph
+        final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
+        final String dataType = getIntent().getStringExtra("type");
+        ArrayList<String> detailArray = new ArrayList<String>();
+        if (dataType.equals("exercise")) {
+            String exerciseName = getIntent().getExtras().getString("message");
+            detailArray = crudDetail.getExerciseDetail(exerciseName);
+        }
+        else if (dataType.equals("weight")) {
+            detailArray = crudDetail.getWeightDetail();
+        }
+
+        DataPoint[] dataPoints = getGraphData(detailArray);
+
         GraphView graph = (GraphView) findViewById(R.id.graph);
-
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
-
         graph.addSeries(series);
 
         // set date label formatter
@@ -95,13 +109,12 @@ public class GraphWeightActivity extends ActionBarActivity {
         graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
         // set manual x bounds to have nice steps
-        if (dataPoints.length > 0) {
+        if (dataPoints.length > 2) {
             graph.getViewport().setMinX(dataPoints[0].getX());
             graph.getViewport().setMaxX(dataPoints[dataPoints.length - 1].getX());
             graph.getViewport().setXAxisBoundsManual(true);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,12 +133,27 @@ public class GraphWeightActivity extends ActionBarActivity {
         if (navigationDrawer.onOptionsItemSelected(item)) {
             return true;
         }
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.addMenu) {
-            Intent addIntent = new Intent(this, NewWeightActivity.class);
-            startActivity(addIntent);
+            final String dataType = getIntent().getStringExtra("type");
+            if (dataType.equals("exercise"))
+            {
+                Intent addIntent = new Intent(this, NewExerciseActivity.class);
+                String exerciseName = getIntent().getExtras().getString("message");
+                final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
+                addIntent.putExtra("exerciseName", exerciseName);
+                addIntent.putExtra("attributeName", crudDetail.getAttributeName(exerciseName));
+                startActivity(addIntent);
+            }
+            else if (dataType.equals("weight"))
+            {
+                Intent addIntent = new Intent(this, NewWeightActivity.class);
+                startActivity(addIntent);
+            }
 
             return true;
         }
@@ -138,9 +166,20 @@ public class GraphWeightActivity extends ActionBarActivity {
     }
 
     public void onEditDataButton(View view) {
-        Intent intent = new Intent(this, ExerciseDetailActivity.class);
-        intent.putExtra("type", "weight");
-        startActivity(intent);
+        final String dataType = getIntent().getStringExtra("type");
+        if (dataType.equals("exercise"))
+        {
+            Intent intent = new Intent(this, ExerciseDetailActivity.class);
+            intent.putExtra("type", "exercise");
+            intent.putExtra("message", getIntent().getExtras().getString("message"));
+            startActivity(intent);
+        }
+        else if (dataType.equals("weight"))
+        {
+            Intent intent = new Intent(this, ExerciseDetailActivity.class);
+            intent.putExtra("type", "weight");
+            startActivity(intent);
+        }
     }
 
     @Override

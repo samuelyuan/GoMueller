@@ -45,27 +45,16 @@
         <activity
             android:name=".ui.NewWeightActivity"
             android:label="@string/title_activity_new_weight"
-            android:parentActivityName=".ui.GraphWeightActivity" >
+            android:parentActivityName=".ui.GraphActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.GraphWeightActivity" />
+                android:value=".ui.GraphActivity" />
         </activity>
 
         <!-- View Exercise Graph -->
         <activity
-            android:name=".ui.GraphExerciseActivity"
-            android:label="@string/title_activity_graph_weight"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
-
-        <!-- View Weight Graph -->
-        <activity
-            android:name=".ui.GraphWeightActivity"
-            android:label="@string/title_activity_graph_weight"
+            android:name=".ui.GraphActivity"
+            android:label="Graph"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <meta-data

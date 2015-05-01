@@ -90,9 +90,9 @@ public class ExerciseDetailActivity extends ListActivity {
 
             //only display notes for exercises
             if (getIntent().getStringExtra("type").equals("exercise"))
-                noteStr = dataItem.substring(dataItem.indexOf("Notes: ") + ("Notes: ").length());
+                noteStr = "(" + dataItem.substring(dataItem.indexOf("Notes: ") + ("Notes: ").length()) + ")";
 
-            String itemToAdd = weightStr + " " + WeightUnit.getWhichLabel(this) + "        (" + noteStr + ")" + "\n";
+            String itemToAdd = weightStr + " " + WeightUnit.getWhichLabel(this) + "        " + noteStr + "\n";
             itemToAdd += dateStr;
 
             displayArray.add(itemToAdd);
