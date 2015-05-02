@@ -134,8 +134,8 @@ public class NewExerciseActivity extends Activity implements
         else
             ex.weight = 0;
 
-        if (WeightUnit.isImperial(this))
-            ex.weight = (int)Math.round((double)ex.weight * WeightUnit.POUND_TO_KILOGRAM);
+        if (WeightUnit.settingsUseImperial(this))
+            ex.weight = WeightUnit.convertToMetric(ex.weight);
 
         //set date
         ex.date = exercise_date.getText().toString();

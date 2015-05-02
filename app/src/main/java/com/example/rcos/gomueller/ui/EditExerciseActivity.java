@@ -75,8 +75,8 @@ public class EditExerciseActivity extends Activity implements
         oldExercise.date = exercise_date.getText().toString();
 
         int weightConverted = oldExercise.weight;
-        if (WeightUnit.isImperial(this))
-            weightConverted = (int)Math.round((double)weightConverted * WeightUnit.KILOGRAM_TO_POUND);
+        if (WeightUnit.settingsUseImperial(this))
+            weightConverted = WeightUnit.convertToImperial(weightConverted);
 
         exercise_weight.setText(String.valueOf(weightConverted));
     }
@@ -128,8 +128,8 @@ public class EditExerciseActivity extends Activity implements
         updatedExercise.date = exercise_date.getText().toString();
         updatedExercise.notes = exercise_notes.getText().toString();
 
-        if (WeightUnit.isImperial(this))
-            updatedExercise.weight = (int)Math.round((double)updatedExercise.weight * WeightUnit.POUND_TO_KILOGRAM);
+        if (WeightUnit.settingsUseImperial(this))
+            updatedExercise.weight = WeightUnit.convertToMetric(updatedExercise.weight);
 
         crud.edit(updatedExercise, oldExercise);
 

@@ -89,8 +89,8 @@ public class ExerciseCRUD {
         String weightStr = getAttributeValue(currentDetailStr);
 
         //convert data if necessary since the data is in the metric system
-        if (WeightUnit.isImperial(currentContext)) {
-            weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.POUND_TO_KILOGRAM));
+        if (WeightUnit.settingsUseImperial(currentContext)) {
+            weightStr = WeightUnit.convertToMetric(weightStr);
         }
 
         db.delete(Exercise.TABLE, Exercise.keyName + "=\"" + exerciseName + "\""
@@ -110,8 +110,8 @@ public class ExerciseCRUD {
 
         //the data in string might be in standard system
         // database uses metric, so convert
-        if (WeightUnit.isImperial(currentContext)) {
-            weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.POUND_TO_KILOGRAM));
+        if (WeightUnit.settingsUseImperial(currentContext)) {
+            weightStr = WeightUnit.convertToMetric(weightStr);
         }
 
         db.delete(Weight.TABLE, Weight.keyDate + "='" + dateStr + "'"
@@ -224,8 +224,8 @@ public class ExerciseCRUD {
                 weightStr = cursor.getString(cursor.getColumnIndex(Weight.keyWeight));
 
                 //convert to the standard system since data is in the metric system
-                if (WeightUnit.isImperial(currentContext)) {
-                    weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
+                if (WeightUnit.settingsUseImperial(currentContext)) {
+                    weightStr = WeightUnit.convertToImperial(weightStr);
                 }
 
                 dateMeasured = UnitDate.convertFormatFromDisplayToSorted(dateMeasured);
@@ -252,8 +252,8 @@ public class ExerciseCRUD {
         String notes = cursor.getString(cursor.getColumnIndex(Exercise.keyNotes));
 
         //convert to the standard system since data is in the metric system
-        if (WeightUnit.isImperial(currentContext)) {
-            weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.KILOGRAM_TO_POUND));
+        if (WeightUnit.settingsUseImperial(currentContext)) {
+            weightStr = WeightUnit.convertToImperial(weightStr);
         }
 
         //convert date from MM/dd/yyyy to yyyy/MM/dd

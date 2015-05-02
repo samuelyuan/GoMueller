@@ -138,8 +138,8 @@ public class NewWeightActivity extends Activity implements
         wt.weight = Integer.parseInt(weight_weight.getText().toString());
         wt.date = weight_date.getText().toString();
 
-        if (WeightUnit.isImperial(this))
-            wt.weight = (int)Math.round((double)wt.weight * WeightUnit.POUND_TO_KILOGRAM);
+        if (WeightUnit.settingsUseImperial(this))
+            wt.weight = WeightUnit.convertToMetric(wt.weight);
 
         crud.insert(wt);
 

@@ -20,7 +20,7 @@ import com.example.rcos.gomueller.database.ExerciseCRUD;
 import java.util.ArrayList;
 
 
-public class ExerciseDetailActivity extends ListActivity {
+public class ShowDetailActivity extends ListActivity {
 
     private ArrayList<String> detailArray, displayArray;
     private boolean isItemSelected[] = new boolean[100];
@@ -124,7 +124,7 @@ public class ExerciseDetailActivity extends ListActivity {
             {
                 Intent addIntent = new Intent(this, NewExerciseActivity.class);
                 String exerciseName = getIntent().getStringExtra("message");
-                final ExerciseCRUD crudDetail = new ExerciseCRUD(ExerciseDetailActivity.this);
+                final ExerciseCRUD crudDetail = new ExerciseCRUD(ShowDetailActivity.this);
 
                 addIntent.putExtra("exerciseName", exerciseName);
                 addIntent.putExtra("attributeName", crudDetail.getAttributeName(exerciseName));
@@ -168,7 +168,7 @@ public class ExerciseDetailActivity extends ListActivity {
         }
 
         if (atLeastOneSelected)
-            mActionMode = ExerciseDetailActivity.this.startActionMode(new ActionBarCallBack());
+            mActionMode = ShowDetailActivity.this.startActionMode(new ActionBarCallBack());
         else if (mActionMode != null) //none selected
             mActionMode.finish();
 
@@ -218,7 +218,7 @@ public class ExerciseDetailActivity extends ListActivity {
 
             //Prepare data for modification
             Intent addIntent = new Intent(getBaseContext(), EditExerciseActivity.class);
-            final ExerciseCRUD crudDetail = new ExerciseCRUD(ExerciseDetailActivity.this);
+            final ExerciseCRUD crudDetail = new ExerciseCRUD(ShowDetailActivity.this);
             String currentDetailStr = detailArray.get(indexEdit);
             String weightStr = "";
             String dateStr = "";
@@ -238,8 +238,8 @@ public class ExerciseDetailActivity extends ListActivity {
             }
 
             //convert data if necessary since the data is in the metric system
-            if (WeightUnit.isImperial(getBaseContext())) {
-                weightStr = String.valueOf(Math.round (Double.parseDouble(weightStr) * WeightUnit.POUND_TO_KILOGRAM));
+            if (WeightUnit.settingsUseImperial(getBaseContext())) {
+                weightStr = WeightUnit.convertToMetric(weightStr);
             }
 
             addIntent.putExtra("exerciseName", exerciseName);
@@ -265,7 +265,7 @@ public class ExerciseDetailActivity extends ListActivity {
             final String exerciseName = bundle.getString("message");
             final String dataType = getIntent().getStringExtra("type");
 
-            final ExerciseCRUD crudDetail = new ExerciseCRUD(ExerciseDetailActivity.this);
+            final ExerciseCRUD crudDetail = new ExerciseCRUD(ShowDetailActivity.this);
 
             //Get the checked items
             SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();

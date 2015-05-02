@@ -64,7 +64,7 @@
 
         <!-- View detailed exercise history (weights used etc.) -->
         <activity
-            android:name=".ui.ExerciseDetailActivity"
+            android:name=".ui.ShowDetailActivity"
             android:label="@string/title_activity_exercise_detail"
             android:parentActivityName=".ui.MainActivity" >
             <meta-data

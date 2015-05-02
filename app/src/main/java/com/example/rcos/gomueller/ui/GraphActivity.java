@@ -169,14 +169,14 @@ public class GraphActivity extends ActionBarActivity
         final String dataType = getIntent().getStringExtra("type");
         if (dataType.equals("exercise"))
         {
-            Intent intent = new Intent(this, ExerciseDetailActivity.class);
+            Intent intent = new Intent(this, ShowDetailActivity.class);
             intent.putExtra("type", "exercise");
             intent.putExtra("message", getIntent().getExtras().getString("message"));
             startActivity(intent);
         }
         else if (dataType.equals("weight"))
         {
-            Intent intent = new Intent(this, ExerciseDetailActivity.class);
+            Intent intent = new Intent(this, ShowDetailActivity.class);
             intent.putExtra("type", "weight");
             startActivity(intent);
         }
