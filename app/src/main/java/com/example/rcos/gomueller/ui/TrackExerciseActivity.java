@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.rcos.gomueller.IntentParam;
 import com.example.rcos.gomueller.NavigationDrawer;
 import com.example.rcos.gomueller.R;
 import com.example.rcos.gomueller.database.ExerciseCRUD;
@@ -119,8 +120,8 @@ public class TrackExerciseActivity extends ListActivity {
         String selectedItem = (String) getListView().getItemAtPosition(position);
 
         Intent intent = new Intent(this, GraphActivity.class);
-        intent.putExtra("message", selectedItem);
-        intent.putExtra("type", "exercise");
+        IntentParam.setExerciseName(intent, selectedItem);
+        IntentParam.setTypeExercise(intent);
         startActivity(intent);
     }
 }

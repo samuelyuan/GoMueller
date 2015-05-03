@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.rcos.gomueller.IntentParam;
 import com.example.rcos.gomueller.NavigationDrawer;
 import com.example.rcos.gomueller.R;
 
@@ -85,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void onViewWeightButton(View view) {
         Intent intent = new Intent(this, GraphActivity.class);
-        intent.putExtra("type", "weight");
+        IntentParam.setTypeWeight(intent);
         startActivity(intent);
     }
 }

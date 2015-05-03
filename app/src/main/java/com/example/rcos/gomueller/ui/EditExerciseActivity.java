@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.rcos.gomueller.IntentParam;
 import com.example.rcos.gomueller.R;
 import com.example.rcos.gomueller.WeightUnit;
 import com.example.rcos.gomueller.database.ExerciseCRUD;
@@ -50,18 +51,18 @@ public class EditExerciseActivity extends Activity implements
         okButton.setText("Edit");
 
         //Autofill
-        exercise_date.setText(getIntent().getStringExtra("exerciseDate"));
-        exercise_weight.setText(getIntent().getStringExtra("attributeValue"));
-        exercise_notes.setText(getIntent().getStringExtra("notesValue"));
+        exercise_date.setText(IntentParam.getExerciseDate(getIntent()));
+        exercise_weight.setText(IntentParam.getAttributeValue(getIntent()));
+        exercise_notes.setText(IntentParam.getNotes(getIntent()));
 
         //disable editing
-        exercise_attribute_name.setText(getIntent().getStringExtra("attributeName"));
-        exercise_attribute_name.setFocusable(false);
-        exercise_attribute_name.setEnabled(false);
-
-        exercise_name.setText(getIntent().getStringExtra("exerciseName"));
+        exercise_name.setText(IntentParam.getExerciseName(getIntent()));
         exercise_name.setFocusable(false);
         exercise_name.setEnabled(false);
+
+        exercise_attribute_name.setText(IntentParam.getAttributeName(getIntent()));
+        exercise_attribute_name.setFocusable(false);
+        exercise_attribute_name.setEnabled(false);
 
         //Set the weight's units depending on user's preferences
         TextView weightLabel = (TextView)findViewById(R.id.WeightUnit);

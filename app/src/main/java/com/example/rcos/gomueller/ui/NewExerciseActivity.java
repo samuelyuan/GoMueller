@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.rcos.gomueller.IntentParam;
 import com.example.rcos.gomueller.R;
 import com.example.rcos.gomueller.WeightUnit;
 import com.example.rcos.gomueller.database.ExerciseCRUD;
@@ -53,14 +54,14 @@ public class NewExerciseActivity extends Activity implements
 
         //autofill if possible.
         // also, disable editing
-        String attributeNameAutofill = getIntent().getStringExtra("attributeName");
+        String attributeNameAutofill = IntentParam.getAttributeName(getIntent());
         if (attributeNameAutofill != null && !attributeNameAutofill.equals("")) {
             exercise_attribute_name.setText(attributeNameAutofill);
             exercise_attribute_name.setFocusable(false);
             exercise_attribute_name.setEnabled(false);
         }
 
-        String exerciseNameAutofill = getIntent().getStringExtra("exerciseName");
+        String exerciseNameAutofill = IntentParam.getExerciseName(getIntent());
         if (exerciseNameAutofill != null && !exerciseNameAutofill.equals("")) {
             exercise_name.setText(exerciseNameAutofill);
             exercise_name.setFocusable(false);

@@ -109,7 +109,7 @@ public class NavigationDrawer
                 activity.startActivity(new Intent(activity.getApplicationContext(), TrackExerciseActivity.class));
             } else if (position == 2) {
                 Intent intent = new Intent(activity.getApplicationContext(), GraphActivity.class);
-                intent.putExtra("type", "weight");
+                IntentParam.setTypeWeight(intent);
                 activity.startActivity(intent);
             }
         }

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.rcos.gomueller.IntentParam;
 import com.example.rcos.gomueller.NavigationDrawer;
 import com.example.rcos.gomueller.R;
 import com.example.rcos.gomueller.UnitDate;
@@ -88,13 +89,12 @@ public class GraphActivity extends ActionBarActivity
     {
         //Draw graph
         final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
-        final String dataType = getIntent().getStringExtra("type");
         ArrayList<String> detailArray = new ArrayList<String>();
-        if (dataType.equals("exercise")) {
-            String exerciseName = getIntent().getExtras().getString("message");
+        if (IntentParam.isTypeExercise(getIntent())) {
+            String exerciseName = IntentParam.getExerciseName(getIntent());
             detailArray = crudDetail.getExerciseDetail(exerciseName);
         }
-        else if (dataType.equals("weight")) {
+        else if (IntentParam.isTypeWeight(getIntent())) {
             detailArray = crudDetail.getWeightDetail();
         }
 
@@ -102,6 +102,7 @@ public class GraphActivity extends ActionBarActivity
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
+        graph.removeAllSeries();
         graph.addSeries(series);
 
         // set date label formatter
@@ -139,17 +140,17 @@ public class GraphActivity extends ActionBarActivity
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.addMenu) {
-            final String dataType = getIntent().getStringExtra("type");
-            if (dataType.equals("exercise"))
+            if (IntentParam.isTypeExercise(getIntent()))
             {
                 Intent addIntent = new Intent(this, NewExerciseActivity.class);
-                String exerciseName = getIntent().getExtras().getString("message");
+                String exerciseName = IntentParam.getExerciseName(getIntent());
                 final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
-                addIntent.putExtra("exerciseName", exerciseName);
-                addIntent.putExtra("attributeName", crudDetail.getAttributeName(exerciseName));
+                IntentParam.setExerciseName(addIntent, exerciseName);
+                IntentParam.setAttributeName(addIntent, crudDetail.getAttributeName(exerciseName));
+
                 startActivity(addIntent);
             }
-            else if (dataType.equals("weight"))
+            else if (IntentParam.isTypeWeight(getIntent()))
             {
                 Intent addIntent = new Intent(this, NewWeightActivity.class);
                 startActivity(addIntent);
@@ -166,18 +167,17 @@ public class GraphActivity extends ActionBarActivity
     }
 
     public void onEditDataButton(View view) {
-        final String dataType = getIntent().getStringExtra("type");
-        if (dataType.equals("exercise"))
+        if (IntentParam.isTypeExercise(getIntent()))
         {
             Intent intent = new Intent(this, ShowDetailActivity.class);
-            intent.putExtra("type", "exercise");
-            intent.putExtra("message", getIntent().getExtras().getString("message"));
+            IntentParam.setTypeExercise(intent);
+            IntentParam.setExerciseName(intent, IntentParam.getExerciseName(getIntent()));
             startActivity(intent);
         }
-        else if (dataType.equals("weight"))
+        else if (IntentParam.isTypeWeight(getIntent()))
         {
             Intent intent = new Intent(this, ShowDetailActivity.class);
-            intent.putExtra("type", "weight");
+            IntentParam.setTypeWeight(intent);
             startActivity(intent);
         }
     }

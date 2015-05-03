@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.rcos.gomueller.IntentParam;
 import com.example.rcos.gomueller.R;
 import com.example.rcos.gomueller.UnitDate;
 import com.example.rcos.gomueller.WeightUnit;
@@ -46,15 +47,13 @@ public class ShowDetailActivity extends ListActivity {
 
     public void displayData()
     {
-        Bundle bundle = getIntent().getExtras();
-        final String dataType = getIntent().getStringExtra("type");
-        final String exerciseName = bundle.getString("message");
+        final String exerciseName = IntentParam.getExerciseName(getIntent());
 
         final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
-        if (dataType.equals("exercise")) {
+        if (IntentParam.isTypeExercise(getIntent())) {
             detailArray = crudDetail.getExerciseDetail(exerciseName);
         }
-        else if (dataType.equals("weight")) {
+        else if (IntentParam.isTypeWeight(getIntent())) {
             detailArray = crudDetail.getWeightDetail();
         }
 
@@ -89,7 +88,7 @@ public class ShowDetailActivity extends ListActivity {
             dateStr = UnitDate.convertFormatFromSortedToDisplay(dateStr);
 
             //only display notes for exercises
-            if (getIntent().getStringExtra("type").equals("exercise"))
+            if (IntentParam.isTypeExercise(getIntent()))
                 noteStr = "(" + dataItem.substring(dataItem.indexOf("Notes: ") + ("Notes: ").length()) + ")";
 
             String itemToAdd = weightStr + " " + WeightUnit.getWhichLabel(this) + "        " + noteStr + "\n";
@@ -120,17 +119,16 @@ public class ShowDetailActivity extends ListActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.addMenu) {
-            if (getIntent().getStringExtra("type").equals("exercise"))
+            if (IntentParam.isTypeExercise(getIntent()))
             {
                 Intent addIntent = new Intent(this, NewExerciseActivity.class);
-                String exerciseName = getIntent().getStringExtra("message");
+                String exerciseName = IntentParam.getExerciseName(getIntent());
                 final ExerciseCRUD crudDetail = new ExerciseCRUD(ShowDetailActivity.this);
-
-                addIntent.putExtra("exerciseName", exerciseName);
-                addIntent.putExtra("attributeName", crudDetail.getAttributeName(exerciseName));
+                IntentParam.setExerciseName(addIntent, exerciseName);
+                IntentParam.setAttributeName(addIntent, crudDetail.getAttributeName(exerciseName));
                 startActivity(addIntent);
             }
-            else if (getIntent().getStringExtra("type").equals("weight"))
+            else if (IntentParam.isTypeWeight(getIntent()))
             {
                 Intent addIntent = new Intent(this, NewWeightActivity.class);
                 startActivity(addIntent);
@@ -201,11 +199,10 @@ public class ShowDetailActivity extends ListActivity {
         public void editItem()
         {
             //if this isn't an exercise, then stop
-            if (!getIntent().getStringExtra("type").equals("exercise"))
+            if (!IntentParam.isTypeExercise(getIntent()))
                 return;
 
-            Bundle bundle = getIntent().getExtras();
-            final String exerciseName = bundle.getString("message");
+            final String exerciseName = IntentParam.getExerciseName(getIntent());
             SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
             int itemCount = getListView().getCount();
             int indexEdit = 0;
@@ -242,11 +239,11 @@ public class ShowDetailActivity extends ListActivity {
                 weightStr = WeightUnit.convertToMetric(weightStr);
             }
 
-            addIntent.putExtra("exerciseName", exerciseName);
-            addIntent.putExtra("attributeName", crudDetail.getAttributeName(exerciseName));
-            addIntent.putExtra("attributeValue", weightStr);
-            addIntent.putExtra("exerciseDate", dateStr);
-            addIntent.putExtra("notesValue", noteStr);
+            IntentParam.setExerciseName(addIntent, exerciseName);
+            IntentParam.setAttributeName(addIntent, crudDetail.getAttributeName(exerciseName));
+            IntentParam.setAttributeValue(addIntent, weightStr);
+            IntentParam.setExerciseDate(addIntent, dateStr);
+            IntentParam.setNotes(addIntent, noteStr);
 
             //deselect the selected item
             isItemSelected[indexEdit] = !isItemSelected[indexEdit];
@@ -261,10 +258,7 @@ public class ShowDetailActivity extends ListActivity {
         }
 
         public void deleteItem()  {
-            Bundle bundle = getIntent().getExtras();
-            final String exerciseName = bundle.getString("message");
-            final String dataType = getIntent().getStringExtra("type");
-
+            final String exerciseName = IntentParam.getExerciseName(getIntent());
             final ExerciseCRUD crudDetail = new ExerciseCRUD(ShowDetailActivity.this);
 
             //Get the checked items
@@ -278,10 +272,10 @@ public class ShowDetailActivity extends ListActivity {
                 {
                     View selectedItem = getListView().getChildAt(i);
 
-                    if (dataType.equals("exercise")) {
+                    if (IntentParam.isTypeExercise(getIntent())) {
                         crudDetail.deleteExercise(exerciseName, detailArray.get(i));
                     }
-                    else if (dataType.equals("weight")) {
+                    else if (IntentParam.isTypeWeight(getIntent())) {
                         crudDetail.deleteWeight(detailArray.get(i));
                     }
 
