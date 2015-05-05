@@ -72,10 +72,19 @@
                 android:value=".ui.MainActivity" />
         </activity>
 
-        <!-- View detailed exercise history (weights used etc.) -->
+        <!-- Edit history -->
         <activity
             android:name=".ui.EditExerciseActivity"
-            android:label="Edit Exercise Activity"
+            android:label="Edit Exercise"
+            android:parentActivityName=".ui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".ui.EditWeightActivity"
+            android:label="Edit Weight"
             android:parentActivityName=".ui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
