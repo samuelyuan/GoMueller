@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.example.rcos.gomueller.IntentParam;
 import com.example.rcos.gomueller.NavigationDrawer;
+import com.example.rcos.gomueller.ParseData;
 import com.example.rcos.gomueller.R;
 import com.example.rcos.gomueller.UnitDate;
 import com.example.rcos.gomueller.database.ExerciseCRUD;
@@ -45,18 +46,6 @@ public class GraphActivity extends ActionBarActivity
         drawGraph();
     }
 
-    public String getAttributeValue(String currentDetailStr)
-    {
-        String[] splitString = currentDetailStr.split(" ");
-        for (int i = 0; i < splitString.length - 1; i++)
-        {
-            if (splitString[i].equals("Weight:"))
-                return String.valueOf(splitString[i + 1]);
-        }
-
-        return "";
-    }
-
     public DataPoint[] getGraphData(ArrayList<String> detailArray)
     {
         DataPoint[] dataPoints = new DataPoint[detailArray.size()];
@@ -65,17 +54,12 @@ public class GraphActivity extends ActionBarActivity
         for (int i = 0; i < detailArray.size(); i++)
         {
             //parse the string
-            String[] splitString = detailArray.get(i).split(" ");
-            String dateStr = splitString[0];
-            String weightStr = getAttributeValue(detailArray.get(i));
+            String dateStr = ParseData.getDate(detailArray.get(i));
+            String weightStr = ParseData.getAttributeValue(detailArray.get(i));
 
-            //convert date from yyyy/MM/dd to MM/dd/yyyy
-            //then parse that date
-            //this is for displaying data on graph
-            String newFormat = UnitDate.convertFormatFromSortedToDisplay(dateStr);
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy");
             try {
-                Date date = formatter.parse(newFormat);
+                Date date = formatter.parse(dateStr);
                 dataPoints[i] = new DataPoint(date, Integer.parseInt(weightStr));
             } catch (ParseException e) {
                 e.printStackTrace();

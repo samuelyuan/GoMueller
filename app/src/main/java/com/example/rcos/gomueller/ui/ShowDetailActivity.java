@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.rcos.gomueller.IntentParam;
+import com.example.rcos.gomueller.ParseData;
 import com.example.rcos.gomueller.R;
 import com.example.rcos.gomueller.UnitDate;
 import com.example.rcos.gomueller.WeightUnit;
@@ -63,33 +64,18 @@ public class ShowDetailActivity extends ListActivity {
         setListAdapter(adapter);
     }
 
-    public String getAttributeValue(String currentDetailStr)
-    {
-        String[] splitString = currentDetailStr.split(" ");
-        for (int i = 0; i < splitString.length - 1; i++)
-        {
-            if (splitString[i].equals("Weight:"))
-                return String.valueOf(splitString[i + 1]);
-        }
-
-        return "";
-    }
-
     public ArrayList<String> formatForDisplay(ArrayList<String> detailArray)
     {
         ArrayList<String> displayArray = new ArrayList<String>();
         for (String dataItem : detailArray)
         {
-            String[] splitString = dataItem.split(" ");
-
-            String weightStr = getAttributeValue(dataItem);
+            String weightStr = ParseData.getAttributeValue(dataItem);
+            String dateStr = ParseData.getDate(dataItem);
             String noteStr = "";
-            String dateStr = splitString[0];
-            dateStr = UnitDate.convertFormatFromSortedToDisplay(dateStr);
 
             //only display notes for exercises
             if (IntentParam.isTypeExercise(getIntent()))
-                noteStr = "(" + dataItem.substring(dataItem.indexOf("Notes: ") + ("Notes: ").length()) + ")";
+                noteStr = "(" + ParseData.getNotes(dataItem) + ")";
 
             String itemToAdd = weightStr + " " + WeightUnit.getWhichLabel(this) + "        " + noteStr + "\n";
             itemToAdd += dateStr;
@@ -216,23 +202,11 @@ public class ShowDetailActivity extends ListActivity {
             //Prepare data for modification
             Intent addIntent = new Intent(getBaseContext(), EditExerciseActivity.class);
             final ExerciseCRUD crudDetail = new ExerciseCRUD(ShowDetailActivity.this);
+
             String currentDetailStr = detailArray.get(indexEdit);
-            String weightStr = "";
-            String dateStr = "";
-            String noteStr = currentDetailStr.substring(currentDetailStr.indexOf("Notes: ") + ("Notes: ").length());
-
-            String[] splitString = currentDetailStr.split(" ");
-
-            //convert date
-            dateStr = splitString[0];
-            dateStr = UnitDate.convertFormatFromSortedToDisplay(dateStr);
-
-            //get weight data
-            for (int i = 0; i < splitString.length - 1; i++)
-            {
-                if (splitString[i].equals("Weight:"))
-                    weightStr = String.valueOf(splitString[i+1]);
-            }
+            String weightStr = ParseData.getAttributeValue(currentDetailStr);
+            String dateStr = ParseData.getDate(currentDetailStr);
+            String noteStr = ParseData.getNotes(currentDetailStr);
 
             //convert data if necessary since the data is in the metric system
             if (WeightUnit.settingsUseImperial(getBaseContext())) {

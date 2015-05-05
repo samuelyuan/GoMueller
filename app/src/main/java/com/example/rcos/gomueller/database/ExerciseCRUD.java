@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.rcos.gomueller.ParseData;
 import com.example.rcos.gomueller.UnitDate;
 import com.example.rcos.gomueller.WeightUnit;
 import com.example.rcos.gomueller.model.Exercise;
@@ -86,7 +87,7 @@ public class ExerciseCRUD {
     //(NOTE: this function might remove two strings with the same weight and number of sets, like two strings with weight: 150, duration: 8)
     public void deleteExercise(String exerciseName, String currentDetailStr) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String weightStr = getAttributeValue(currentDetailStr);
+        String weightStr = ParseData.getAttributeValue(currentDetailStr);
 
         //convert data if necessary since the data is in the metric system
         if (WeightUnit.settingsUseImperial(currentContext)) {
@@ -103,10 +104,8 @@ public class ExerciseCRUD {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         //parse the string
-        String weightStr = getAttributeValue(currentDetailStr);
-        String[] splitString = currentDetailStr.split(" ");
-        String dateStr = splitString[0];
-        dateStr = UnitDate.convertFormatFromSortedToDisplay(dateStr);
+        String weightStr = ParseData.getAttributeValue(currentDetailStr);
+        String dateStr = ParseData.getDate(currentDetailStr);
 
         //the data in string might be in standard system
         // database uses metric, so convert
@@ -137,18 +136,6 @@ public class ExerciseCRUD {
         }
 
         return attributeName;
-    }
-
-    public String getAttributeValue(String currentDetailStr)
-    {
-        String[] splitString = currentDetailStr.split(" ");
-        for (int i = 0; i < splitString.length - 1; i++)
-        {
-            if (splitString[i].equals("Weight:"))
-                return String.valueOf(splitString[i + 1]);
-        }
-
-        return "";
     }
 
     //For TrackExerciseActivity
