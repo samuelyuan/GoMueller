@@ -71,11 +71,10 @@ public class ShowDetailActivity extends ListActivity {
         {
             String weightStr = ParseData.getAttributeValue(dataItem);
             String dateStr = ParseData.getDate(dataItem);
-            String noteStr = "";
+            String noteStr = "(" + ParseData.getNotes(dataItem) + ")";
 
-            //only display notes for exercises
-            if (IntentParam.isTypeExercise(getIntent()))
-                noteStr = "(" + ParseData.getNotes(dataItem) + ")";
+            if (ParseData.getNotes(dataItem).equals(""))
+                noteStr = "";
 
             String itemToAdd = weightStr + " " + WeightUnit.getWhichLabel(this) + "        " + noteStr + "\n";
             itemToAdd += dateStr;

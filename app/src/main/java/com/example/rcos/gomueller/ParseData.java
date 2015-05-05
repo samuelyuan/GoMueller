@@ -32,4 +32,14 @@ public class ParseData
         return currentDetailStr.substring(currentDetailStr.indexOf("Notes: ") + ("Notes: ").length());
     }
 
+    public static String getDetailString(String dateMeasured, String weightStr, String whichLabel, String notes)
+    {
+        //database stores dates in MM/dd/yy format,
+        // but sorting is in yyyy/MM/dd
+        String dateInSortedFormat = UnitDate.convertFormatFromDisplayToSorted(dateMeasured);
+
+        //weight is assumed to be in proper units with the correct label
+        return dateInSortedFormat + " : Weight: " + weightStr + " " + whichLabel + " Notes: " + notes;
+    }
+
 }

@@ -102,13 +102,10 @@ public class ExerciseCRUD {
 
     public void deleteWeight(String currentDetailStr) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        //parse the string
         String weightStr = ParseData.getAttributeValue(currentDetailStr);
         String dateStr = ParseData.getDate(currentDetailStr);
 
-        //the data in string might be in standard system
-        // database uses metric, so convert
+        //convert data if necessary since the data is in the metric system
         if (WeightUnit.settingsUseImperial(currentContext)) {
             weightStr = WeightUnit.convertToMetric(weightStr);
         }
@@ -165,21 +162,26 @@ public class ExerciseCRUD {
     //For ShowDetailActivity (showing exercises)
     public ArrayList<String> getExerciseDetail(String item) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String selectQuery = "SELECT " + Exercise.keyWeight  + " , " + Exercise.keyDate + " , " + Exercise.keyNotes
+        String selectQuery = "SELECT * "
                 + " FROM " + Exercise.TABLE
                 + " WHERE " + Exercise.keyName + " = " + "\"" + item + "\"";
         ArrayList<String> exerciseDetail = new ArrayList<String>();
-        String detailStr;
         Cursor cursor = db.rawQuery(selectQuery, null);
-
-        //Set the weight's units depending on user's preferences
-        String whichLabel = WeightUnit.getWhichLabel(currentContext);
 
         //Read every row in the database
         if (cursor.moveToFirst()) {
             do {
-                detailStr = getDetailStr(cursor, whichLabel);
-                exerciseDetail.add(detailStr);
+                String date = cursor.getString(cursor.getColumnIndex(Exercise.keyDate));
+                String weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
+                String whichLabel = WeightUnit.getWhichLabel(currentContext);
+                String notes = cursor.getString(cursor.getColumnIndex(Exercise.keyNotes));
+
+                //convert to the standard system since data is in the metric system
+                if (WeightUnit.settingsUseImperial(currentContext)) {
+                    weightStr = WeightUnit.convertToImperial(weightStr);
+                }
+
+                exerciseDetail.add(ParseData.getDetailString(date, weightStr, whichLabel, notes));
             } while (cursor.moveToNext());
         }
 
@@ -194,31 +196,24 @@ public class ExerciseCRUD {
     //For ShowDetailActivity (showing weight)
     public ArrayList<String> getWeightDetail() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String selectQuery = "SELECT " + Weight.keyWeight + " , " + Weight.keyDate
+        String selectQuery = "SELECT * "
                 + " FROM " + Weight.TABLE;
         ArrayList<String> weightHistory = new ArrayList<String>();
-        String weightStr, dateMeasured;
-        String detailStr;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        //Set the weight's units depending on user's preferences
-        String whichLabel = WeightUnit.getWhichLabel(currentContext);
 
         //Read every row in the database
+        Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
-                dateMeasured = cursor.getString(cursor.getColumnIndex(Weight.keyDate));
-                weightStr = cursor.getString(cursor.getColumnIndex(Weight.keyWeight));
+                String date = cursor.getString(cursor.getColumnIndex(Weight.keyDate));
+                String weightStr = cursor.getString(cursor.getColumnIndex(Weight.keyWeight));
+                String whichLabel = WeightUnit.getWhichLabel(currentContext);
 
                 //convert to the standard system since data is in the metric system
                 if (WeightUnit.settingsUseImperial(currentContext)) {
                     weightStr = WeightUnit.convertToImperial(weightStr);
                 }
 
-                dateMeasured = UnitDate.convertFormatFromDisplayToSorted(dateMeasured);
-
-                detailStr = dateMeasured + " : Weight: " + weightStr + " " + whichLabel;
-                weightHistory.add(detailStr);
+                weightHistory.add(ParseData.getDetailString(date, weightStr, whichLabel, ""));
             } while (cursor.moveToNext());
         }
 
@@ -228,30 +223,5 @@ public class ExerciseCRUD {
         db.close();
 
         return weightHistory;
-    }
-
-    public String getDetailStr(Cursor cursor, String whichLabel)
-    {
-        String detailStr = "";
-
-        String weightStr = cursor.getString(cursor.getColumnIndex(Exercise.keyWeight));
-        String date = cursor.getString(cursor.getColumnIndex(Exercise.keyDate));
-        String notes = cursor.getString(cursor.getColumnIndex(Exercise.keyNotes));
-
-        //convert to the standard system since data is in the metric system
-        if (WeightUnit.settingsUseImperial(currentContext)) {
-            weightStr = WeightUnit.convertToImperial(weightStr);
-        }
-
-        //convert date from MM/dd/yyyy to yyyy/MM/dd
-        //this makes sorting dates easier
-        detailStr = UnitDate.convertFormatFromDisplayToSorted(date);
-
-        if (Integer.parseInt(weightStr) > 0)
-            detailStr += " Weight: " + weightStr + " " + whichLabel;
-
-        detailStr += " Notes: " + notes;
-
-        return detailStr;
     }
 }
