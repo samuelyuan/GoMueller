@@ -23,7 +23,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-
+/*
+Create a new weight record, documenting your weight on a certain day
+ */
 public class NewWeightActivity extends Activity implements
         View.OnClickListener
 {

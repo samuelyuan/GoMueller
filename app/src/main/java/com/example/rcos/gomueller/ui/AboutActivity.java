@@ -7,7 +7,10 @@ import android.view.MenuItem;
 
 import com.example.rcos.gomueller.R;
 
-
+/*
+Displays some information about the app, such as purpose and opening hours
+Not much interaction here
+ */
 public class AboutActivity extends Activity {
 
     @Override

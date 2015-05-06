@@ -25,6 +25,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+This view draws a graph in the middle, with a button to edit the data
+
+Graph:
+The x-axis represents the date
+The y-axis represents weight
+
+Edit Button:
+Will switch to ShowDetailActivity
+ */
 public class GraphActivity extends ActionBarActivity
 {
     private NavigationDrawer navigationDrawer;

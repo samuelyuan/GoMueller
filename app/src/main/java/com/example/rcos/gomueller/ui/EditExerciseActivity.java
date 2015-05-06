@@ -22,6 +22,13 @@ import com.example.rcos.gomueller.model.Exercise;
 
 import java.util.Calendar;
 
+/*
+First autofill all the fields in the new exercise screen with the ones from an existing exercise
+
+User can modify those fields (except for exercise name and attribute name, those are fixed)
+
+Once the user presses enter, the database is updated.
+ */
 public class EditExerciseActivity extends Activity implements
         View.OnClickListener {
     Exercise oldExercise;

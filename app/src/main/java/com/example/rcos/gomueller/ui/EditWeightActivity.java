@@ -23,6 +23,11 @@ import com.example.rcos.gomueller.model.Weight;
 
 import java.util.Calendar;
 
+/*
+First autofill all the fields in the new weight screen with the ones from an existing weight record
+User can modify the date and weight at that time
+Once the user presses enter, the database is updated.
+ */
 public class EditWeightActivity extends Activity implements
         View.OnClickListener {
     Weight oldWeight;

@@ -21,7 +21,15 @@ import com.example.rcos.gomueller.database.ExerciseCRUD;
 
 import java.util.ArrayList;
 
+/*
+For exercises, shows:
+[Attribute Value (such as weight used)] [units] ([notes])
+[Date]
 
+For weight history, show:
+[Weight at that date] [units]
+[Date]
+ */
 public class ShowDetailActivity extends ListActivity {
 
     private ArrayList<String> detailArray, displayArray;
