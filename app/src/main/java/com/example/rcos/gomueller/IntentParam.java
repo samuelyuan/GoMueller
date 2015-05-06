@@ -1,6 +1,9 @@
 package com.example.rcos.gomueller;
 
+import android.content.Context;
 import android.content.Intent;
+
+import com.example.rcos.gomueller.database.ExerciseCRUD;
 
 /**
  * Created by yuans on 5/3/2015.
@@ -20,9 +23,15 @@ public class IntentParam
 
     public static void setExerciseName(Intent intent, String value) { setIntentString(intent, "exerciseName", value); }
     public static void setExerciseDate(Intent intent, String value) { setIntentString(intent, "exerciseDate", value); }
-    public static void setAttributeName(Intent intent, String value) { setIntentString(intent, "attributeName", value); }
     public static void setAttributeValue(Intent intent, String value) { setIntentString(intent, "attributeValue", value); }
     public static void setNotes(Intent intent, String value) { setIntentString(intent, "notesValue", value); }
     public static void setTypeExercise(Intent intent) { setIntentString(intent, "type", "exercise"); }
     public static void setTypeWeight(Intent intent) { setIntentString(intent, "type", "weight"); }
+
+    public static void setAttributeName(Intent intent, Context context)
+    {
+        final ExerciseCRUD crudDetail = new ExerciseCRUD(context);
+        String exerciseName = IntentParam.getExerciseName(intent);
+        setIntentString(intent, "attributeName", crudDetail.getAttributeName(exerciseName));
+    }
 }

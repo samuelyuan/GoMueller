@@ -108,9 +108,9 @@ public class ShowDetailActivity extends ListActivity {
             {
                 Intent addIntent = new Intent(this, NewExerciseActivity.class);
                 String exerciseName = IntentParam.getExerciseName(getIntent());
-                final ExerciseCRUD crudDetail = new ExerciseCRUD(ShowDetailActivity.this);
+
                 IntentParam.setExerciseName(addIntent, exerciseName);
-                IntentParam.setAttributeName(addIntent, crudDetail.getAttributeName(exerciseName));
+                IntentParam.setAttributeName(addIntent, ShowDetailActivity.this);
                 startActivity(addIntent);
             }
             else if (IntentParam.isTypeWeight(getIntent()))
@@ -193,10 +193,13 @@ public class ShowDetailActivity extends ListActivity {
                 }
             }
 
+            Intent intent = null;
+            String currentDetailStr = detailArray.get(indexEdit);
+
             if (IntentParam.isTypeWeight(getIntent()))
             {
-                Intent intent = new Intent(getBaseContext(), EditWeightActivity.class);
-                String currentDetailStr = detailArray.get(indexEdit);
+                intent = new Intent(getBaseContext(), EditWeightActivity.class);
+
                 String weightStr = ParseData.getAttributeValue(currentDetailStr);
                 String dateStr = ParseData.getDate(currentDetailStr);
 
@@ -207,25 +210,12 @@ public class ShowDetailActivity extends ListActivity {
 
                 IntentParam.setAttributeValue(intent, weightStr);
                 IntentParam.setExerciseDate(intent, dateStr);
-
-                //deselect the selected item
-                isItemSelected[indexEdit] = !isItemSelected[indexEdit];
-                getListView().getChildAt(indexEdit).setBackgroundColor(0x00000000);
-                checkedItemPositions.clear();
-
-                //hide action bar
-                mActionMode.finish();
-
-                //switch to the edit activity
-                startActivity(intent);
             }
             else if (IntentParam.isTypeExercise(getIntent())) {
                 //Prepare data for modification
-                Intent addIntent = new Intent(getBaseContext(), EditExerciseActivity.class);
-                final String exerciseName = IntentParam.getExerciseName(getIntent());
-                final ExerciseCRUD crudDetail = new ExerciseCRUD(ShowDetailActivity.this);
+                intent = new Intent(getBaseContext(), EditExerciseActivity.class);
 
-                String currentDetailStr = detailArray.get(indexEdit);
+                String exerciseName = IntentParam.getExerciseName(getIntent());
                 String weightStr = ParseData.getAttributeValue(currentDetailStr);
                 String dateStr = ParseData.getDate(currentDetailStr);
                 String noteStr = ParseData.getNotes(currentDetailStr);
@@ -235,23 +225,23 @@ public class ShowDetailActivity extends ListActivity {
                     weightStr = WeightUnit.convertToMetric(weightStr);
                 }
 
-                IntentParam.setExerciseName(addIntent, exerciseName);
-                IntentParam.setAttributeName(addIntent, crudDetail.getAttributeName(exerciseName));
-                IntentParam.setAttributeValue(addIntent, weightStr);
-                IntentParam.setExerciseDate(addIntent, dateStr);
-                IntentParam.setNotes(addIntent, noteStr);
-
-                //deselect the selected item
-                isItemSelected[indexEdit] = !isItemSelected[indexEdit];
-                getListView().getChildAt(indexEdit).setBackgroundColor(0x00000000);
-                checkedItemPositions.clear();
-
-                //hide action bar
-                mActionMode.finish();
-
-                //switch to the edit activity
-                startActivity(addIntent);
+                IntentParam.setExerciseName(intent, exerciseName);
+                IntentParam.setAttributeName(intent, ShowDetailActivity.this);
+                IntentParam.setAttributeValue(intent, weightStr);
+                IntentParam.setExerciseDate(intent, dateStr);
+                IntentParam.setNotes(intent, noteStr);
             }
+
+            //deselect the selected item
+            isItemSelected[indexEdit] = !isItemSelected[indexEdit];
+            getListView().getChildAt(indexEdit).setBackgroundColor(0x00000000);
+            checkedItemPositions.clear();
+
+            //hide action bar
+            mActionMode.finish();
+
+            //switch to the edit activity
+            startActivity(intent);
         }
 
         public void deleteItem()  {
