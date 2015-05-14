@@ -14,8 +14,10 @@
         <item>@string/home</item>
         <item>@string/view_data</item>
         <item>@string/viewWeightHistory</item>
+        <item>@string/mueller</item>
     </string-array>
 
 
     <string name="home">Home</string>
+    <string name="mueller">Mueller Center</string>
 </resources>

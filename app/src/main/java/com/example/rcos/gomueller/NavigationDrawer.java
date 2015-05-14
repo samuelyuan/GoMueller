@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.rcos.gomueller.ui.GraphActivity;
 import com.example.rcos.gomueller.ui.MainActivity;
+import com.example.rcos.gomueller.ui.MuellerActivity;
 import com.example.rcos.gomueller.ui.TrackExerciseActivity;
 
 public class NavigationDrawer
@@ -111,6 +112,8 @@ public class NavigationDrawer
                 Intent intent = new Intent(activity.getApplicationContext(), GraphActivity.class);
                 IntentParam.setTypeWeight(intent);
                 activity.startActivity(intent);
+            } else if (position == 3) {
+                activity.startActivity(new Intent(activity.getApplicationContext(), MuellerActivity.class));
             }
         }
     }

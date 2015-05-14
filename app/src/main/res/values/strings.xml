@@ -62,7 +62,12 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="openingHours">Sunday: 9:00 am-12:00 am \nMonday - Thursday: 7:00 am-12:00 am \nFriday: 7:00 am-9:00 pm \nSaturday: 9:00 am-7:00 pm</string>
-
+    <string name="title_activity_mueller">Mueller Center</string>
+    <string name="mueller_info">The Mueller Center is at the heart of recreation and wellness at Rensselaer.
+        The RPI community is encouraged to visit the Mueller Center to sign up for fitness classes and intramural sport leagues,
+        work using equipment on the Cardio Floor or in the Weight Room. Staffed with trained staff and students,
+        the Mueller Center is a great place to break a sweat and increase your physical fitness.</string>
+    <string name="mueller_hour_title">Opening Hours</string>
 
 
 </resources>
