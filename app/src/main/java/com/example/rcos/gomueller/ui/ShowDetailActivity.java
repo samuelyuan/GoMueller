@@ -21,7 +21,15 @@ import com.example.rcos.gomueller.database.ExerciseCRUD;
 
 import java.util.ArrayList;
 
+/*
+For exercises, shows:
+[Attribute Value (such as weight used)] [units] ([notes])
+[Date]
 
+For weight history, show:
+[Weight at that date] [units]
+[Date]
+ */
 public class ShowDetailActivity extends ListActivity {
 
     private ArrayList<String> detailArray, displayArray;
@@ -108,9 +116,9 @@ public class ShowDetailActivity extends ListActivity {
             {
                 Intent addIntent = new Intent(this, NewExerciseActivity.class);
                 String exerciseName = IntentParam.getExerciseName(getIntent());
-                final ExerciseCRUD crudDetail = new ExerciseCRUD(ShowDetailActivity.this);
+
                 IntentParam.setExerciseName(addIntent, exerciseName);
-                IntentParam.setAttributeName(addIntent, crudDetail.getAttributeName(exerciseName));
+                IntentParam.setAttributeName(addIntent, ShowDetailActivity.this);
                 startActivity(addIntent);
             }
             else if (IntentParam.isTypeWeight(getIntent()))
@@ -183,11 +191,6 @@ public class ShowDetailActivity extends ListActivity {
 
         public void editItem()
         {
-            //if this isn't an exercise, then stop
-            if (!IntentParam.isTypeExercise(getIntent()))
-                return;
-
-            final String exerciseName = IntentParam.getExerciseName(getIntent());
             SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
             int itemCount = getListView().getCount();
             int indexEdit = 0;
@@ -198,25 +201,44 @@ public class ShowDetailActivity extends ListActivity {
                 }
             }
 
-            //Prepare data for modification
-            Intent addIntent = new Intent(getBaseContext(), EditExerciseActivity.class);
-            final ExerciseCRUD crudDetail = new ExerciseCRUD(ShowDetailActivity.this);
-
+            Intent intent = null;
             String currentDetailStr = detailArray.get(indexEdit);
-            String weightStr = ParseData.getAttributeValue(currentDetailStr);
-            String dateStr = ParseData.getDate(currentDetailStr);
-            String noteStr = ParseData.getNotes(currentDetailStr);
 
-            //convert data if necessary since the data is in the metric system
-            if (WeightUnit.settingsUseImperial(getBaseContext())) {
-                weightStr = WeightUnit.convertToMetric(weightStr);
+            if (IntentParam.isTypeWeight(getIntent()))
+            {
+                intent = new Intent(getBaseContext(), EditWeightActivity.class);
+
+                String weightStr = ParseData.getAttributeValue(currentDetailStr);
+                String dateStr = ParseData.getDate(currentDetailStr);
+
+                //convert data if necessary since the data is in the metric system
+                if (WeightUnit.settingsUseImperial(getBaseContext())) {
+                    weightStr = WeightUnit.convertToMetric(weightStr);
+                }
+
+                IntentParam.setAttributeValue(intent, weightStr);
+                IntentParam.setExerciseDate(intent, dateStr);
             }
+            else if (IntentParam.isTypeExercise(getIntent())) {
+                //Prepare data for modification
+                intent = new Intent(getBaseContext(), EditExerciseActivity.class);
 
-            IntentParam.setExerciseName(addIntent, exerciseName);
-            IntentParam.setAttributeName(addIntent, crudDetail.getAttributeName(exerciseName));
-            IntentParam.setAttributeValue(addIntent, weightStr);
-            IntentParam.setExerciseDate(addIntent, dateStr);
-            IntentParam.setNotes(addIntent, noteStr);
+                String exerciseName = IntentParam.getExerciseName(getIntent());
+                String weightStr = ParseData.getAttributeValue(currentDetailStr);
+                String dateStr = ParseData.getDate(currentDetailStr);
+                String noteStr = ParseData.getNotes(currentDetailStr);
+
+                //convert data if necessary since the data is in the metric system
+                if (WeightUnit.settingsUseImperial(getBaseContext())) {
+                    weightStr = WeightUnit.convertToMetric(weightStr);
+                }
+
+                IntentParam.setExerciseName(intent, exerciseName);
+                IntentParam.setAttributeName(intent, ShowDetailActivity.this);
+                IntentParam.setAttributeValue(intent, weightStr);
+                IntentParam.setExerciseDate(intent, dateStr);
+                IntentParam.setNotes(intent, noteStr);
+            }
 
             //deselect the selected item
             isItemSelected[indexEdit] = !isItemSelected[indexEdit];
@@ -227,7 +249,7 @@ public class ShowDetailActivity extends ListActivity {
             mActionMode.finish();
 
             //switch to the edit activity
-            startActivity(addIntent);
+            startActivity(intent);
         }
 
         public void deleteItem()  {

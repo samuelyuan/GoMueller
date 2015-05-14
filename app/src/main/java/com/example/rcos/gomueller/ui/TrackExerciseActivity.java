@@ -21,6 +21,18 @@ import com.example.rcos.gomueller.database.ExerciseCRUD;
 import java.util.ArrayList;
 
 
+/*
+Takes all your recorded exercises and puts them into categories by name
+
+By clicking on the name of the exercise, you will get a graph of data for that one exercise.
+
+For example, you have:
+BenchPress
+Deadlift
+...
+
+When you click on BenchPress, you get all the data just for bench press
+ */
 //public class TrackExerciseActivity extends ActionBarActivity {
 public class TrackExerciseActivity extends ListActivity {
 

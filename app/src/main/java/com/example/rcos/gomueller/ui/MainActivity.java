@@ -13,6 +13,15 @@ import com.example.rcos.gomueller.IntentParam;
 import com.example.rcos.gomueller.NavigationDrawer;
 import com.example.rcos.gomueller.R;
 
+/*
+Main Menu:
+-View Exercises (exercises are categorized by exercise name)
+-View Weight History (just display a graph,since there's no categorizing necessary)
+
+For each exercise, a graph of the data will be shown first. Visualizing data is good enough in most
+cases. However, if the user wants to view specific numbers and/or modify the data, then they can
+click the edit button
+ */
 public class MainActivity extends ActionBarActivity {
 
     private NavigationDrawer navigationDrawer;

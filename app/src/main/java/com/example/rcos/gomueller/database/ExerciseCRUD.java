@@ -83,6 +83,35 @@ public class ExerciseCRUD {
         return (int)weight_id;
     }
 
+    //Edit weight
+    public void edit(Weight weight, Weight oldWeight) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String selectQuery = "SELECT * "
+                + " FROM " + Weight.TABLE
+                + " WHERE " + Weight.keyDate + "='" + oldWeight.date + "'"
+                + "and " + Weight.keyWeight + "=" + oldWeight.weight;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        //Read every row in the database
+        if (cursor.moveToFirst()) {
+            do {
+                long rowid = cursor.getLong(cursor.getColumnIndex("_id"));
+                ContentValues values = new ContentValues();
+                values.put(Weight.keyDate, weight.date);
+                values.put(Weight.keyWeight, weight.weight);
+
+                db.update(Weight.TABLE, values, "_id = " + rowid, null);
+
+                break;
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        return;
+    }
+
     //Remove an entry from the database
     //(NOTE: this function might remove two strings with the same weight and number of sets, like two strings with weight: 150, duration: 8)
     public void deleteExercise(String exerciseName, String currentDetailStr) {

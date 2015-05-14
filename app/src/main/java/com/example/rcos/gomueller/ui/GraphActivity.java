@@ -25,6 +25,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+This view draws a graph in the middle, with a button to edit the data
+
+Graph:
+The x-axis represents the date
+The y-axis represents weight
+
+Edit Button:
+Will switch to ShowDetailActivity
+ */
 public class GraphActivity extends ActionBarActivity
 {
     private NavigationDrawer navigationDrawer;
@@ -127,11 +137,8 @@ public class GraphActivity extends ActionBarActivity
             if (IntentParam.isTypeExercise(getIntent()))
             {
                 Intent addIntent = new Intent(this, NewExerciseActivity.class);
-                String exerciseName = IntentParam.getExerciseName(getIntent());
-                final ExerciseCRUD crudDetail = new ExerciseCRUD(this);
-                IntentParam.setExerciseName(addIntent, exerciseName);
-                IntentParam.setAttributeName(addIntent, crudDetail.getAttributeName(exerciseName));
-
+                IntentParam.setExerciseName(addIntent, IntentParam.getExerciseName(getIntent()));
+                IntentParam.setAttributeName(addIntent, this);
                 startActivity(addIntent);
             }
             else if (IntentParam.isTypeWeight(getIntent()))

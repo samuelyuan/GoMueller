@@ -24,6 +24,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/*
+Create a new exercise
+
+If you are viewing a list of exercises (TrackExerciseActivity) by name, then adding will give you a completely new type
+
+If you are viewing a specific exercise, then adding it will autofill the exercise name and the attribute name (i.e. weight used)
+ */
 public class NewExerciseActivity extends Activity implements
         View.OnClickListener {
 
@@ -109,40 +116,31 @@ public class NewExerciseActivity extends Activity implements
 
         //error checking input
         if (exercise_name.getText().toString().equals("")) {
-            displayErrorPrompt("Exercise Name is Empty!",
+            displayErrorPrompt("Exercise name is empty!",
                     "You forgot to enter the exercise name. Please input it and try again.");
             return;
         }
 
         if (exercise_attribute_name.getText().toString().equals("")) {
-            displayErrorPrompt("Attribute Name is Empty!",
+            displayErrorPrompt("Attribute name is empty!",
                     "You forgot to enter the attribute name. Please input something, i.e. Weight, and try again.");
             return;
         }
 
         if (exercise_weight.getText().toString().equals("")) {
-            displayErrorPrompt("Exercise Fields are Empty!",
+            displayErrorPrompt("Attribute value is empty!",
                     "You need to enter something.");
             return;
         }
 
         ex.activityName = exercise_name.getText().toString();
         ex.attributeName = exercise_attribute_name.getText().toString();
-
-        //weight used can be optional for non-weightlifting exercises
-        if (!exercise_weight.getText().toString().equals(""))
-            ex.weight = Integer.parseInt(exercise_weight.getText().toString());
-        else
-            ex.weight = 0;
+        ex.weight = Integer.parseInt(exercise_weight.getText().toString());
+        ex.date = exercise_date.getText().toString();
+        ex.notes = exercise_notes.getText().toString();
 
         if (WeightUnit.settingsUseImperial(this))
             ex.weight = WeightUnit.convertToMetric(ex.weight);
-
-        //set date
-        ex.date = exercise_date.getText().toString();
-
-        //set notes
-        ex.notes = exercise_notes.getText().toString();
 
         crud.insert(ex);
 

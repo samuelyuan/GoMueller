@@ -14,21 +14,24 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.rcos.gomueller.IntentParam;
 import com.example.rcos.gomueller.R;
 import com.example.rcos.gomueller.WeightUnit;
 import com.example.rcos.gomueller.database.ExerciseCRUD;
+import com.example.rcos.gomueller.model.Exercise;
 import com.example.rcos.gomueller.model.Weight;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /*
-Create a new weight record, documenting your weight on a certain day
+First autofill all the fields in the new weight screen with the ones from an existing weight record
+User can modify the date and weight at that time
+Once the user presses enter, the database is updated.
  */
-public class NewWeightActivity extends Activity implements
-        View.OnClickListener
-{
+public class EditWeightActivity extends Activity implements
+        View.OnClickListener {
+    Weight oldWeight;
+
     Button btnCalendar;
 
     EditText weight_weight;
@@ -41,18 +44,29 @@ public class NewWeightActivity extends Activity implements
 
         btnCalendar = (Button) findViewById(R.id.btnCalendar);
         btnCalendar.setOnClickListener(this);
-
         weight_weight = (EditText)findViewById(R.id.editWeight);
         weight_date = (EditText)findViewById(R.id.editDate);
 
-        //autofill the current date
-        DateFormat df = new SimpleDateFormat("MM/dd/yy");
-        String date = df.format(Calendar.getInstance().getTime());
-        weight_date.setText(date);
+        Button okButton = (Button) findViewById(R.id.addWeightOkButton);
+        okButton.setText("Edit");
 
-        //set the weight units (kgs or lbs)
+        //Autofill
+        weight_date.setText(IntentParam.getExerciseDate(getIntent()));
+        weight_weight.setText(IntentParam.getAttributeValue(getIntent()));
+
+        //Set the weight's units depending on user's preferences
         TextView weightLabel = (TextView)findViewById(R.id.AddWeightUnit);
         weightLabel.setText(WeightUnit.getWhichLabel(this));
+
+        oldWeight = new Weight();
+        oldWeight.weight = Integer.parseInt(weight_weight.getText().toString());
+        oldWeight.date = weight_date.getText().toString();
+
+        int weightConverted = oldWeight.weight;
+        if (WeightUnit.settingsUseImperial(this))
+            weightConverted = WeightUnit.convertToImperial(weightConverted);
+
+        weight_weight.setText(String.valueOf(weightConverted));
     }
 
     @Override
@@ -64,8 +78,8 @@ public class NewWeightActivity extends Activity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_new_exercise, menu);
+        // Inflate the menu items for use in the action bar
+        getMenuInflater().inflate(R.menu.menu_new_weight, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -85,9 +99,45 @@ public class NewWeightActivity extends Activity implements
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v)
+    public void WeightOKButtonOnClick(View view) {
+        ExerciseCRUD crud = new ExerciseCRUD(this);
+        Weight updatedWeight = new Weight();
+
+        //error checking input
+        if (weight_weight.getText().toString().equals("")) {
+            displayErrorPrompt("Weight is Empty!",
+                    "You need to enter a number.");
+            return;
+        }
+
+        updatedWeight.weight = Integer.parseInt(weight_weight.getText().toString());
+        updatedWeight.date = weight_date.getText().toString();
+
+        if (WeightUnit.settingsUseImperial(this))
+            updatedWeight.weight = WeightUnit.convertToMetric(updatedWeight.weight);
+
+        crud.edit(updatedWeight, oldWeight);
+
+        finish();
+    }
+
+    public void displayErrorPrompt(String title, String message)
     {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // here you can add functions
+                //return;
+            }
+        });
+        alertDialog.show();
+        return;
+    }
+
+    @Override
+    public void onClick(View v) {
         if (v == btnCalendar)
         {
             // Process to get Current Date
@@ -111,40 +161,5 @@ public class NewWeightActivity extends Activity implements
                     }, year, month, day);
             dpd.show();
         }
-    }
-
-    public void displayErrorPrompt(String title, String message)
-    {
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // here you can add functions
-                //return;
-            }
-        });
-        alertDialog.show();
-        return;
-    }
-
-    public void WeightOKButtonOnClick(View view) {
-        ExerciseCRUD crud = new ExerciseCRUD(this);
-        Weight wt = new Weight();
-
-        if (weight_weight.getText().toString().equals("")) {
-            displayErrorPrompt("Weight is Empty",
-                    "You forgot to enter your weight. Please input it and then press Add");
-            return;
-        }
-        wt.weight = Integer.parseInt(weight_weight.getText().toString());
-        wt.date = weight_date.getText().toString();
-
-        if (WeightUnit.settingsUseImperial(this))
-            wt.weight = WeightUnit.convertToMetric(wt.weight);
-
-        crud.insert(wt);
-
-        finish();
     }
 }
