@@ -46,10 +46,10 @@ public class ExerciseCRUD {
 
         String selectQuery = "SELECT * "
                 + " FROM " + Exercise.TABLE
-                + " WHERE " + Exercise.keyName + "=\"" + oldExercise.activityName + "\""
+                + " WHERE " + Exercise.keyName + "= ?"
                 + "and " + Exercise.keyWeight + "=" + oldExercise.weight;
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {oldExercise.activityName});
 
         //Read every row in the database
         if (cursor.moveToFirst()) {
@@ -123,8 +123,8 @@ public class ExerciseCRUD {
             weightStr = WeightUnit.convertToMetric(weightStr);
         }
 
-        db.delete(Exercise.TABLE, Exercise.keyName + "=\"" + exerciseName + "\""
-                        + "and " + Exercise.keyWeight + "=" + weightStr, null);
+        db.delete(Exercise.TABLE, Exercise.keyName + "= ?"
+                        + "and " + Exercise.keyWeight + "= ?", new String[] {exerciseName, weightStr});
 
         db.close();
     }
@@ -150,8 +150,8 @@ public class ExerciseCRUD {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery = "SELECT " + Exercise.keyAttributeName
                 + " FROM " + Exercise.TABLE
-                + " WHERE " + Exercise.keyName + " = " + "\"" + exerciseName + "\"";
-        Cursor cursor = db.rawQuery(selectQuery, null);
+                + " WHERE " + Exercise.keyName + " = ?";
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {exerciseName});
         String attributeName = "";
 
         //Read every row in the database
@@ -193,9 +193,9 @@ public class ExerciseCRUD {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery = "SELECT * "
                 + " FROM " + Exercise.TABLE
-                + " WHERE " + Exercise.keyName + " = " + "\"" + item + "\"";
+                + " WHERE " + Exercise.keyName + " = ?";
         ArrayList<String> exerciseDetail = new ArrayList<String>();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {item});
 
         //Read every row in the database
         if (cursor.moveToFirst()) {
